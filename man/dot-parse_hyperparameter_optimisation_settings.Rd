@@ -16,6 +16,7 @@ optimisation}
   max_smbo_iterations = waiver(),
   smbo_stop_convergent_iterations = waiver(),
   smbo_stop_tolerance = waiver(),
+  smbo_time_limit = waiver(),
   smbo_step_bootstraps = waiver(),
   smbo_intensify_steps = waiver(),
   smbo_stochastic_reject_p_value = waiver(),
@@ -109,7 +110,17 @@ The default value is \code{3}.}
 \item{smbo_stop_tolerance}{(\emph{optional}) Tolerance for early stopping due to
 convergent optimisation score.
 
-The default value is \code{0.01}.}
+The default value depends on the number of samples (at the series level),
+ranging from \code{0.01} for 100 or fewer samples, to \code{0.001} for 10000 or more
+samples.}
+
+\item{smbo_time_limit}{(\emph{optional}) Time limit (in minutes) for the
+optimisation process. Optimisation is stopped after this limit is exceeded.
+Time taken to determine variable importance for the optimisation process
+(see the \code{optimisation_determine_vimp} parameter) does not count.
+
+The default is \code{NULL}, indicating that there is no time limit for the
+optimisation process. The time limit cannot be less than 1 minute.}
 
 \item{smbo_step_bootstraps}{(\emph{optional}) The number of bootstraps taken from
 the set of \code{optimisation_bootstraps} bootstraps as data for the initial

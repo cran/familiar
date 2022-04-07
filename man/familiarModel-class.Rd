@@ -71,6 +71,8 @@ slot, has been trimmed.}
 \item{\code{trimmed_function}}{List of functions whose output has been captured prior
 to trimming the model.}
 
+\item{\code{messages}}{List of warning and error messages generated during training.}
+
 \item{\code{project_id}}{Identifier of the project that generated the familiarModel
 object.}
 

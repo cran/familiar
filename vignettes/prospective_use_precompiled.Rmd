@@ -1,7 +1,7 @@
 ---
 title: "Using familiar prospectively"
 author: "Alex Zwanenburg"
-date: "2022-02-02"
+date: "2022-04-07"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -27,7 +27,6 @@ vignette: >
 ```r
 library(familiar)
 library(data.table)
-#> data.table 1.14.2 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
 
 set.seed(19)
 ```
@@ -129,10 +128,9 @@ model_directory_path <- file.path(tempdir(), "trained_models", "lasso", "none")
 
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20220202154621_hyperparameters_lasso_none_2_1.RDS" "20220202154621_hyperparameters_lasso_none_2_2.RDS" "20220202154621_hyperparameters_lasso_none_2_3.RDS"
-#>  [4] "20220202154621_hyperparameters_lasso_none_2_4.RDS" "20220202154621_hyperparameters_lasso_none_2_5.RDS" "20220202154621_lasso_none_1_1_ensemble.RDS"       
-#>  [7] "20220202154621_lasso_none_2_1_model.RDS"           "20220202154621_lasso_none_2_2_model.RDS"           "20220202154621_lasso_none_2_3_model.RDS"          
-#> [10] "20220202154621_lasso_none_2_4_model.RDS"           "20220202154621_lasso_none_2_5_model.RDS"
+#>  [1] "20220407171238_hyperparameters_lasso_none_2_1.RDS" "20220407171238_hyperparameters_lasso_none_2_2.RDS" "20220407171238_hyperparameters_lasso_none_2_3.RDS" "20220407171238_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20220407171238_hyperparameters_lasso_none_2_5.RDS" "20220407171238_lasso_none_1_1_ensemble.RDS"        "20220407171238_lasso_none_2_1_model.RDS"           "20220407171238_lasso_none_2_2_model.RDS"          
+#>  [9] "20220407171238_lasso_none_2_3_model.RDS"           "20220407171238_lasso_none_2_4_model.RDS"           "20220407171238_lasso_none_2_5_model.RDS"
 ```
 
 There are 5 models in the directory, which are stored in RDS format in files ending with `*_model.RDS`. We can inspect the first model in the directory.
@@ -145,9 +143,10 @@ model_path <- file.path(model_directory_path, list.files(model_directory_path, p
 # Load the model.
 model <- readRDS(model_path)
 model
-#> A lasso model (class: familiarGLMnetLasso; v1.0.0) trained using glmnet (v4.1.3) package.
+#> A lasso model (class: familiarGLMnetLasso; v1.1.0) trained using glmnet (v4.1.3) package.
 #> 
 #> --------------- Model details ---------------
+#> 
 #> 
 #> ---------------------------------------------
 #> 
@@ -160,6 +159,8 @@ model
 #>   lambda_min: lambda.min
 #>   n_folds: 7
 #>   normalise: FALSE
+#>   sample_weighting: inverse_number_of_samples
+#>   sample_weighting_beta: -2
 #> 
 #> Variable importance was determined using the none variable importance method.
 #> 
@@ -188,17 +189,17 @@ This model can then be used to predict values for a given dataset, among other t
 ```r
 predict(object=model, newdata=data)
 #>      predicted_class_probability_normal predicted_class_probability_low predicted_class
-#>   1:                          0.7122447                       0.2877553          normal
-#>   2:                          0.8956530                       0.1043470          normal
-#>   3:                          0.5409493                       0.4590507          normal
-#>   4:                          0.5845650                       0.4154350          normal
-#>   5:                          0.4315097                       0.5684903             low
+#>   1:                          0.3895135                       0.6104865             low
+#>   2:                          0.8748933                       0.1251067          normal
+#>   3:                          0.3138232                       0.6861768             low
+#>   4:                          0.2271896                       0.7728104             low
+#>   5:                          0.1146650                       0.8853350             low
 #>  ---                                                                                   
-#> 185:                          0.6904806                       0.3095194          normal
-#> 186:                          0.6422795                       0.3577205          normal
-#> 187:                          0.5423427                       0.4576573          normal
-#> 188:                          0.6650174                       0.3349826          normal
-#> 189:                          0.5961457                       0.4038543          normal
+#> 185:                          0.5286951                       0.4713049          normal
+#> 186:                          0.4283572                       0.5716428             low
+#> 187:                          0.3258957                       0.6741043             low
+#> 188:                          0.4244076                       0.5755924             low
+#> 189:                          0.3308747                       0.6691253             low
 ```
 
 In addition to default predictions, familiar allows for several different types
@@ -224,17 +225,17 @@ For example, we can predict novelty of the samples as follows:
 ```r
 predict(object=model, newdata=data, type="novelty")
 #>        novelty
-#>   1: 0.5420633
-#>   2: 0.4969601
-#>   3: 0.4422806
-#>   4: 0.4994262
-#>   5: 0.4992087
+#>   1: 0.5516226
+#>   2: 0.4990168
+#>   3: 0.4284058
+#>   4: 0.5470531
+#>   5: 0.5342916
 #>  ---          
-#> 185: 0.4907625
-#> 186: 0.5464158
-#> 187: 0.4582248
-#> 188: 0.5200768
-#> 189: 0.5308161
+#> 185: 0.4836259
+#> 186: 0.5527352
+#> 187: 0.4956612
+#> 188: 0.5587405
+#> 189: 0.5180092
 ```
 
 More powerful however, is the ability to perform any of the evaluation and
@@ -252,8 +253,7 @@ plots <- familiar::plot_model_performance(object=model,
                                           facet_by="metric",
                                           data=data[batch_id=="validation"],
                                           metric=c("auc", "accuracy"))
-#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence interval estimates instead
-#> of point estimates.
+#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence interval estimates instead of point estimates.
 ```
 
 You may notice that no plot is produced. This is because the type of plot
@@ -304,10 +304,9 @@ Model ensembles generated by familiar are stored in the same subdirectory of the
 ```r
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20220202154621_hyperparameters_lasso_none_2_1.RDS" "20220202154621_hyperparameters_lasso_none_2_2.RDS" "20220202154621_hyperparameters_lasso_none_2_3.RDS"
-#>  [4] "20220202154621_hyperparameters_lasso_none_2_4.RDS" "20220202154621_hyperparameters_lasso_none_2_5.RDS" "20220202154621_lasso_none_1_1_ensemble.RDS"       
-#>  [7] "20220202154621_lasso_none_2_1_model.RDS"           "20220202154621_lasso_none_2_2_model.RDS"           "20220202154621_lasso_none_2_3_model.RDS"          
-#> [10] "20220202154621_lasso_none_2_4_model.RDS"           "20220202154621_lasso_none_2_5_model.RDS"
+#>  [1] "20220407171238_hyperparameters_lasso_none_2_1.RDS" "20220407171238_hyperparameters_lasso_none_2_2.RDS" "20220407171238_hyperparameters_lasso_none_2_3.RDS" "20220407171238_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20220407171238_hyperparameters_lasso_none_2_5.RDS" "20220407171238_lasso_none_1_1_ensemble.RDS"        "20220407171238_lasso_none_2_1_model.RDS"           "20220407171238_lasso_none_2_2_model.RDS"          
+#>  [9] "20220407171238_lasso_none_2_3_model.RDS"           "20220407171238_lasso_none_2_4_model.RDS"           "20220407171238_lasso_none_2_5_model.RDS"
 ```
 
 In this case there is only one ensemble in the directory, which is stored in RDS
@@ -323,7 +322,7 @@ ensemble_path <- file.path(model_directory_path, list.files(model_directory_path
 # Load the model.
 ensemble <- readRDS(ensemble_path)
 ensemble
-#> An ensemble of 5 lasso models (v1.0.0).
+#> An ensemble of 5 lasso models (v1.1.0).
 #> 
 #> The following outcome was modelled:
 #> birth_weight (binomial), with classes: normal (reference) and low.
@@ -347,17 +346,17 @@ One can use ensembles of models for prediction:
 ```r
 predict(object=ensemble, newdata=data)
 #>      predicted_class_probability_normal predicted_class_probability_low predicted_class
-#>   1:                          0.7000000                       0.3000000          normal
-#>   2:                          0.8494792                       0.1505208          normal
-#>   3:                          0.7000000                       0.3000000          normal
-#>   4:                          0.6086993                       0.3913007          normal
-#>   5:                          0.5435593                       0.4564407          normal
+#>   1:                          0.3895135                       0.6104865             low
+#>   2:                          0.7774048                       0.2225952          normal
+#>   3:                          0.3768794                       0.6231206             low
+#>   4:                          0.3399216                       0.6600784             low
+#>   5:                          0.2783538                       0.7216462             low
 #>  ---                                                                                   
-#> 185:                          0.7000000                       0.3000000          normal
-#> 186:                          0.7000000                       0.3000000          normal
-#> 187:                          0.5915751                       0.4084249          normal
-#> 188:                          0.7000000                       0.3000000          normal
-#> 189:                          0.7000000                       0.3000000          normal
+#> 185:                          0.5286951                       0.4713049          normal
+#> 186:                          0.4283572                       0.5716428             low
+#> 187:                          0.3315968                       0.6684032             low
+#> 188:                          0.3735422                       0.6264578             low
+#> 189:                          0.3906784                       0.6093216             low
 ```
 
 Ensembles behave similarly to models during evaluation and explanation steps:
@@ -413,8 +412,7 @@ the `familiar_data` folder.
 
 ```r
 list.files(file.path(tempdir(), "familiar_data"))
-#> [1] "20220202154621_lasso_none_1_1_ensemble_1_1_validation_data.RDS" "20220202154621_lasso_none_1_1_pool_1_1_development_data.RDS"   
-#> [3] "20220202154621_lasso_none_1_1_pool_1_1_validation_data.RDS"
+#> [1] "20220407171238_lasso_none_1_1_ensemble_1_1_validation_data.RDS" "20220407171238_lasso_none_1_1_pool_1_1_development_data.RDS"    "20220407171238_lasso_none_1_1_pool_1_1_validation_data.RDS"
 ```
 
 In our example, we generated three data objects: one for internal development, one for internal validation, and one for
