@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-04-07" />
+<meta name="date" content="2022-08-12" />
 
 <title>Learning algorithms and hyperparameter optimisation</title>
 
@@ -263,55 +263,55 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Learning algorithms and hyperparameter
 optimisation</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-04-07</h4>
+<h4 class="date">2022-08-12</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#configuration-options">Configuration options</a></li>
-<li><a href="#generalised-linear-models">Generalised linear models</a>
+<li><a href="#configuration-options" id="toc-configuration-options">Configuration options</a></li>
+<li><a href="#generalised-linear-models" id="toc-generalised-linear-models">Generalised linear models</a>
 <ul>
-<li><a href="#linear-models-for-binomial-outcomes">Linear models for
-binomial outcomes</a></li>
-<li><a href="#linear-models-for-multinomial-outcomes">Linear models for
+<li><a href="#linear-models-for-binomial-outcomes" id="toc-linear-models-for-binomial-outcomes">Linear models for binomial
+outcomes</a></li>
+<li><a href="#linear-models-for-multinomial-outcomes" id="toc-linear-models-for-multinomial-outcomes">Linear models for
 multinomial outcomes</a></li>
-<li><a href="#linear-models-for-continuous-and-count-type-outcomes">Linear
+<li><a href="#linear-models-for-continuous-and-count-type-outcomes" id="toc-linear-models-for-continuous-and-count-type-outcomes">Linear
 models for continuous and count-type outcomes</a></li>
-<li><a href="#linear-models-for-survival-outcomes">Linear models for
-survival outcomes</a></li>
+<li><a href="#linear-models-for-survival-outcomes" id="toc-linear-models-for-survival-outcomes">Linear models for survival
+outcomes</a></li>
 </ul></li>
-<li><a href="#lasso-ridge-and-elastic-net-regression">Lasso, ridge and
-elastic net regression</a></li>
-<li><a href="#boosted-generalised-linear-models-and-regression-trees">Boosted
+<li><a href="#lasso-ridge-and-elastic-net-regression" id="toc-lasso-ridge-and-elastic-net-regression">Lasso, ridge and elastic
+net regression</a></li>
+<li><a href="#boosted-generalised-linear-models-and-regression-trees" id="toc-boosted-generalised-linear-models-and-regression-trees">Boosted
 generalised linear models and regression trees</a></li>
-<li><a href="#extreme-gradient-boosted-linear-models-and-trees">Extreme
+<li><a href="#extreme-gradient-boosted-linear-models-and-trees" id="toc-extreme-gradient-boosted-linear-models-and-trees">Extreme
 gradient boosted linear models and trees</a></li>
-<li><a href="#random-forest-rfsrc">Random forest (RFSRC)</a></li>
-<li><a href="#random-forest-ranger">Random forest (ranger)</a></li>
-<li><a href="#naive-bayes">Naive Bayes</a></li>
-<li><a href="#k-nearest-neighbours"><em>k</em>-nearest
-neighbours</a></li>
-<li><a href="#support-vector-machines">Support vector machines</a></li>
-<li><a href="#hyperparameter-optimization">Hyperparameter
-optimization</a>
+<li><a href="#random-forest-rfsrc" id="toc-random-forest-rfsrc">Random
+forest (RFSRC)</a></li>
+<li><a href="#random-forest-ranger" id="toc-random-forest-ranger">Random
+forest (ranger)</a></li>
+<li><a href="#naive-bayes" id="toc-naive-bayes">Naive Bayes</a></li>
+<li><a href="#k-nearest-neighbours" id="toc-k-nearest-neighbours"><em>k</em>-nearest neighbours</a></li>
+<li><a href="#support-vector-machines" id="toc-support-vector-machines">Support vector machines</a></li>
+<li><a href="#hyperparameter-optimization" id="toc-hyperparameter-optimization">Hyperparameter optimization</a>
 <ul>
-<li><a href="#predicting-run-time-of-model">Predicting run time of
+<li><a href="#predicting-run-time-of-model" id="toc-predicting-run-time-of-model">Predicting run time of
 model</a></li>
-<li><a href="#assessing-goodness-of-hyperparameter-sets">Assessing
-goodness of hyperparameter sets</a></li>
-<li><a href="#predicting-optimisation-score-for-new-hyperparameter-sets">Predicting
+<li><a href="#assessing-goodness-of-hyperparameter-sets" id="toc-assessing-goodness-of-hyperparameter-sets">Assessing goodness of
+hyperparameter sets</a></li>
+<li><a href="#predicting-optimisation-score-for-new-hyperparameter-sets" id="toc-predicting-optimisation-score-for-new-hyperparameter-sets">Predicting
 optimisation score for new hyperparameter sets</a></li>
-<li><a href="#acquisition-functions-for-utility-of-hyperparameter-sets">Acquisition
+<li><a href="#acquisition-functions-for-utility-of-hyperparameter-sets" id="toc-acquisition-functions-for-utility-of-hyperparameter-sets">Acquisition
 functions for utility of hyperparameter sets</a></li>
-<li><a href="#exploring-challenger-sets">Exploring challenger
-sets</a></li>
-<li><a href="#providing-hyperparameters-manually">Providing
-hyperparameters manually</a></li>
-<li><a href="#configuration-options-for-hyperparameter-optimisation">Configuration
+<li><a href="#exploring-challenger-sets" id="toc-exploring-challenger-sets">Exploring challenger sets</a></li>
+<li><a href="#providing-hyperparameters-manually" id="toc-providing-hyperparameters-manually">Providing hyperparameters
+manually</a></li>
+<li><a href="#configuration-options-for-hyperparameter-optimisation" id="toc-configuration-options-for-hyperparameter-optimisation">Configuration
 options for hyperparameter optimisation</a></li>
 </ul></li>
-<li><a href="#model-recalibration">Model recalibration</a></li>
-<li><a href="#references">References</a></li>
+<li><a href="#model-recalibration" id="toc-model-recalibration">Model
+recalibration</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul>
 </div>
 
@@ -3019,18 +3019,23 @@ process.</td>
 <td align="center"><code>NULL</code></td>
 </tr>
 <tr class="odd">
+<td align="center"><code>smbo_initial_bootstraps</code></td>
+<td align="left">Number of bootstraps assessed initially.</td>
+<td align="center"><code>1</code></td>
+</tr>
+<tr class="even">
 <td align="center"><code>smbo_step_bootstraps</code></td>
 <td align="left">Number of bootstraps used within each step of an
 intensify iteration.</td>
 <td align="center"><code>3</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code>smbo_intensify_steps</code></td>
 <td align="left">Number of intensify steps within each intensify
 iteration.</td>
 <td align="center"><code>5</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code>optimisation_metric</code></td>
 <td align="left">The metric used for optimisation,
 e.g. <code>auc</code>. See the vignette on performance metrics for
@@ -3040,39 +3045,39 @@ available options. More than one metric may be specified.</td>
 <code>msle</code> (<code>count</code>); and
 <code>concordance_index</code> (<code>survival</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code>optimisation_function</code></td>
 <td align="left">The optimisation function used (see <a href="#assessing-goodness-of-hyperparameter-sets">Assessing goodness of
 hyperparameter sets</a>).</td>
 <td align="center"><code>balanced</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code>hyperparameter_learner</code></td>
 <td align="left">Learner used to predict optimisation scores for new
 hyperparameter sets (see <a href="#predicting-optimisation-score-for-new-hyperparameter-sets">Predicting
 optimisation score for new hyperparameter sets</a>).</td>
 <td align="center"><code>gaussian_process</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code>acquisition_function</code></td>
 <td align="left">The function used to quantify utility of hyperparameter
 sets (see <a href="#acquisition-functions-for-utility-of-hyperparameter-sets">Acquisition
 functions for utility of hyperparameter sets</a>).</td>
 <td align="center"><code>expected_improvement</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code>exploration_method</code></td>
 <td align="left">Method used to explore challenger hyperparameter sets
 (see <a href="#exploring-challenger-sets">Exploring challenger
 sets</a>).</td>
 <td align="center"><code>successive_halving</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code>smbo_stochastic_reject_p_value</code></td>
 <td align="left">The p-value level for stochastic pruning.</td>
 <td align="center"><code>0.05</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code>parallel_hyperparameter_optimisation</code></td>
 <td align="left">Enables parallel processing for hyperparameter
 optimisation. Ignored if <code>parallel=FALSE</code>. Can be

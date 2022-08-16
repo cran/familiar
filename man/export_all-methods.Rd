@@ -160,36 +160,6 @@ computation and extraction of various data elements.}
 Default is \code{all}, but specific elements can be specified to speed up
 computations if not all elements are to be computed. This is an internal
 parameter that is set by, e.g. the \code{export_model_vimp} method.}
-    \item{\code{stratification_method}}{(\emph{optional}) Method for determining the
-stratification threshold for creating survival groups. The actual,
-model-dependent, threshold value is obtained from the development data, and
-can afterwards be used to perform stratification on validation data.
-
-The following stratification methods are available:
-\itemize{
-\item \code{median} (default): The median predicted value in the development cohort
-is used to stratify the samples into two risk groups. For predicted outcome
-values that build a continuous spectrum, the two risk groups in the
-development cohort will be roughly equal in size.
-\item \code{mean}: The mean predicted value in the development cohort is used to
-stratify the samples into two risk groups.
-\item \code{mean_trim}: As \code{mean}, but based on the set of predicted values
-where the 5\% lowest and 5\% highest values are discarded. This reduces the
-effect of outliers.
-\item \code{mean_winsor}: As \code{mean}, but based on the set of predicted values where
-the 5\% lowest and 5\% highest values are winsorised. This reduces the effect
-of outliers.
-\item \code{fixed}: Samples are stratified based on the sample quantiles of the
-predicted values. These quantiles are defined using the
-\code{stratification_threshold} parameter.
-\item \code{optimised}: Use maximally selected rank statistics to determine the
-optimal threshold (Lausen and Schumacher, 1992; Hothorn et al., 2003) to
-stratify samples into two optimally separated risk groups.
-}
-
-One or more stratification methods can be selected simultaneously.
-
-This parameter is only relevant for \code{survival} outcomes.}
     \item{\code{sample_limit}}{(\emph{optional}) Set the upper limit of the number of samples
 that are used during evaluation steps. Cannot be less than 20.
 
@@ -280,6 +250,36 @@ method.
 Note that the standard method is not implemented because this method is
 often not suitable due to non-normal distributions. The bias-corrected and
 accelerated (BCa) method is not implemented yet.}
+    \item{\code{stratification_method}}{(\emph{optional}) Method for determining the
+stratification threshold for creating survival groups. The actual,
+model-dependent, threshold value is obtained from the development data, and
+can afterwards be used to perform stratification on validation data.
+
+The following stratification methods are available:
+\itemize{
+\item \code{median} (default): The median predicted value in the development cohort
+is used to stratify the samples into two risk groups. For predicted outcome
+values that build a continuous spectrum, the two risk groups in the
+development cohort will be roughly equal in size.
+\item \code{mean}: The mean predicted value in the development cohort is used to
+stratify the samples into two risk groups.
+\item \code{mean_trim}: As \code{mean}, but based on the set of predicted values
+where the 5\% lowest and 5\% highest values are discarded. This reduces the
+effect of outliers.
+\item \code{mean_winsor}: As \code{mean}, but based on the set of predicted values where
+the 5\% lowest and 5\% highest values are winsorised. This reduces the effect
+of outliers.
+\item \code{fixed}: Samples are stratified based on the sample quantiles of the
+predicted values. These quantiles are defined using the
+\code{stratification_threshold} parameter.
+\item \code{optimised}: Use maximally selected rank statistics to determine the
+optimal threshold (Lausen and Schumacher, 1992; Hothorn et al., 2003) to
+stratify samples into two optimally separated risk groups.
+}
+
+One or more stratification methods can be selected simultaneously.
+
+This parameter is only relevant for \code{survival} outcomes.}
     \item{\code{dynamic_model_loading}}{(\emph{optional}) Enables dynamic loading of models
 during the evaluation process, if \code{TRUE}. Defaults to \code{FALSE}. Dynamic
 loading of models may reduce the overall memory footprint, at the cost of

@@ -48,7 +48,7 @@ internally.}
 development cohort.}
 
 \item{\code{model_dir_path}}{Path to folder containing the familiarModel objects. Can
-be updated using the `update_model_dir_path` method.}
+be updated using the \code{update_model_dir_path} method.}
 
 \item{\code{auto_detach}}{Flag used to determine whether models should be detached
 from the model after use, or not. Used internally.}

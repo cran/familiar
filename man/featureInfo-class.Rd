@@ -20,7 +20,7 @@ feature.}
 \item{\code{set_descriptor}}{Character string describing the set to which the feature
 belongs. Currently not used.}
 
-\item{\code{feature_type}}{Describes the feature type, i.e. `factor` or `numeric`.}
+\item{\code{feature_type}}{Describes the feature type, i.e. \code{factor} or \code{numeric}.}
 
 \item{\code{levels}}{The class levels of categorical features. This is used to check
 prospective datasets.}
@@ -56,15 +56,15 @@ pre-processing because it did not contain more than 1 unique value.}
 
 \item{\code{removed_low_variance}}{Specifies whether the feature was removed during
 pre-processing because the variance was too low. Requires applying
-`low_variance` as a `filter_method`.}
+\code{low_variance} as a \code{filter_method}.}
 
 \item{\code{removed_low_robustness}}{Specifies whether the feature was removed during
 pre-processing because it lacks robustness. Requires applying
-`robustness` as a `filter_method`, as well as repeated measurement.}
+\code{robustness} as a \code{filter_method}, as well as repeated measurement.}
 
 \item{\code{removed_low_importance}}{Specifies whether the feature was removed during
 pre-processing because it lacks relevance. Requires applying
-`univariate_test` as a `filter_method`.}
+\code{univariate_test} as a \code{filter_method}.}
 
 \item{\code{fraction_missing}}{Specifies the fraction of missing values.}
 
@@ -83,5 +83,7 @@ pre-processing because it lacks relevance. Requires applying
 \item{\code{cluster_parameters}}{Details parameters for forming clusters with other features.}
 
 \item{\code{required_features}}{Details features required for clustering or imputation.}
+
+\item{\code{familiar_version}}{Version of the familiar package.}
 }}
 

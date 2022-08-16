@@ -24,7 +24,7 @@ default.}
 
 \item{\code{reference}}{Class level used as reference.}
 
-\item{\code{time}}{Maximum time, as set by the `time_max` configuration parameter.}
+\item{\code{time}}{Maximum time, as set by the \code{time_max} configuration parameter.}
 
 \item{\code{censored}}{Censoring indicators for survival outcomes.}
 

@@ -1,7 +1,7 @@
 ---
 title: "Evaluation and explanation"
 author: "Alex Zwanenburg"
-date: "2022-04-07"
+date: "2022-08-12"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -27,7 +27,6 @@ vignette: >
 ```r
 library(familiar)
 library(data.table)
-#> data.table 1.14.2 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
 
 set.seed(19)
 ```
@@ -582,6 +581,7 @@ plots <- familiar::plot_model_signature_variable_importance(object=binomial_mode
                                                             data=binomial_data)
 
 plots[[1]]
+#> Warning: Removed 1 rows containing missing values (position_stack).
 ```
 
 <img src="eval_and_explain/model-variable-importance-1.png" title="plot of chunk model-variable-importance" alt="plot of chunk model-variable-importance" style="display: block; margin: auto;" />

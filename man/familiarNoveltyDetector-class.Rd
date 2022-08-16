@@ -17,7 +17,7 @@ dataset.
 \item{\code{learner}}{Learning algorithm used to create the novelty detector.}
 
 \item{\code{model}}{The actual novelty detector trained using a specific algorithm,
-e.g. a isolation forest from the `isotree` package.}
+e.g. a isolation forest from the \code{isotree} package.}
 
 \item{\code{feature_info}}{List of objects containing feature information, e.g.,
 name, class levels, transformation, normalisation and clustering
@@ -40,7 +40,7 @@ reproduction, i.e. with imputation.}
 internally.}
 
 \item{\code{is_trimmed}}{Flag that indicates whether the detector, stored in the
-`model` slot, has been trimmed.}
+\code{model} slot, has been trimmed.}
 
 \item{\code{trimmed_function}}{List of functions whose output has been captured prior
 to trimming the model.}
@@ -51,10 +51,10 @@ familiarNoveltyDetector object.}
 \item{\code{familiar_version}}{Version of the familiar package.}
 
 \item{\code{package}}{Name of package(s) required to executed the detector itself,
-e.g. `isotree`.}
+e.g. \code{isotree}.}
 
-\item{\code{package_version}}{Version of the packages mentioned in the `package`
-  attribute.
+\item{\code{package_version}}{Version of the packages mentioned in the \code{package}
+attribute.
 
 Note that these objects do not contain any data concerning outcome, as this
 not relevant for (prospective) out-of-distribution detection.}

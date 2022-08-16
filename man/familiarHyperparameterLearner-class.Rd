@@ -10,9 +10,9 @@ applied to predict optimisation scores for a set of hyperparameters.
 }
 \details{
 Hyperparameter learners are used to infer the optimisation score for
-  sets of hyperparameters. These are then used to either infer utility using
-  acquisition functions or to generate summary scores to identify the optimal
-  model.
+sets of hyperparameters. These are then used to either infer utility using
+acquisition functions or to generate summary scores to identify the optimal
+model.
 }
 \section{Slots}{
 
@@ -34,7 +34,7 @@ score.}
 \item{\code{optimisation_function}}{Function used to generate the optimisation score.}
 
 \item{\code{model}}{The actual model trained using the specific algorithm, e.g. a
-isolation forest from the `isotree` package.}
+isolation forest from the \code{isotree} package.}
 
 \item{\code{target_hyperparameters}}{The names of the hyperparameters that are used
 to train the hyperparameter learner.}
@@ -45,9 +45,9 @@ familiarHyperparameterLearner object.}
 \item{\code{familiar_version}}{Version of the familiar package.}
 
 \item{\code{package}}{Name of package(s) required to executed the hyperparameter
-learner itself, e.g. `laGP`.}
+learner itself, e.g. \code{laGP}.}
 
-\item{\code{package_version}}{Version of the packages mentioned in the `package`
+\item{\code{package_version}}{Version of the packages mentioned in the \code{package}
 attribute.}
 }}
 

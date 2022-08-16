@@ -6,7 +6,7 @@
 \alias{familiar-package}
 \title{familiar: Fully Automated Machine Learning with Interpretable Analysis of Results}
 \description{
-End-to-end, automated machine learning package for creating 
+End-to-end, automated machine learning package for creating
 trustworthy and interpretable machine learning models. Familiar supports
 modelling of regression, categorical and time-to-event (survival) outcomes.
 Models created using familiar are self-containing, and their use does not

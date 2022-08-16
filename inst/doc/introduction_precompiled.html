@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-04-07" />
+<meta name="date" content="2022-08-12" />
 
 <title>Introducing familiar</title>
 
@@ -357,29 +357,36 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introducing familiar</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-04-07</h4>
+<h4 class="date">2022-08-12</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#familiar-in-brief">Familiar in brief</a>
+<li><a href="#familiar-in-brief" id="toc-familiar-in-brief">Familiar in
+brief</a>
 <ul>
-<li><a href="#installing-familiar">Installing familiar</a></li>
-<li><a href="#pipeline">Pipeline</a></li>
-<li><a href="#supported-outcomes">Supported outcomes</a></li>
+<li><a href="#installing-familiar" id="toc-installing-familiar">Installing familiar</a></li>
+<li><a href="#pipeline" id="toc-pipeline">Pipeline</a></li>
+<li><a href="#supported-outcomes" id="toc-supported-outcomes">Supported
+outcomes</a></li>
 </ul></li>
-<li><a href="#running-familiar">Running familiar</a>
+<li><a href="#running-familiar" id="toc-running-familiar">Running
+familiar</a>
 <ul>
-<li><a href="#configuring-familiar">Configuring familiar</a></li>
-<li><a href="#preparing-your-data">Preparing your data</a>
+<li><a href="#configuring-familiar" id="toc-configuring-familiar">Configuring familiar</a></li>
+<li><a href="#preparing-your-data" id="toc-preparing-your-data">Preparing your data</a>
 <ul>
-<li><a href="#identifier-columns">Identifier columns</a></li>
-<li><a href="#outcome-columns">Outcome columns</a></li>
-<li><a href="#feature-columns">Feature columns</a></li>
+<li><a href="#identifier-columns" id="toc-identifier-columns">Identifier
+columns</a></li>
+<li><a href="#outcome-columns" id="toc-outcome-columns">Outcome
+columns</a></li>
+<li><a href="#feature-columns" id="toc-feature-columns">Feature
+columns</a></li>
 </ul></li>
-<li><a href="#experimental-designs">Experimental designs</a></li>
+<li><a href="#experimental-designs" id="toc-experimental-designs">Experimental designs</a></li>
+<li><a href="#warm-start" id="toc-warm-start">Warm start</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul>
 </div>
 
@@ -1111,6 +1118,50 @@ validation (<code>ev</code>) workflow component in a subsampler, this is
 completely unnecessary. Unlike the feature selection (<code>fs</code>)
 and modelling (<code>mb</code>) components, <code>ev</code> is passive,
 and only indicates whether external validation should be performed.</p>
+</div>
+<div id="warm-start" class="section level2">
+<h2>Warm start</h2>
+<p>Calling <code>summon_familiar</code> as described above, provides a
+cold start of the process. For some purposes, such as to ensure that the
+same data splits are used, a (partial) warm start may be required across
+different experiments. Three functions allow for generating data for a
+warm start:</p>
+<ul>
+<li><p><code>precompute_data_assignment</code>: Generates data
+assignment.</p></li>
+<li><p><code>precompute_feature_info</code>: Generates data assignment
+and corresponding feature information.</p></li>
+<li><p><code>precompute_vimp</code>: Generates data assignment,
+corresponding feature information and variable importance.</p></li>
+</ul>
+<p>All of functions above create an <code>experimentData</code> object,
+which contains data that can be used to warm-start other familiar
+experiments that use the same data. This object can then be supplied as
+the <code>experiment_data</code> argument for
+<code>summon_familiar</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates both data assignment (5 bootstraps) and the corresponding feature</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># information.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>experiment_data <span class="ot">=</span> familiar<span class="sc">::</span><span class="fu">precompute_feature_info</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>iris,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_1&quot;</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">experimental_design=</span><span class="st">&quot;bs(fs+mb,5)&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_method=</span><span class="st">&quot;none&quot;</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel=</span><span class="cn">FALSE</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can warm-start a new experiment using the precomputed data.</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>iris,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment_data =</span> experiment_data,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_2&quot;</span>),</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">fs_method=</span><span class="st">&quot;mrmr&quot;</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">learner=</span><span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel=</span><span class="cn">FALSE</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

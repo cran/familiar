@@ -53,6 +53,11 @@ samples are similar. The table is created by the
 \code{extract_sample_similarity} method.}
     \item{\code{data}}{A \code{dataObject} object, \code{data.table} or \code{data.frame} that
 constitutes the data that are assessed.}
+    \item{\code{evaluation_times}}{One or more time points that are used for in analysis of
+survival problems when data has to be assessed at a set time, e.g.
+calibration. If not provided explicitly, this parameter is read from
+settings used at creation of the underlying \code{familiarModel} objects. Only
+used for \code{survival} outcomes.}
     \item{\code{feature_cluster_method}}{The method used to perform clustering. These are
 the same methods as for the \code{cluster_method} configuration parameter:
 \code{none}, \code{hclust}, \code{agnes}, \code{diana} and \code{pam}.
@@ -108,14 +113,9 @@ the metric name. This reduces the effect of outliers somewhat.
 
 If not provided explicitly, this parameter is read from settings used at
 creation of the underlying \code{familiarModel} objects.}
-    \item{\code{evaluation_times}}{One or more time points that are used for in analysis of
-survival problems when data has to be assessed at a set time, e.g.
-calibration. If not provided explicitly, this parameter is read from
-settings used at creation of the underlying \code{familiarModel} objects. Only
-used for \code{survival} outcomes.}
-    \item{\code{message_indent}}{Number of indentation steps for messages shown during
-computation and extraction of various data elements.}
     \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
+computation and extraction of various data elements.}
+    \item{\code{message_indent}}{Number of indentation steps for messages shown during
 computation and extraction of various data elements.}
     \item{\code{familiar_data_names}}{Names of the dataset(s). Only used if the \code{object} parameter
 is one or more \code{familiarData} objects.}

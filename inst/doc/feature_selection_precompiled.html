@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-04-07" />
+<meta name="date" content="2022-08-12" />
 
 <title>Feature selection methods</title>
 
@@ -262,79 +262,85 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Feature selection methods</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-04-07</h4>
+<h4 class="date">2022-08-12</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#configuration-options">Configuration options</a></li>
-<li><a href="#providing-parameters-for-feature-selection">Providing
-parameters for feature selection</a></li>
-<li><a href="#overview-of-feature-selection-methods">Overview of feature
+<li><a href="#configuration-options" id="toc-configuration-options">Configuration options</a></li>
+<li><a href="#providing-parameters-for-feature-selection" id="toc-providing-parameters-for-feature-selection">Providing parameters
+for feature selection</a></li>
+<li><a href="#overview-of-feature-selection-methods" id="toc-overview-of-feature-selection-methods">Overview of feature
 selection methods</a>
 <ul>
-<li><a href="#correlation-methods">Correlation methods</a></li>
-<li><a href="#concordance-methods">Concordance methods</a></li>
-<li><a href="#corelearn-methods">CORElearn methods</a></li>
-<li><a href="#mutual-information-based-methods">Mutual information-based
+<li><a href="#correlation-methods" id="toc-correlation-methods">Correlation methods</a></li>
+<li><a href="#concordance-methods" id="toc-concordance-methods">Concordance methods</a></li>
+<li><a href="#corelearn-methods" id="toc-corelearn-methods">CORElearn
+methods</a></li>
+<li><a href="#mutual-information-based-methods" id="toc-mutual-information-based-methods">Mutual information-based
 methods</a>
 <ul>
-<li><a href="#mutual-information-maximisation">Mutual information
+<li><a href="#mutual-information-maximisation" id="toc-mutual-information-maximisation">Mutual information
 maximisation</a></li>
-<li><a href="#mutual-information-feature-selection">Mutual information
-feature selection</a></li>
-<li><a href="#minimum-redundancy-maximum-relevance">Minimum redundancy
-maximum relevance</a></li>
+<li><a href="#mutual-information-feature-selection" id="toc-mutual-information-feature-selection">Mutual information feature
+selection</a></li>
+<li><a href="#minimum-redundancy-maximum-relevance" id="toc-minimum-redundancy-maximum-relevance">Minimum redundancy maximum
+relevance</a></li>
 </ul></li>
-<li><a href="#univariate-and-multivariate-regression-methods">Univariate
-and multivariate regression methods</a>
+<li><a href="#univariate-and-multivariate-regression-methods" id="toc-univariate-and-multivariate-regression-methods">Univariate and
+multivariate regression methods</a>
 <ul>
-<li><a href="#univariate-regression">Univariate regression</a></li>
-<li><a href="#multivariate-regression">Multivariate regression</a></li>
+<li><a href="#univariate-regression" id="toc-univariate-regression">Univariate regression</a></li>
+<li><a href="#multivariate-regression" id="toc-multivariate-regression">Multivariate regression</a></li>
 </ul></li>
-<li><a href="#lasso-ridge-and-elastic-net-regression">Lasso, ridge and
-elastic net regression</a></li>
-<li><a href="#random-forest-based-methods">Random forest-based
+<li><a href="#lasso-ridge-and-elastic-net-regression" id="toc-lasso-ridge-and-elastic-net-regression">Lasso, ridge and elastic
+net regression</a></li>
+<li><a href="#random-forest-based-methods" id="toc-random-forest-based-methods">Random forest-based methods</a>
+<ul>
+<li><a href="#permutation-importance" id="toc-permutation-importance">Permutation importance</a></li>
+<li><a href="#holdout-permutation-importance" id="toc-holdout-permutation-importance">Holdout permutation
+importance</a></li>
+<li><a href="#minimum-depth-variable-selection" id="toc-minimum-depth-variable-selection">Minimum depth variable
+selection</a></li>
+<li><a href="#variable-hunting" id="toc-variable-hunting">Variable
+hunting</a></li>
+<li><a href="#impurity-importance" id="toc-impurity-importance">Impurity
+importance</a></li>
+</ul></li>
+<li><a href="#special-methods" id="toc-special-methods">Special
 methods</a>
 <ul>
-<li><a href="#permutation-importance">Permutation importance</a></li>
-<li><a href="#holdout-permutation-importance">Holdout permutation
-importance</a></li>
-<li><a href="#minimum-depth-variable-selection">Minimum depth variable
-selection</a></li>
-<li><a href="#variable-hunting">Variable hunting</a></li>
-<li><a href="#impurity-importance">Impurity importance</a></li>
-</ul></li>
-<li><a href="#special-methods">Special methods</a>
-<ul>
-<li><a href="#no-feature-selection">No feature selection</a></li>
-<li><a href="#random-feature-selection">Random feature
-selection</a></li>
-<li><a href="#signature-only">Signature only</a></li>
+<li><a href="#no-feature-selection" id="toc-no-feature-selection">No
+feature selection</a></li>
+<li><a href="#random-feature-selection" id="toc-random-feature-selection">Random feature selection</a></li>
+<li><a href="#signature-only" id="toc-signature-only">Signature
+only</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#aggregating-variable-importance">Aggregating variable
+<li><a href="#aggregating-variable-importance" id="toc-aggregating-variable-importance">Aggregating variable
 importance</a>
 <ul>
-<li><a href="#notation">Notation</a></li>
-<li><a href="#no-rank-aggregation">No rank aggregation</a></li>
-<li><a href="#mean-rank-aggregation">Mean rank aggregation</a></li>
-<li><a href="#median-rank-aggregation">Median rank aggregation</a></li>
-<li><a href="#best-rank-aggregation">Best rank aggregation</a></li>
-<li><a href="#worst-rank-aggregation">Worst rank aggregation</a></li>
-<li><a href="#stability-rank-aggregation">Stability rank
+<li><a href="#notation" id="toc-notation">Notation</a></li>
+<li><a href="#no-rank-aggregation" id="toc-no-rank-aggregation">No rank
 aggregation</a></li>
-<li><a href="#exponential-rank-aggregation">Exponential rank
+<li><a href="#mean-rank-aggregation" id="toc-mean-rank-aggregation">Mean
+rank aggregation</a></li>
+<li><a href="#median-rank-aggregation" id="toc-median-rank-aggregation">Median rank aggregation</a></li>
+<li><a href="#best-rank-aggregation" id="toc-best-rank-aggregation">Best
+rank aggregation</a></li>
+<li><a href="#worst-rank-aggregation" id="toc-worst-rank-aggregation">Worst rank aggregation</a></li>
+<li><a href="#stability-rank-aggregation" id="toc-stability-rank-aggregation">Stability rank aggregation</a></li>
+<li><a href="#exponential-rank-aggregation" id="toc-exponential-rank-aggregation">Exponential rank
 aggregation</a></li>
-<li><a href="#borda-rank-aggregation">Borda rank aggregation</a></li>
-<li><a href="#enhanced-borda-rank-aggregation">Enhanced borda rank
+<li><a href="#borda-rank-aggregation" id="toc-borda-rank-aggregation">Borda rank aggregation</a></li>
+<li><a href="#enhanced-borda-rank-aggregation" id="toc-enhanced-borda-rank-aggregation">Enhanced borda rank
 aggregation</a></li>
-<li><a href="#truncated-borda-rank-aggregation">Truncated borda rank
+<li><a href="#truncated-borda-rank-aggregation" id="toc-truncated-borda-rank-aggregation">Truncated borda rank
 aggregation</a></li>
-<li><a href="#truncated-enhanced-borda-rank-aggregation">Truncated
-enhanced borda rank aggregation</a></li>
+<li><a href="#truncated-enhanced-borda-rank-aggregation" id="toc-truncated-enhanced-borda-rank-aggregation">Truncated enhanced
+borda rank aggregation</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul>
 </div>
 
@@ -748,8 +754,26 @@ importance</strong></td>
 <td align="center">×</td>
 </tr>
 <tr class="odd">
+<td align="left">permutation (unoptimised)</td>
+<td align="left"><code>random_forest_permutation_default</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="even">
 <td align="left">minimum depth<sup>b</sup></td>
 <td align="left"><code>random_forest_minimum_depth</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="odd">
+<td align="left">minimum depth (unoptimised)</td>
+<td align="left"><code>random_forest_minimum_depth_default</code></td>
 <td align="center">×</td>
 <td align="center">×</td>
 <td align="center">×</td>
@@ -766,8 +790,26 @@ importance</strong></td>
 <td align="center">×</td>
 </tr>
 <tr class="odd">
+<td align="left">variable hunting (unoptimised)</td>
+<td align="left"><code>random_forest_variable_hunting_default</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="even">
 <td align="left">hold-out <sup>b</sup></td>
 <td align="left"><code>random_forest_holdout</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="odd">
+<td align="left">hold-out (unoptimised)</td>
+<td align="left"><code>random_forest_holdout_default</code></td>
 <td align="center">×</td>
 <td align="center">×</td>
 <td align="center">×</td>
@@ -794,8 +836,26 @@ importance</strong></td>
 <td align="center">×</td>
 </tr>
 <tr class="even">
+<td align="left">permutation (unoptimised)</td>
+<td align="left"><code>random_forest_ranger_permutation_default</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="odd">
 <td align="left">hold-out permutation<sup>b</sup></td>
 <td align="left"><code>random_forest_ranger_holdout_permutation</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr class="even">
+<td align="left">hold-out perm. (unoptimised)</td>
+<td align="left"><code>random_forest_ranger_holdout_permutation_default</code></td>
 <td align="center">×</td>
 <td align="center">×</td>
 <td align="center">×</td>
@@ -812,6 +872,15 @@ importance</strong></td>
 <td align="center">x</td>
 </tr>
 <tr class="even">
+<td align="left">impurity (unoptimised)</td>
+<td align="left"><code>random_forest_ranger_impurity_default</code></td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">x</td>
+</tr>
+<tr class="odd">
 <td align="left"><strong>special methods</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -820,7 +889,7 @@ importance</strong></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">no selection</td>
 <td align="left"><code>none</code></td>
 <td align="center">×</td>
@@ -829,7 +898,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center">×</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">random selection</td>
 <td align="left"><code>random</code></td>
 <td align="center">×</td>
@@ -838,7 +907,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center">×</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">signature only</td>
 <td align="left"><code>signature_only</code></td>
 <td align="center">×</td>
@@ -1383,11 +1452,20 @@ default range is <span class="math inline">\(\left[10^{-6},
 </tr>
 </tbody>
 </table>
+<p>The unoptimised methods do not require hyperparameter optimisation,
+and use default values from the <code>ranger</code> and
+<code>randomForestSRC</code>. For
+<code>random_forest_variable_hunting_default</code>the
+<code>fs_vh_fold</code>, <code>fs_vh_step_size</code> and
+<code>fs_vh_n_rep</code> parameters can be set.</p>
 <div id="permutation-importance" class="section level3">
 <h3>Permutation importance</h3>
 <p>The permutation importance method is implemented by
-<code>random_forest_permutation</code> (<code>randomForestSRC</code>
-package) and <code>random_forest_ranger_permutation</code>
+<code>random_forest_permutation</code> and
+<code>random_forest_permutation_default</code>
+(<code>randomForestSRC</code> package) and
+<code>random_forest_ranger_permutation</code> and
+<code>random_forest_ranger_permutation_default</code>
 (<code>ranger</code> package). In short, this method functions as
 follows [Ishwaran2007-va]. As usual, each tree in the random forest is
 constructed using the in-bag samples of a bootstrap of the data. The
@@ -1402,15 +1480,16 @@ is negligible or even negative.</p>
 <div id="holdout-permutation-importance" class="section level3">
 <h3>Holdout permutation importance</h3>
 <p>This variant on permutation importance
-(<code>random_forest_ranger_holdout_permutation</code>) is implemented
-using <code>ranger::holdoutRF</code>. Instead of using out-of-bag to
-compute feature importance, two cross-validation folds are used. A
-random forest is trained on either fold, and variable importance
+(<code>random_forest_ranger_holdout_permutation</code> and
+<code>random_forest_ranger_holdout_permutation_default</code>) is
+implemented using <code>ranger::holdoutRF</code>. Instead of using
+out-of-bag to compute feature importance, two cross-validation folds are
+used. A random forest is trained on either fold, and variable importance
 determined on the other <span class="citation">(Janitza, Celik, and
 Boulesteix 2018)</span>.</p>
 <p>The hold-out variable importance method implemented in the
-<code>randomForestSRC</code> package
-(<code>random_forest_holdout</code>) is implemented using
+<code>randomForestSRC</code> package (<code>random_forest_holdout</code>
+and <code>random_forest_holdout_default</code>) is implemented using
 <code>randomForestSRC::holdout.vimp</code>. It is similar to the
 previous variant, but does not cross-validation folds. Instead,
 out-of-bag prediction errors for models trained with and without each

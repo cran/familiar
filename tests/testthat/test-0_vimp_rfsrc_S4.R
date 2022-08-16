@@ -1,4 +1,5 @@
 familiar:::test_all_vimp_methods_available(familiar:::.get_available_rfsrc_vimp_methods(show_general=TRUE))
+familiar:::test_all_vimp_methods_available(familiar:::.get_available_rfsrc_default_vimp_methods(show_general=TRUE))
 
 # Don't perform any further tests on CRAN due to time of running the complete test.
 testthat::skip_on_cran()
@@ -40,6 +41,8 @@ familiar:::test_all_vimp_methods(familiar:::.get_available_rfsrc_vimp_methods(sh
                                                                           "tree_depth"=5,
                                                                           "fs_vh_fold"=3,
                                                                           "fs_vh_n_rep"=2)))
+
+familiar:::test_all_vimp_methods(familiar:::.get_available_rfsrc_default_vimp_methods())
 
 familiar:::test_all_vimp_methods_parallel(familiar:::.get_available_rfsrc_vimp_methods(show_general=FALSE),
                                           hyperparameter_list=list("count"=list("n_tree"=4,
@@ -96,7 +99,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest minimum depth method correctly ranks count data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("per_capita_crime", "lower_status_percentage",
                                                                "residence_before_1940_proportion", "avg_rooms")), TRUE)
@@ -117,7 +120,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest permutation method correctly ranks count data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("per_capita_crime", "lower_status_percentage",
                                                                "residence_before_1940_proportion", "avg_rooms",
@@ -140,7 +143,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest hold-out method correctly ranks count data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("per_capita_crime", "lower_status_percentage",
                                                                "residence_before_1940_proportion", "avg_rooms",
@@ -165,7 +168,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest variable hunting method correctly ranks count data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -189,7 +192,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest minimum depth method correctly ranks continuous data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(any(vimp_table[rank <= 2]$name %in% c("enrltot", "avginc", "calwpct")), TRUE)
 })
@@ -209,7 +212,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest permutation method correctly ranks continuous data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(any(vimp_table[rank <= 2]$name %in% c("enrltot", "avginc", "calwpct")), TRUE)
 })
@@ -229,7 +232,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest hold-out method correctly ranks continuous data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(any(vimp_table[rank <= 2]$name %in% c("enrltot", "avginc", "calwpct")), TRUE)
 })
@@ -251,7 +254,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest variable hunting method correctly ranks continuous data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -274,7 +277,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest minimum depth method correctly ranks binomial data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("cell_shape_uniformity", "clump_thickness",
                                                                "epithelial_cell_size", "bare_nuclei")), TRUE)
@@ -296,7 +299,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest permutation method correctly ranks binomial data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("cell_shape_uniformity", "clump_thickness",
                                                                "epithelial_cell_size", "bare_nuclei")), TRUE)
@@ -318,7 +321,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest hold-out method correctly ranks binomial data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -341,7 +344,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest variable hunting method correctly ranks binomial data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -366,7 +369,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest minimum depth method correctly ranks multinomial outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("Petal_Length", "Petal_Width")), TRUE)
 })
@@ -387,7 +390,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest permutation method correctly ranks multinomial outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("Petal_Length", "Petal_Width")), TRUE)
 })
@@ -407,7 +410,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest hold-out method correctly ranks multinomial outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -430,7 +433,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest variable hunting method correctly ranks multinomial outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })
@@ -455,7 +458,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest minimum depth method correctly ranks survival outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("nodes", "rx")), TRUE)
 })
@@ -476,7 +479,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest permutation method correctly ranks survival outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("nodes", "rx")), TRUE)
 })
@@ -497,7 +500,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest hold-out method correctly ranks survival outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% c("nodes", "rx")), TRUE)
 })
@@ -520,7 +523,7 @@ vimp_object <- familiar:::prepare_vimp_object(data=data,
 
 testthat::test_that(paste0("The RFSRC random forest variable hunting method correctly ranks survival outcome data."), {
   
-  vimp_table <- suppressWarnings(familiar:::.vimp(vimp_object, data))
+  vimp_table <- suppressWarnings(familiar:::get_vimp_table(familiar:::.vimp(vimp_object, data)))
   
   testthat::expect_equal(all(vimp_table[rank <= 2]$name %in% familiar:::get_feature_columns(data)), TRUE)
 })

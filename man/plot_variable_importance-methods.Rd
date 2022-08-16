@@ -14,6 +14,10 @@ after training a model.}
 plot_variable_importance(
   object,
   type,
+  feature_cluster_method = waiver(),
+  feature_linkage_method = waiver(),
+  feature_cluster_cut_method = waiver(),
+  feature_similarity_threshold = waiver(),
   aggregation_method = waiver(),
   rank_threshold = waiver(),
   draw = FALSE,
@@ -46,6 +50,10 @@ plot_variable_importance(
 \S4method{plot_variable_importance}{ANY}(
   object,
   type,
+  feature_cluster_method = waiver(),
+  feature_linkage_method = waiver(),
+  feature_cluster_cut_method = waiver(),
+  feature_similarity_threshold = waiver(),
   aggregation_method = waiver(),
   rank_threshold = waiver(),
   draw = FALSE,
@@ -78,6 +86,10 @@ plot_variable_importance(
 \S4method{plot_variable_importance}{familiarCollection}(
   object,
   type,
+  feature_cluster_method = waiver(),
+  feature_linkage_method = waiver(),
+  feature_cluster_cut_method = waiver(),
+  feature_similarity_threshold = waiver(),
   aggregation_method = waiver(),
   rank_threshold = waiver(),
   draw = FALSE,
@@ -122,6 +134,44 @@ a \code{familiarCollection} can be extracted. See details for more information.}
 \item{type}{Determine what variable importance should be shown. Can be
 \code{feature_selection} or \code{model} for the variable importance after the
 feature selection step and after the model training step, respectively.}
+
+\item{feature_cluster_method}{The method used to perform clustering. These are
+the same methods as for the \code{cluster_method} configuration parameter:
+\code{none}, \code{hclust}, \code{agnes}, \code{diana} and \code{pam}.
+
+\code{none} cannot be used when extracting data regarding mutual correlation or
+feature expressions.
+
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
+
+\item{feature_linkage_method}{The method used for agglomerative clustering in
+\code{hclust} and \code{agnes}. These are the same methods as for the
+\code{cluster_linkage_method} configuration parameter: \code{average}, \code{single},
+\code{complete}, \code{weighted}, and \code{ward}.
+
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
+
+\item{feature_cluster_cut_method}{The method used to divide features into
+separate clusters. The available methods are the same as for the
+\code{cluster_cut_method} configuration parameter: \code{silhouette}, \code{fixed_cut} and
+\code{dynamic_cut}.
+
+\code{silhouette} is available for all cluster methods, but \code{fixed_cut} only
+applies to methods that create hierarchical trees (\code{hclust}, \code{agnes} and
+\code{diana}). \code{dynamic_cut} requires the \code{dynamicTreeCut} package and can only
+be used with \code{agnes} and \code{hclust}.
+
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
+
+\item{feature_similarity_threshold}{The threshold level for pair-wise
+similarity that is required to form feature clusters with the \code{fixed_cut}
+method.
+
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
 
 \item{aggregation_method}{(\emph{optional}) The method used to aggregate variable
 importances over different data subsets, e.g. bootstraps. The following
@@ -185,7 +235,9 @@ See details for available variables.}
 \item{facet_wrap_cols}{(\emph{optional}) Number of columns to generate when facet
 wrapping. If NULL, a facet grid is produced instead.}
 
-\item{show_cluster}{(\emph{optional}) Show which features were clustered together.}
+\item{show_cluster}{(\emph{optional}) Show which features were clustered together.
+Currently not available in combination with variable importance obtained
+during feature selection.}
 
 \item{ggtheme}{(\emph{optional}) \code{ggplot} theme to use for plotting.}
 
@@ -262,9 +314,9 @@ save images larger than 50x50 inches, to prevent the common error of
 specifying dimensions in pixels.}
     \item{\code{bg}}{Background colour. If \code{NULL}, uses the \code{plot.background} fill value
 from the plot theme.}
-    \item{\code{message_indent}}{Number of indentation steps for messages shown during
-computation and extraction of various data elements.}
     \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
+computation and extraction of various data elements.}
+    \item{\code{message_indent}}{Number of indentation steps for messages shown during
 computation and extraction of various data elements.}
   }}
 }

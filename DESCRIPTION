@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -29,25 +29,27 @@ BugReports: https://github.com/alexzwanenburg/familiar/issues
 Depends: R (>= 4.0.0)
 License: EUPL
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 0.3.4), rstream, survival
-Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, cowplot,
+Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro, cowplot,
         dynamicTreeCut, e1071 (>= 1.7.5), Ecdat, fastcluster, ggplot2
         (>= 3.0.0), glmnet, gtable, harmonicmeanp, isotree (>= 0.3.0),
         knitr, labeling, laGP, MASS, maxstat, mboost (>= 2.9.0),
         microbenchmark, partykit, proxy, qvalue, randomForestSRC,
         ranger, rmarkdown, scales, testthat (>= 3.0.0), xml2, VGAM,
         xgboost
-Collate: 'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
-        'CheckArguments.R' 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
-        'CheckHyperparameters.R' 'CheckPackages.R' 'ClassBalance.R'
-        'Clustering.R' 'CombatNormalisation.R' 'DataObject.R'
-        'DataParameterChecks.R' 'DataPreProcessing.R'
-        'DataProcessing.R' 'DataServerBackend.R' 'ErrorMessages.R'
-        'Evaluation.R' 'ExperimentSetup.R' 'Familiar.R'
-        'FamiliarCollection.R' 'FamiliarCollectionExport.R'
-        'FamiliarData.R' 'FamiliarDataComputation.R'
+Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
+        'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
+        'CheckArguments.R' 'CheckHyperparameters.R' 'CheckPackages.R'
+        'ClassBalance.R' 'ClusteringMethod.R' 'Clustering.R'
+        'ClusterRepresentation.R' 'Normalisation.R'
+        'CombatNormalisation.R' 'DataObject.R' 'DataParameterChecks.R'
+        'DataPreProcessing.R' 'DataProcessing.R' 'DataServerBackend.R'
+        'ErrorMessages.R' 'Evaluation.R' 'ExperimentData.R'
+        'ExperimentSetup.R' 'Familiar.R' 'FamiliarCollection.R'
+        'FamiliarCollectionExport.R' 'FamiliarData.R'
+        'FamiliarDataComputation.R'
         'FamiliarDataComputationAUCCurves.R'
         'FamiliarDataComputationCalibrationData.R'
         'FamiliarDataComputationCalibrationInfo.R'
@@ -72,7 +74,8 @@ Collate: 'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
         'FamiliarHyperparameterLearner.R' 'FamiliarModel.R'
         'FamiliarNoveltyDetector.R' 'FamiliarObjectConversion.R'
         'FamiliarObjectUpdate.R' 'FamiliarSharedS4Methods.R'
-        'FamiliarVimpMethod.R' 'FeatureInfo.R' 'FeatureSelection.R'
+        'FamiliarVimpMethod.R' 'FeatureInfo.R'
+        'FeatureInfoParameters.R' 'FeatureSelection.R'
         'FunctionWrapperUtilities.R' 'HyperparameterOptimisation.R'
         'HyperparameterOptimisationMetaLearners.R'
         'HyperparameterOptimisationUtilities.R' 'Imputation.R'
@@ -86,8 +89,7 @@ Collate: 'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
         'MetricS4Regression.R' 'MetricS4ConfusionMatrixMetrics.R'
         'MetricS4Brier.R' 'MetricS4AUC.R' 'MetricS4.R'
         'MetricS4ConcordanceIndex.R' 'ModelBuilding.R'
-        'Normalisation.R' 'NoveltyDetectorS4IsolationTree.R'
-        'NoveltyDetectorMain.R'
+        'NoveltyDetectorS4IsolationTree.R' 'NoveltyDetectorMain.R'
         'NoveltyDetectorS4NoneNoveltyDetector.R' 'OutcomeInfo.R'
         'PairwiseSimilarity.R' 'ParallelFunctions.R' 'ParseData.R'
         'ParseSettings.R' 'PlotAUCcurves.R' 'PlotAll.R'
@@ -105,11 +107,12 @@ Collate: 'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
         'TrimUtilities.R' 'Utilities.R' 'UtilitiesS4.R'
         'VimpS4Regression.R' 'VimpS4OtherMethods.R'
         'VimpS4MutualInformation.R' 'VimpS4Correlation.R'
-        'VimpS4Concordance.R' 'VimpMain.R' 'VimpS4CoreLearn.R' 'aaa.R'
+        'VimpS4Concordance.R' 'VimpMain.R' 'VimpS4CoreLearn.R'
+        'VimpTable.R' 'aaa.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-04-07 19:33:32 UTC; alexz
+Packaged: 2022-08-16 11:46:47 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   Stefan Leger [ctb],
@@ -120,4 +123,4 @@ Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   German Cancer Research Center (DKFZ) [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2022-04-07 19:52:29 UTC
+Date/Publication: 2022-08-16 12:40:02 UTC

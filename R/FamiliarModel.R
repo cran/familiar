@@ -107,7 +107,7 @@ setMethod(".train", signature(object="familiarModel", data="NULL"),
           })
 
 
-#####.train_novelty_detector#####
+####.train_novelty_detector ----------------------------------------------------
 setMethod(".train_novelty_detector", signature(object="familiarModel", data="dataObject"),
           function(object,
                    data,
@@ -121,12 +121,6 @@ setMethod(".train_novelty_detector", signature(object="familiarModel", data="dat
             # Check if the class of object is a subclass of familiarModel.
             if(!is_subclass(class(object)[1], "familiarModel")) object <- promote_learner(object)
             
-            # Process data, if required.
-            data <- process_input_data(object=object,
-                                       data=data,
-                                       is_pre_processed = is_pre_processed,
-                                       stop_at="clustering")
-            
             # Create detector object.
             fam_detector <- methods::new("familiarNoveltyDetector",
                                          learner=detector,
@@ -138,6 +132,13 @@ setMethod(".train_novelty_detector", signature(object="familiarModel", data="dat
             
             # Promote to the correct type of detector.
             fam_detector <- promote_detector(object=fam_detector)
+            
+            # Process data, if required.
+            data <- process_input_data(object=fam_detector,
+                                       data=data,
+                                       is_pre_processed = is_pre_processed,
+                                       stop_at="clustering",
+                                       force_check=TRUE)
             
             # Optimise hyperparameters if they were not previously set.
             if(!has_optimised_hyperparameters(object=fam_detector)){
@@ -160,9 +161,13 @@ setMethod(".train_novelty_detector", signature(object="familiarModel", data="dat
 #####show (model)#####
 setMethod("show", signature(object="familiarModel"),
           function(object){
+            
+            # Make sure the model object is updated.
+            object <- update_object(object=object)
+            
             if(!model_is_trained(object)){
               cat(paste0("A ", object@learner, " model (class: ", class(object)[1],
-                         ") that was not successfully trained (v", object@familiar_version, ").\n"))
+                         ") that was not successfully trained (", .familiar_version_string(object), ").\n"))
               
               if(length(object@messages$warning) > 0){
                 condition_messages <- condition_summary(object@messages$warning)
@@ -185,7 +190,7 @@ setMethod("show", signature(object="familiarModel"),
             } else {
               # Describe the learner and the version of familiar.
               message_str <- paste0("A ", object@learner, " model (class: ", class(object)[1],
-                                    "; v", object@familiar_version, ")")
+                                    "; ", .familiar_version_string(object), ")")
               
               # Describe the package(s), if any
               if(!is.null(object@package)){
@@ -229,7 +234,7 @@ setMethod("show", signature(object="familiarModel"),
               lapply(object@model_features, function(x, object) show(object@feature_info[[x]]), object=object)
               
               # Details concerning novelty features:
-              if(is.null(object@novelty_detector)){
+              if(!model_is_trained(object@novelty_detector)){
                 cat("\nNo novelty detector was trained.\n")
                 
               } else if(setequal(object@model_features, object@novelty_features)){
@@ -298,6 +303,9 @@ setGeneric("summary")
 setMethod("summary", signature(object="familiarModel"),
           function(object, ...){
             
+            # Make sure the model object is updated.
+            object <- update_object(object=object)
+            
             if(!model_is_trained(object)){
               message("The model was not trained. A summary is not available.")
               return(invisible(NULL))
@@ -354,6 +362,9 @@ setGeneric("coef")
 setMethod("coef", signature(object="familiarModel"),
           function(object, ...){
             
+            # Make sure the model object is updated.
+            object <- update_object(object=object)
+            
             # No training, no coefficients.
             if(!model_is_trained(object)) return(NULL)
             
@@ -395,6 +406,9 @@ setGeneric("vcov")
 #' @rdname vcov-methods
 setMethod("vcov", signature(object="familiarModel"),
           function(object, ...){
+            
+            # Make sure the model object is updated.
+            object <- update_object(object=object)
             
             # No training, no variance-covariance matrix
             if(!model_is_trained(object)) return(NULL)
@@ -576,7 +590,7 @@ setMethod("get_object_name", signature(object="familiarModel"),
 
 
 
-#####model_is_trained (familiarModel)#####
+#### model_is_trained (familiarModel) ------------------------------------------
 setMethod("model_is_trained", signature(object="familiarModel"),
           function(object){
             # Check if a model was trained
@@ -591,7 +605,7 @@ setMethod("model_is_trained", signature(object="familiarModel"),
             }
           })
 
-#####model_is_trained (character)#####
+#### model_is_trained (character) ----------------------------------------------
 setMethod("model_is_trained", signature(object="character"),
           function(object){
             # Load object.
@@ -600,6 +614,12 @@ setMethod("model_is_trained", signature(object="character"),
             return(do.call(model_is_trained, args=c(list("object"=object))))
           })
 
+
+#### model_is_trained (NULL) ---------------------------------------------------
+setMethod("model_is_trained", signature(object="NULL"),
+          function(object){
+            return(FALSE)
+          })
 
 
 #####add_package_version (familiarModel)#####
@@ -787,7 +807,8 @@ setMethod("..set_vimp_parameters", signature(object="familiarModel"),
 
 #####..vimp######
 setMethod("..vimp", signature(object="familiarModel"),
-          function(object, ...) return(get_placeholder_vimp_table()))
+          function(object, ...) return(get_placeholder_vimp_table(vimp_method=object@learner,
+                                                                  run_table=object@run_table)))
 
 #####trim_model (familiarModel)-------------------------------------------------
 setMethod("trim_model", signature(object="familiarModel"),
@@ -850,11 +871,7 @@ setMethod("has_calibration_info", signature(object="familiarModel"),
 #####set_signature (familiarModel)----------------------------------------------
 setMethod("set_signature", signature(object="familiarModel"),
           function(object, rank_table=NULL, signature_features=NULL, minimise_footprint=FALSE, ...){
-            
-            if(is.null(rank_table) & is.null(signature_features)){
-              ..error_reached_unreachable_code("set_signature: rank_table and signature_features cannot both be NULL")
-            }
-            
+
             if(is.null(signature_features)){
               # Get signature features using the table with ranked features.
               # Those features may be clustered.
@@ -864,8 +881,9 @@ setMethod("set_signature", signature(object="familiarModel"),
             
             # Find important features, i.e. those that constitute the signature
             # either individually or as part of a cluster.
-            model_features <- find_model_features(features=signature_features,
-                                                  feature_info_list=object@feature_info)
+            model_features <- get_model_features(x=signature_features,
+                                                 is_clustered=TRUE,
+                                                 feature_info_list=object@feature_info)
             
             # Find novelty features.
             novelty_features <- find_novelty_features(model_features=model_features,
@@ -877,12 +895,13 @@ setMethod("set_signature", signature(object="familiarModel"),
               
             } else {
               # Find features that are required for processing the data.
-              required_features <- find_required_features(features=signature_features,
-                                                          feature_info_list=object@feature_info)
+              required_features <- get_required_features(x=union(model_features, novelty_features),
+                                                         is_clustered=FALSE,
+                                                         feature_info_list=object@feature_info)
             }
             
             # Select only necessary feature info objects.
-            available_feature_info <- names(object@feature_info) %in% unique(c(required_features, model_features, novelty_features))
+            available_feature_info <- names(object@feature_info) %in% required_features
             object@feature_info <- object@feature_info[available_feature_info]
             
             # Set feature-related attribute slots
@@ -916,7 +935,7 @@ setMethod("get_signature", signature(object="list"),
           function(object, vimp_method, parameter_list, rank_table, ...){
             
             # Suppress NOTES due to non-standard evaluation in data.table
-            name <- aggr_rank <- NULL
+            name <- rank <- NULL
             
             # Get signature size
             if(is_empty(parameter_list$sign_size)){
@@ -962,7 +981,10 @@ setMethod("get_signature", signature(object="list"),
               
               # Get number remaining available features
               n_allowed_features <- signature_size - length(signature_features)
-              if(n_allowed_features > 0){
+              
+              # Check that features may be added, and the rank table is not
+              # empty.
+              if(n_allowed_features > 0 & !is_empty(rank_table)){
                 
                 # Get available features.
                 features <- features_after_clustering(features=get_available_features(feature_info_list=object),
@@ -971,9 +993,9 @@ setMethod("get_signature", signature(object="list"),
                 # Remove signature features, if any, to prevent duplicates.
                 features <- setdiff(features, signature_features)
                 
-                # Keep only feature ranks of feature corresponding to available features,
-                # and order by rank.
-                rank_table <- rank_table[name %in% features,][order(aggr_rank)]
+                # Keep only feature ranks of feature corresponding to available
+                # features, and order by rank.
+                rank_table <- rank_table[name %in% features,][order(rank)]
                 
                 # Add good features (low rank) to the selection
                 selected_features <- c(signature_features,

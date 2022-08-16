@@ -264,18 +264,18 @@ from the plot theme.}
 constitutes the data that are assessed.}
     \item{\code{cl}}{Cluster created using the \code{parallel} package. This cluster is then
 used to speed up computation through parallellisation.}
-    \item{\code{icc_type}}{String indicating the type of intraclass correlation
-coefficient (\code{1}, \code{2} or \code{3}) that should be used to compute robustness for
-features in repeated measurements during the evaluation of univariate
-importance. These types correspond to the types in Shrout and Fleiss (1979).
-If not provided explicitly, this parameter is read from settings used at
-creation of the underlying \code{familiarModel} objects.}
     \item{\code{feature_similarity_metric}}{Metric to determine pairwise similarity
 between features. Similarity is computed in the same manner as for
 clustering, and \code{feature_similarity_metric} therefore has the same options
 as \code{cluster_similarity_metric}: \code{mcfadden_r2}, \code{cox_snell_r2},
 \code{nagelkerke_r2}, \code{spearman}, \code{kendall} and \code{pearson}.
 
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
+    \item{\code{icc_type}}{String indicating the type of intraclass correlation
+coefficient (\code{1}, \code{2} or \code{3}) that should be used to compute robustness for
+features in repeated measurements during the evaluation of univariate
+importance. These types correspond to the types in Shrout and Fleiss (1979).
 If not provided explicitly, this parameter is read from settings used at
 creation of the underlying \code{familiarModel} objects.}
     \item{\code{message_indent}}{Number of indentation steps for messages shown during

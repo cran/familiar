@@ -41,6 +41,9 @@ will allow export as a structured list of data.tables.}
   \describe{
     \item{\code{data}}{A \code{dataObject} object, \code{data.table} or \code{data.frame} that
 constitutes the data that are assessed.}
+    \item{\code{is_pre_processed}}{Flag that indicates whether the data was already
+pre-processed externally, e.g. normalised and clustered. Only used if the
+\code{data} argument is a \code{data.table} or \code{data.frame}.}
     \item{\code{cl}}{Cluster created using the \code{parallel} package. This cluster is then
 used to speed up computation through parallellisation.}
     \item{\code{ensemble_method}}{Method for ensembling predictions from models for the
@@ -51,6 +54,10 @@ value for a sample.
 \item \code{mean}: Use the mean of the predicted values as the ensemble value for a
 sample.
 }}
+    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
+computation and extraction of various data elements.}
+    \item{\code{message_indent}}{Number of indentation steps for messages shown during
+computation and extraction of various data elements.}
     \item{\code{detail_level}}{(\emph{optional}) Sets the level at which results are computed
 and aggregated.
 \itemize{
@@ -95,13 +102,6 @@ elements, e.g. \code{list("auc_data"="ensemble", "model_performance"="hybrid")}.
 This parameter can be set for the following data elements: \code{auc_data},
 \code{decision_curve_analyis}, \code{model_performance}, \code{permutation_vimp},
 \code{ice_data}, \code{prediction_data} and \code{confusion_matrix}.}
-    \item{\code{is_pre_processed}}{Flag that indicates whether the data was already
-pre-processed externally, e.g. normalised and clustered. Only used if the
-\code{data} argument is a \code{data.table} or \code{data.frame}.}
-    \item{\code{message_indent}}{Number of indentation steps for messages shown during
-computation and extraction of various data elements.}
-    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
-computation and extraction of various data elements.}
     \item{\code{familiar_data_names}}{Names of the dataset(s). Only used if the \code{object} parameter
 is one or more \code{familiarData} objects.}
     \item{\code{collection_name}}{Name of the collection.}

@@ -264,7 +264,7 @@
   if(is.null(time_limit)) return(TRUE)
   
   # Compute time spent optimising.
-  optimisation_time <- as.numeric(Sys.time() - start_time)
+  optimisation_time <- as.numeric(difftime(Sys.time(), start_time, units="mins"))
   
   # Check if there still is time left.
   if(optimisation_time < time_limit) return(TRUE)
@@ -363,12 +363,7 @@
   if(is.list(object)) object <- object[[sample(x=seq_along(object), size=1L)]]
   
   # Compute variable importance.
-  vimp_table <- .vimp(object=object, data=data)
-  
-  # Rename columns.
-  data.table::setnames(vimp_table,
-                       old=c("score", "rank"),
-                       new=c("aggr_score", "aggr_rank"))
+  vimp_table <- get_vimp_table(.vimp(object=object, data=data))
   
   return(vimp_table)
 }
@@ -499,19 +494,12 @@
   
   # Update the familiar model (for variable importance)
   object@hyperparameters <- parameter_list
+  
   # Set signature.
-  if(!is_empty(rank_table)){
-    object <- set_signature(object=object,
-                            rank_table=rank_table,
-                            minimise_footprint=TRUE)
-    
-  } else {
-    object <- set_signature(object=object,
-                            signature_features=get_feature_columns(data),
-                            minimise_footprint=TRUE)
-    
-  }
-
+  object <- set_signature(object=object,
+                          rank_table=rank_table,
+                          minimise_footprint=TRUE)
+  
   # Train model with the set of hyperparameters.
   object <- .train(object=object,
                    data=data_training,

@@ -15,7 +15,7 @@ class of learner-specific child classes.
 \item{\code{name}}{Name of the familiarModel object.}
 
 \item{\code{model}}{The actual model trained using a specific algorithm, e.g. a
-random forest from the `ranger` package, or a LASSO model from `glmnet`.}
+random forest from the \code{ranger} package, or a LASSO model from \code{glmnet}.}
 
 \item{\code{outcome_type}}{Outcome type of the data used to create the object.}
 
@@ -65,7 +65,7 @@ internally.}
 model creation. These are used as default parameters when evaluating the
 model (technically, familiarEnsemble) to create a familiarData object.}
 
-\item{\code{is_trimmed}}{Flag that indicates whether the model, stored in the `model`
+\item{\code{is_trimmed}}{Flag that indicates whether the model, stored in the \code{model}
 slot, has been trimmed.}
 
 \item{\code{trimmed_function}}{List of functions whose output has been captured prior
@@ -79,9 +79,9 @@ object.}
 \item{\code{familiar_version}}{Version of the familiar package.}
 
 \item{\code{package}}{Name of package(s) required to executed the model itself, e.g.
-`ranger` or `glmnet`.}
+\code{ranger} or \code{glmnet}.}
 
-\item{\code{package_version}}{Version of the packages mentioned in the `package`
+\item{\code{package_version}}{Version of the packages mentioned in the \code{package}
 attribute.}
 }}
 

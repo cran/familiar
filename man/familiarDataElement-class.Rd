@@ -6,8 +6,8 @@
 \title{Data container for evaluation data.}
 \description{
 Most attributes of the familiarData object are objects of the
- familiarDataElement class. This (super-)class is used to allow for
- standardised aggregation and processing of evaluation data.
+familiarDataElement class. This (super-)class is used to allow for
+standardised aggregation and processing of evaluation data.
 }
 \section{Slots}{
 
@@ -18,83 +18,81 @@ Most attributes of the familiarData object are objects of the
 learner, etc.}
 
 \item{\code{detail_level}}{Sets the level at which results are computed and
- aggregated.
+aggregated.
+\itemize{
+\item \code{ensemble}: Results are computed at the ensemble level, i.e. over all
+models in the ensemble. This means that, for example, bias-corrected
+estimates of model performance are assessed by creating (at least) 20
+bootstraps and computing the model performance of the ensemble model for
+each bootstrap.
+\item \code{hybrid} (default): Results are computed at the level of models in an
+ensemble. This means that, for example, bias-corrected estimates of model
+performance are directly computed using the models in the ensemble. If there
+are at least 20 trained models in the ensemble, performance is computed for
+each model, in contrast to \code{ensemble} where performance is computed for the
+ensemble of models. If there are less than 20 trained models in the
+ensemble, bootstraps are created so that at least 20 point estimates can be
+made.
+\item \code{model}: Results are computed at the model level. This means that, for
+example, bias-corrected estimates of model performance are assessed by
+creating (at least) 20 bootstraps and computing the performance of the model
+for each bootstrap.
+}
 
- * `ensemble`: Results are computed at the ensemble level, i.e. over all
- models in the ensemble. This means that, for example, bias-corrected
- estimates of model performance are assessed by creating (at least) 20
- bootstraps and computing the model performance of the ensemble model for
- each bootstrap.
+Note that each level of detail has a different interpretation for bootstrap
+confidence intervals. For \code{ensemble} and \code{model} these are the confidence
+intervals for the ensemble and an individual model, respectively. That is,
+the confidence interval describes the range where an estimate produced by a
+respective ensemble or model trained on a repeat of the experiment may be
+found with the probability of the confidence level. For \code{hybrid}, it
+represents the range where any single model trained on a repeat of the
+experiment may be found with the probability of the confidence level. By
+definition, confidence intervals obtained using \code{hybrid} are at least as
+wide as those for \code{ensemble}. \code{hybrid} offers the correct interpretation if
+the goal of the analysis is to assess the result of a single, unspecified,
+model.
 
- * `hybrid` (default): Results are computed at the level of models in an
- ensemble. This means that, for example, bias-corrected estimates of model
- performance are directly computed using the models in the ensemble. If there
- are at least 20 trained models in the ensemble, performance is computed for
- each model, in contrast to `ensemble` where performance is computed for the
- ensemble of models. If there are less than 20 trained models in the
- ensemble, bootstraps are created so that at least 20 point estimates can be
- made.
-
- * `model`: Results are computed at the model level. This means that, for
- example, bias-corrected estimates of model performance are assessed by
- creating (at least) 20 bootstraps and computing the performance of the model
- for each bootstrap.
-
- Note that each level of detail has a different interpretation for bootstrap
- confidence intervals. For `ensemble` and `model` these are the confidence
- intervals for the ensemble and an individual model, respectively. That is,
- the confidence interval describes the range where an estimate produced by a
- respective ensemble or model trained on a repeat of the experiment may be
- found with the probability of the confidence level. For `hybrid`, it
- represents the range where any single model trained on a repeat of the
- experiment may be found with the probability of the confidence level. By
- definition, confidence intervals obtained using `hybrid` are at least as
- wide as those for `ensemble`. `hybrid` offers the correct interpretation if
- the goal of the analysis is to assess the result of a single, unspecified,
- model.
-
- Some child classes do not use this parameter.}
+Some child classes do not use this parameter.}
 
 \item{\code{estimation_type}}{Sets the type of estimation that should be possible.
- This has the following options:
+This has the following options:
+\itemize{
+\item \code{point}: Point estimates.
+\item \code{bias_correction} or \code{bc}: Bias-corrected estimates. A bias-corrected
+estimate is computed from (at least) 20 point estimates, and \code{familiar} may
+bootstrap the data to create them.
+\item \code{bootstrap_confidence_interval} or \code{bci} (default): Bias-corrected
+estimates with bootstrap confidence intervals (Efron and Hastie, 2016). The
+number of point estimates required depends on the \code{confidence_level}
+parameter, and \code{familiar} may bootstrap the data to create them.
+}
 
- * `point`: Point estimates.
+Some child classes do not use this parameter.}
 
- * `bias_correction` or `bc`: Bias-corrected estimates. A bias-corrected
- estimate is computed from (at least) 20 point estimates, and `familiar` may
- bootstrap the data to create them.
-
- * `bootstrap_confidence_interval` or `bci` (default): Bias-corrected
- estimates with bootstrap confidence intervals (Efron and Hastie, 2016). The
- number of point estimates required depends on the `confidence_level`
- parameter, and `familiar` may bootstrap the data to create them.
-
- Some child classes do not use this parameter.}
-
-\item{\code{confidence_level}}{(*optional*) Numeric value for the level at which
+\item{\code{confidence_level}}{(\emph{optional}) Numeric value for the level at which
 confidence intervals are determined. In the case bootstraps are used to
-determine the confidence intervals bootstrap estimation, `familiar` uses the
+determine the confidence intervals bootstrap estimation, \code{familiar} uses the
 rule of thumb \eqn{n = 20 / ci.level} to determine the number of required
 bootstraps.}
 
 \item{\code{bootstrap_ci_method}}{Method used to determine bootstrap confidence
- intervals (Efron and Hastie, 2016). The following methods are implemented:
+intervals (Efron and Hastie, 2016). The following methods are implemented:
+\itemize{
+\item \code{percentile} (default): Confidence intervals obtained using the percentile
+method.
+\item \code{bc}: Bias-corrected confidence intervals.
+}
 
- * `percentile` (default): Confidence intervals obtained using the percentile
- method.
+Note that the standard method is not implemented because this method is
+often not suitable due to non-normal distributions. The bias-corrected and
+accelerated (BCa) method is not implemented yet.}
 
- * `bc`: Bias-corrected confidence intervals.
-
- Note that the standard method is not implemented because this method is
- often not suitable due to non-normal distributions. The bias-corrected and
- accelerated (BCa) method is not implemented yet.}
-
-\item{\code{value_column}}{Identifies column(s) in the `data` attribute presenting
+\item{\code{value_column}}{Identifies column(s) in the \code{data} attribute presenting
 values.}
 
-\item{\code{grouping_column}}{Identifies column(s) in the `data` attribute presenting
+\item{\code{grouping_column}}{Identifies column(s) in the \code{data} attribute presenting
 identifier columns for grouping during aggregation. Familiar will
-automatically assign items from the `identifiers` attribute to the data and
+automatically assign items from the \code{identifiers} attribute to the data and
 this attribute when combining multiple familiarDataElements of the same
 (child) class.}
 
@@ -102,6 +100,8 @@ this attribute when combining multiple familiarDataElements of the same
 }}
 
 \references{
-1. Efron, B. & Hastie, T. Computer Age Statistical Inference.
- (Cambridge University Press, 2016).
+\enumerate{
+\item Efron, B. & Hastie, T. Computer Age Statistical Inference.
+(Cambridge University Press, 2016).
+}
 }

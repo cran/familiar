@@ -263,6 +263,9 @@ setMethod("plot_calibration_data", signature(object="familiarCollection"),
             # Suppress NOTES due to non-standard evaluation in data.table
             .NATURAL <- NULL
             
+            # Make sure the collection object is updated.
+            object <- update_object(object=object)
+            
             # Get input data
             x <- export_calibration_data(object=object,
                                          aggregate_results=TRUE)
@@ -849,10 +852,6 @@ setMethod("plot_calibration_data", signature(object="familiarCollection"),
   
   # Plot confidence intervals
   if(conf_int_style[1]!="none"){
-    
-    # Limit ci_low and ci_up to y_range.
-    x[ci_low < y_range[1] & ci_up > y_range[1], "ci_low":=y_range[1]]
-    x[ci_up > y_range[2] & ci_low < y_range[2], "ci_up":=y_range[2]]
     
     if(conf_int_style[1] == "step"){
       if(is.null(color_by)){

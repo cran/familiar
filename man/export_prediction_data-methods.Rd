@@ -26,11 +26,16 @@ will allow export as a structured list of data.tables.}
   \describe{
     \item{\code{data}}{A \code{dataObject} object, \code{data.table} or \code{data.frame} that
 constitutes the data that are assessed.}
-    \item{\code{cl}}{Cluster created using the \code{parallel} package. This cluster is then
-used to speed up computation through parallellisation.}
     \item{\code{is_pre_processed}}{Flag that indicates whether the data was already
 pre-processed externally, e.g. normalised and clustered. Only used if the
 \code{data} argument is a \code{data.table} or \code{data.frame}.}
+    \item{\code{cl}}{Cluster created using the \code{parallel} package. This cluster is then
+used to speed up computation through parallellisation.}
+    \item{\code{evaluation_times}}{One or more time points that are used for in analysis of
+survival problems when data has to be assessed at a set time, e.g.
+calibration. If not provided explicitly, this parameter is read from
+settings used at creation of the underlying \code{familiarModel} objects. Only
+used for \code{survival} outcomes.}
     \item{\code{ensemble_method}}{Method for ensembling predictions from models for the
 same sample. Available methods are:
 \itemize{
@@ -39,11 +44,10 @@ value for a sample.
 \item \code{mean}: Use the mean of the predicted values as the ensemble value for a
 sample.
 }}
-    \item{\code{evaluation_times}}{One or more time points that are used for in analysis of
-survival problems when data has to be assessed at a set time, e.g.
-calibration. If not provided explicitly, this parameter is read from
-settings used at creation of the underlying \code{familiarModel} objects. Only
-used for \code{survival} outcomes.}
+    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
+computation and extraction of various data elements.}
+    \item{\code{message_indent}}{Number of indentation steps for messages shown during
+computation and extraction of various data elements.}
     \item{\code{detail_level}}{(\emph{optional}) Sets the level at which results are computed
 and aggregated.
 \itemize{
@@ -129,10 +133,6 @@ rule of thumb \eqn{n = 20 / ci.level} to determine the number of required
 bootstraps.
 
 The default value is \code{0.95}.}
-    \item{\code{message_indent}}{Number of indentation steps for messages shown during
-computation and extraction of various data elements.}
-    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
-computation and extraction of various data elements.}
     \item{\code{familiar_data_names}}{Names of the dataset(s). Only used if the \code{object} parameter
 is one or more \code{familiarData} objects.}
     \item{\code{collection_name}}{Name of the collection.}

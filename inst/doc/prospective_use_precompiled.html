@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-04-07" />
+<meta name="date" content="2022-08-12" />
 
 <title>Using familiar prospectively</title>
 
@@ -335,19 +335,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Using familiar prospectively</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-04-07</h4>
+<h4 class="date">2022-08-12</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#using-models-prospectively">Using models
-prospectively</a></li>
-<li><a href="#using-ensembles-of-models-prospectively">Using ensembles
-of models prospectively</a></li>
-<li><a href="#customising-exports-and-plots">Customising exports and
-plots</a>
+<li><a href="#using-models-prospectively" id="toc-using-models-prospectively">Using models prospectively</a></li>
+<li><a href="#using-ensembles-of-models-prospectively" id="toc-using-ensembles-of-models-prospectively">Using ensembles of
+models prospectively</a></li>
+<li><a href="#customising-exports-and-plots" id="toc-customising-exports-and-plots">Customising exports and plots</a>
 <ul>
-<li><a href="#exporting-collections">Exporting collections</a></li>
+<li><a href="#exporting-collections" id="toc-exporting-collections">Exporting collections</a></li>
 </ul></li>
 </ul>
 </div>
@@ -438,9 +436,12 @@ will also only compute point estimates during evaluation (see the
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># List files present in the directory.</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(model_directory_path)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;20220407171238_hyperparameters_lasso_none_2_1.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_2.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_3.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_4.RDS&quot;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;20220407171238_hyperparameters_lasso_none_2_5.RDS&quot; &quot;20220407171238_lasso_none_1_1_ensemble.RDS&quot;        &quot;20220407171238_lasso_none_2_1_model.RDS&quot;           &quot;20220407171238_lasso_none_2_2_model.RDS&quot;          </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;20220407171238_lasso_none_2_3_model.RDS&quot;           &quot;20220407171238_lasso_none_2_4_model.RDS&quot;           &quot;20220407171238_lasso_none_2_5_model.RDS&quot;</span></span></code></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;20220812142127_hyperparameters_lasso_none_2_1.RDS&quot; &quot;20220812142127_hyperparameters_lasso_none_2_2.RDS&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;20220812142127_hyperparameters_lasso_none_2_3.RDS&quot; &quot;20220812142127_hyperparameters_lasso_none_2_4.RDS&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;20220812142127_hyperparameters_lasso_none_2_5.RDS&quot; &quot;20220812142127_lasso_none_1_1_ensemble.RDS&quot;       </span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;20220812142127_lasso_none_2_1_model.RDS&quot;           &quot;20220812142127_lasso_none_2_2_model.RDS&quot;          </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;20220812142127_lasso_none_2_3_model.RDS&quot;           &quot;20220812142127_lasso_none_2_4_model.RDS&quot;          </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;20220812142127_lasso_none_2_5_model.RDS&quot;</span></span></code></pre></div>
 <p>There are 5 models in the directory, which are stored in RDS format
 in files ending with <code>*_model.RDS</code>. We can inspect the first
 model in the directory.</p>
@@ -450,7 +451,7 @@ model in the directory.</p>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the model.</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model_path)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A lasso model (class: familiarGLMnetLasso; v1.1.0) trained using glmnet (v4.1.3) package.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A lasso model (class: familiarGLMnetLasso; v1.2.0) trained using glmnet (v4.1.4) package.</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------- Model details ---------------</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -472,20 +473,20 @@ model in the directory.</p>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Variable importance was determined using the none variable importance method.</span></span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following features were used in the model:</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; previous_premature_labours (numeric).</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ethnicity (categorical), with levels: white (reference), black and other.</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_mother (numeric):</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with &lt;U+03BB&gt; = -0.8.</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 1.15040432726622 and scale = 0.0170214246457444.</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; smoking_during_pregnancy (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hypertension_history (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; physician_visits_first_trimester (numeric):</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with &lt;U+03BB&gt; = -0.8.</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 0.313192082386248 and scale = 0.324948104478325.</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; uterine_irritability (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight_mother_before_pregnancy (numeric):</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with &lt;U+03BB&gt; = -1.2.</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 0.830774795606794 and scale = 0.00055659494321713.</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_mother (numeric):</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with λ = -0.8.</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 1.15040432726622 and scale = 0.0170214246457444.</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight_mother_before_pregnancy (numeric):</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with λ = -1.2.</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 0.830774795606794 and scale = 0.00055659494321713.</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ethnicity (categorical), with levels: white (reference), black and other.</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; smoking_during_pregnancy (categorical), with levels: no (reference) and yes.</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; physician_visits_first_trimester (numeric):</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   transformation (yeo_johnson) with λ = -0.8.</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   normalisation (standardisation) with shift = 0.313192082386248 and scale = 0.324948104478325.</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; previous_premature_labours (numeric).</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hypertension_history (categorical), with levels: no (reference) and yes.</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; uterine_irritability (categorical), with levels: no (reference) and yes.</span></span>
 <span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A novelty detector was trained using the model features.</span></span></code></pre></div>
 <p>This model can then be used to predict values for a given dataset,
@@ -530,17 +531,17 @@ more threshold values by setting the
 <p>For example, we can predict novelty of the samples as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(<span class="at">object=</span>model, <span class="at">newdata=</span>data, <span class="at">type=</span><span class="st">&quot;novelty&quot;</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        novelty</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1: 0.5516226</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2: 0.4990168</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3: 0.4284058</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4: 0.5470531</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5: 0.5342916</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1: 0.5405158</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2: 0.5189630</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3: 0.4321431</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4: 0.5457869</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5: 0.5327412</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ---          </span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185: 0.4836259</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186: 0.5527352</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187: 0.4956612</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188: 0.5587405</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189: 0.5180092</span></span></code></pre></div>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185: 0.5043111</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186: 0.5929287</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187: 0.4849340</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188: 0.5315313</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189: 0.5354449</span></span></code></pre></div>
 <p>More powerful however, is the ability to perform any of the
 evaluation and explanation steps for a new dataset, including new
 settings. By default, all evaluation and explanation steps are conducted
@@ -553,7 +554,8 @@ accuracy for the model.</p>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">facet_by=</span><span class="st">&quot;metric&quot;</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">data=</span>data[batch_id<span class="sc">==</span><span class="st">&quot;validation&quot;</span>],</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">metric=</span><span class="fu">c</span>(<span class="st">&quot;auc&quot;</span>, <span class="st">&quot;accuracy&quot;</span>))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in (new(&quot;standardGeneric&quot;, .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence interval estimates instead of point estimates.</span></span></code></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in (new(&quot;standardGeneric&quot;, .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; interval estimates instead of point estimates.</span></span></code></pre></div>
 <p>You may notice that no plot is produced. This is because the type of
 plot <code>violin_plot</code> and the <code>estimation_type</code>
 inherited from the model are incompatible. However, nothing prevents us
@@ -591,9 +593,12 @@ subdirectory of the <code>trained_models</code> folder as their
 constituent models:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List files present in the directory.</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(model_directory_path)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;20220407171238_hyperparameters_lasso_none_2_1.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_2.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_3.RDS&quot; &quot;20220407171238_hyperparameters_lasso_none_2_4.RDS&quot;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;20220407171238_hyperparameters_lasso_none_2_5.RDS&quot; &quot;20220407171238_lasso_none_1_1_ensemble.RDS&quot;        &quot;20220407171238_lasso_none_2_1_model.RDS&quot;           &quot;20220407171238_lasso_none_2_2_model.RDS&quot;          </span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;20220407171238_lasso_none_2_3_model.RDS&quot;           &quot;20220407171238_lasso_none_2_4_model.RDS&quot;           &quot;20220407171238_lasso_none_2_5_model.RDS&quot;</span></span></code></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;20220812142127_hyperparameters_lasso_none_2_1.RDS&quot; &quot;20220812142127_hyperparameters_lasso_none_2_2.RDS&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;20220812142127_hyperparameters_lasso_none_2_3.RDS&quot; &quot;20220812142127_hyperparameters_lasso_none_2_4.RDS&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;20220812142127_hyperparameters_lasso_none_2_5.RDS&quot; &quot;20220812142127_lasso_none_1_1_ensemble.RDS&quot;       </span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;20220812142127_lasso_none_2_1_model.RDS&quot;           &quot;20220812142127_lasso_none_2_2_model.RDS&quot;          </span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;20220812142127_lasso_none_2_3_model.RDS&quot;           &quot;20220812142127_lasso_none_2_4_model.RDS&quot;          </span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;20220812142127_lasso_none_2_5_model.RDS&quot;</span></span></code></pre></div>
 <p>In this case there is only one ensemble in the directory, which is
 stored in RDS format in a file ending with <code>*_ensemble.RDS</code>.
 Some alternative experiment designs, e.g. ones involving
@@ -605,7 +610,7 @@ inspect the ensemble in the directory.</p>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the model.</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ensemble <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(ensemble_path)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ensemble</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; An ensemble of 5 lasso models (v1.1.0).</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; An ensemble of 5 lasso models (v1.2.0).</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following outcome was modelled:</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; birth_weight (binomial), with classes: normal (reference) and low.</span></span>
@@ -613,28 +618,28 @@ inspect the ensemble in the directory.</p>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Variable importance was determined using the none variable importance method.</span></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following features were used in the ensemble:</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; previous_premature_labours (numeric).</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ethnicity (categorical), with levels: white (reference), black and other.</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_mother (numeric).</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_mother (numeric).</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight_mother_before_pregnancy (numeric).</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ethnicity (categorical), with levels: white (reference), black and other.</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; smoking_during_pregnancy (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hypertension_history (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; physician_visits_first_trimester (numeric).</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; uterine_irritability (categorical), with levels: no (reference) and yes.</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight_mother_before_pregnancy (numeric).</span></span></code></pre></div>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; physician_visits_first_trimester (numeric).</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; previous_premature_labours (numeric).</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hypertension_history (categorical), with levels: no (reference) and yes.</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; uterine_irritability (categorical), with levels: no (reference) and yes.</span></span></code></pre></div>
 <p>One can use ensembles of models for prediction:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(<span class="at">object=</span>ensemble, <span class="at">newdata=</span>data)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      predicted_class_probability_normal predicted_class_probability_low predicted_class</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1:                          0.3895135                       0.6104865             low</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2:                          0.7774048                       0.2225952          normal</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3:                          0.3768794                       0.6231206             low</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4:                          0.3399216                       0.6600784             low</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5:                          0.2783538                       0.7216462             low</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2:                          0.7774049                       0.2225951          normal</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3:                          0.3768812                       0.6231188             low</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4:                          0.3399229                       0.6600771             low</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5:                          0.2783554                       0.7216446             low</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ---                                                                                   </span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185:                          0.5286951                       0.4713049          normal</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186:                          0.4283572                       0.5716428             low</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187:                          0.3315968                       0.6684032             low</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188:                          0.3735422                       0.6264578             low</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189:                          0.3906784                       0.6093216             low</span></span></code></pre></div>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187:                          0.3315960                       0.6684040             low</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188:                          0.3735415                       0.6264585             low</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189:                          0.3906818                       0.6093182             low</span></span></code></pre></div>
 <p>Ensembles behave similarly to models during evaluation and
 explanation steps:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_model_performance</span>(<span class="at">object=</span>ensemble,</span>
@@ -676,7 +681,8 @@ methods.</p>
 the processed evaluation data derived from a particular data set and are
 found in the <code>familiar_data</code> folder.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_data&quot;</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;20220407171238_lasso_none_1_1_ensemble_1_1_validation_data.RDS&quot; &quot;20220407171238_lasso_none_1_1_pool_1_1_development_data.RDS&quot;    &quot;20220407171238_lasso_none_1_1_pool_1_1_validation_data.RDS&quot;</span></span></code></pre></div>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;20220812142127_lasso_none_1_1_ensemble_1_1_validation_data.RDS&quot; &quot;20220812142127_lasso_none_1_1_pool_1_1_development_data.RDS&quot;   </span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;20220812142127_lasso_none_1_1_pool_1_1_validation_data.RDS&quot;</span></span></code></pre></div>
 <p>In our example, we generated three data objects: one for internal
 development, one for internal validation, and one for external
 validation data. These separate data objects are collected in a

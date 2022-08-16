@@ -84,23 +84,23 @@ collection.}
 collection.}
 
 \item{\code{data_set_labels}}{Labels for the different datasets in the collection.
-See `get_data_set_names` and `set_data_set_names`.}
+See \code{get_data_set_names} and \code{set_data_set_names}.}
 
 \item{\code{learner_labels}}{Labels for the different learning algorithms used to
-create the collection. See `get_learner_names` and `set_learner_names`.}
+create the collection. See \code{get_learner_names} and \code{set_learner_names}.}
 
 \item{\code{fs_method_labels}}{Labels for the different feature selection methods
-used to create the collection. See `get_fs_method_names` and
-`set_fs_method_names`.}
+used to create the collection. See \code{get_fs_method_names} and
+\code{set_fs_method_names}.}
 
 \item{\code{feature_labels}}{Labels for the features in this collection. See
-`get_feature_names` and `set_feature_names`.}
+\code{get_feature_names} and \code{set_feature_names}.}
 
 \item{\code{km_group_labels}}{Labels for the risk strata in this collection. See
-`get_risk_group_names` and `set_risk_group_names`.}
+\code{get_risk_group_names} and \code{set_risk_group_names}.}
 
-\item{\code{class_labels}}{Labels of the response variable. See `get_class_names` and
-`set_class_names`.}
+\item{\code{class_labels}}{Labels of the response variable. See \code{get_class_names} and
+\code{set_class_names}.}
 
 \item{\code{project_id}}{Identifier of the project that generated this collection.}
 

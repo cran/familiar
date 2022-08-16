@@ -6,6 +6,12 @@
 \alias{update_object,familiarEnsemble-method}
 \alias{update_object,familiarData-method}
 \alias{update_object,familiarCollection-method}
+\alias{update_object,vimpTable-method}
+\alias{update_object,familiarNoveltyDetector-method}
+\alias{update_object,featureInfo-method}
+\alias{update_object,experimentData-method}
+\alias{update_object,list-method}
+\alias{update_object,ANY-method}
 \title{Update familiar S4 objects to the most recent version.}
 \usage{
 update_object(object, ...)
@@ -17,6 +23,18 @@ update_object(object, ...)
 \S4method{update_object}{familiarData}(object, ...)
 
 \S4method{update_object}{familiarCollection}(object, ...)
+
+\S4method{update_object}{vimpTable}(object, ...)
+
+\S4method{update_object}{familiarNoveltyDetector}(object, ...)
+
+\S4method{update_object}{featureInfo}(object, ...)
+
+\S4method{update_object}{experimentData}(object, ...)
+
+\S4method{update_object}{list}(object, ...)
+
+\S4method{update_object}{ANY}(object, ...)
 }
 \arguments{
 \item{object}{A \code{familiarModel}, a \code{familiarEnsemble}, a \code{familiarData} or

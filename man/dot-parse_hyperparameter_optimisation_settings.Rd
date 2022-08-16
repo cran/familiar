@@ -17,6 +17,7 @@ optimisation}
   smbo_stop_convergent_iterations = waiver(),
   smbo_stop_tolerance = waiver(),
   smbo_time_limit = waiver(),
+  smbo_initial_bootstraps = waiver(),
   smbo_step_bootstraps = waiver(),
   smbo_intensify_steps = waiver(),
   smbo_stochastic_reject_p_value = waiver(),
@@ -122,9 +123,16 @@ Time taken to determine variable importance for the optimisation process
 The default is \code{NULL}, indicating that there is no time limit for the
 optimisation process. The time limit cannot be less than 1 minute.}
 
+\item{smbo_initial_bootstraps}{(\emph{optional}) The number of bootstraps taken
+from the set of \code{optimisation_bootstraps} as the bootstraps assessed
+initially.
+
+The default value is \code{1}. The value cannot be larger than
+\code{optimisation_bootstraps}.}
+
 \item{smbo_step_bootstraps}{(\emph{optional}) The number of bootstraps taken from
-the set of \code{optimisation_bootstraps} bootstraps as data for the initial
-SMBO step and the steps in each intensify iteration.
+the set of \code{optimisation_bootstraps} bootstraps as the bootstraps assessed
+during the steps of each intensify iteration.
 
 The default value is \code{3}. The value cannot be larger than
 \code{optimisation_bootstraps}.}
@@ -145,21 +153,33 @@ The default value is \code{0.05}.}
 \item{optimisation_function}{(\emph{optional}) Type of optimisation function used
 to quantify the performance of a hyperparameter set. Model performance is
 assessed using the metric(s) specified by \code{optimisation_metric} on the
-in-bag and out-of-bag samples of a bootstrap. These values are converted to
-objective scores with a standardised interval of \eqn{[-1.0, 1.0]}, and are
-referred to as \eqn{s'_{ib}} and \eqn{s'_{oob}}, respectively. The function
-indicated by \code{optimisation_function} computes a objective score from each
-pair of values:
+in-bag (IB) and out-of-bag (OOB) samples of a bootstrap. These values are
+converted to objective scores with a standardised interval of \eqn{[-1.0,
+  1.0]}. Each pair of objective is subsequently used to compute an
+optimisation score. The optimisation score across different bootstraps is
+than aggregated to a summary score. This summary score is used to rank
+hyperparameter sets, and select the optimal set.
+
+The combination of optimisation score and summary score is determined by
+the optimisation function indicated by this parameter:
 \itemize{
-\item \code{max_validation}: Uses the out-of-bag validation objective score
-\eqn{s'_{oob}} as optimisation score. This function is widely used in
-machine learning.
-\item \code{balanced} (default): Computes \eqn{s'_{oob} - |s'_{oob} - s'_{ib}|}.
-This function forces the algorithm to consider hyperparameter sets that
-perform well on both development and validation data.
-\item \code{stronger_balance}: Computes \eqn{s'_{oob} - 2.0 |s'_{oob} - s'_{ib}|}.
-Stronger penalty than in the \code{balanced} objective.
-}}
+\item \code{validation} or \code{max_validation} (default): seeks to maximise OOB score.
+\item \code{balanced}: seeks to balance IB and OOB score.
+\item \code{stronger_balance}: similar to \code{balanced}, but with stronger penalty for
+differences between IB and OOB scores.
+\item \code{validation_minus_sd}: seeks to optimise the average OOB score minus its
+standard deviation.
+\item \code{validation_25th_percentile}: seeks to optimise the 25th percentile of
+OOB scores, and is conceptually similar to \code{validation_minus_sd}.
+\item \code{model_estimate}: seeks to maximise the OOB score estimate predicted by
+the hyperparameter learner (not available for random search).
+\item \code{model_estimate_minus_sd}: seeks to maximise the OOB score estimate minus
+its estimated standard deviation, as predicted by the hyperparameter
+learner (not available for random search).
+}
+
+Additional detail are provided in the \emph{Learning algorithms and
+hyperparameter optimisation} vignette.}
 
 \item{optimisation_metric}{(\emph{optional}) One or more metrics used to compute
 performance scores. See the vignette on performance metrics for the

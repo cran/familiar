@@ -242,9 +242,9 @@ be \code{TRUE}, \code{FALSE}, \code{NULL}, or a position, i.e. \code{top}, \code
 dendrograms are not on opposite sides of the heatmap: \code{top} and \code{bottom},
 and \code{left} and \code{right} cannot be used together.
 
-A dendrogram can only be drawn from cluster methods that produce dendograms,
-such as \code{hclust}. A dendogram can for example not be constructed using the
-partioning around medioids method (\code{pam}).
+A dendrogram can only be drawn from cluster methods that produce
+dendrograms, such as \code{hclust}. A dendrogram can for example not be
+constructed using the partitioning around medioids method (\code{pam}).
 
 By default, a dendrogram is drawn to the top and right of the panel.}
 
@@ -286,8 +286,23 @@ specifying dimensions in pixels.}
 from the plot theme.}
     \item{\code{data}}{A \code{dataObject} object, \code{data.table} or \code{data.frame} that
 constitutes the data that are assessed.}
+    \item{\code{is_pre_processed}}{Flag that indicates whether the data was already
+pre-processed externally, e.g. normalised and clustered. Only used if the
+\code{data} argument is a \code{data.table} or \code{data.frame}.}
     \item{\code{cl}}{Cluster created using the \code{parallel} package. This cluster is then
 used to speed up computation through parallellisation.}
+    \item{\code{feature_similarity_metric}}{Metric to determine pairwise similarity
+between features. Similarity is computed in the same manner as for
+clustering, and \code{feature_similarity_metric} therefore has the same options
+as \code{cluster_similarity_metric}: \code{mcfadden_r2}, \code{cox_snell_r2},
+\code{nagelkerke_r2}, \code{spearman}, \code{kendall} and \code{pearson}.
+
+If not provided explicitly, this parameter is read from settings used at
+creation of the underlying \code{familiarModel} objects.}
+    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
+computation and extraction of various data elements.}
+    \item{\code{message_indent}}{Number of indentation steps for messages shown during
+computation and extraction of various data elements.}
     \item{\code{estimation_type}}{(\emph{optional}) Sets the type of estimation that should be
 possible. This has the following options:
 \itemize{
@@ -341,21 +356,6 @@ method.
 Note that the standard method is not implemented because this method is
 often not suitable due to non-normal distributions. The bias-corrected and
 accelerated (BCa) method is not implemented yet.}
-    \item{\code{is_pre_processed}}{Flag that indicates whether the data was already
-pre-processed externally, e.g. normalised and clustered. Only used if the
-\code{data} argument is a \code{data.table} or \code{data.frame}.}
-    \item{\code{feature_similarity_metric}}{Metric to determine pairwise similarity
-between features. Similarity is computed in the same manner as for
-clustering, and \code{feature_similarity_metric} therefore has the same options
-as \code{cluster_similarity_metric}: \code{mcfadden_r2}, \code{cox_snell_r2},
-\code{nagelkerke_r2}, \code{spearman}, \code{kendall} and \code{pearson}.
-
-If not provided explicitly, this parameter is read from settings used at
-creation of the underlying \code{familiarModel} objects.}
-    \item{\code{verbose}}{Flag to indicate whether feedback should be provided on the
-computation and extraction of various data elements.}
-    \item{\code{message_indent}}{Number of indentation steps for messages shown during
-computation and extraction of various data elements.}
   }}
 }
 \value{

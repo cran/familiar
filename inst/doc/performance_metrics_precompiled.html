@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-04-07" />
+<meta name="date" content="2022-08-12" />
 
 <title>Performance metrics</title>
 
@@ -262,60 +262,66 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Performance metrics</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-04-07</h4>
+<h4 class="date">2022-08-12</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#categorical-outcomes">Categorical outcomes</a>
+<li><a href="#categorical-outcomes" id="toc-categorical-outcomes">Categorical outcomes</a>
 <ul>
-<li><a href="#area-under-the-receiver-operating-curve">Area under the
+<li><a href="#area-under-the-receiver-operating-curve" id="toc-area-under-the-receiver-operating-curve">Area under the
 receiver-operating curve</a></li>
-<li><a href="#brier-score">Brier score</a></li>
-<li><a href="#contingency-table-based-metrics">Contingency table-based
+<li><a href="#brier-score" id="toc-brier-score">Brier score</a></li>
+<li><a href="#contingency-table-based-metrics" id="toc-contingency-table-based-metrics">Contingency table-based
 metrics</a>
 <ul>
-<li><a href="#accuracy">Accuracy</a></li>
-<li><a href="#balanced-accuracy">Balanced accuracy</a></li>
-<li><a href="#balanced-error-rate">Balanced error rate</a></li>
-<li><a href="#f1-score">F1 score</a></li>
-<li><a href="#false-discovery-rate">False discovery rate</a></li>
-<li><a href="#informedness">Informedness</a></li>
-<li><a href="#cohens-kappa">Cohen’s kappa</a></li>
-<li><a href="#markedness">Markedness</a></li>
-<li><a href="#matthews-correlation-efficient">Matthews correlation
+<li><a href="#accuracy" id="toc-accuracy">Accuracy</a></li>
+<li><a href="#balanced-accuracy" id="toc-balanced-accuracy">Balanced
+accuracy</a></li>
+<li><a href="#balanced-error-rate" id="toc-balanced-error-rate">Balanced
+error rate</a></li>
+<li><a href="#f1-score" id="toc-f1-score">F1 score</a></li>
+<li><a href="#false-discovery-rate" id="toc-false-discovery-rate">False
+discovery rate</a></li>
+<li><a href="#informedness" id="toc-informedness">Informedness</a></li>
+<li><a href="#cohens-kappa" id="toc-cohens-kappa">Cohen’s kappa</a></li>
+<li><a href="#markedness" id="toc-markedness">Markedness</a></li>
+<li><a href="#matthews-correlation-efficient" id="toc-matthews-correlation-efficient">Matthews correlation
 efficient</a></li>
-<li><a href="#negative-predictive-value">Negative predictive
-value</a></li>
-<li><a href="#positive-predictive-value">Positive predictive
-value</a></li>
-<li><a href="#recall">Recall</a></li>
-<li><a href="#specificity">Specificity</a></li>
-<li><a href="#youdens-j-statistic">Youden’s J statistic</a></li>
+<li><a href="#negative-predictive-value" id="toc-negative-predictive-value">Negative predictive value</a></li>
+<li><a href="#positive-predictive-value" id="toc-positive-predictive-value">Positive predictive value</a></li>
+<li><a href="#recall" id="toc-recall">Recall</a></li>
+<li><a href="#specificity" id="toc-specificity">Specificity</a></li>
+<li><a href="#youdens-j-statistic" id="toc-youdens-j-statistic">Youden’s
+J statistic</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#regression-outcomes">Regression outcomes</a>
+<li><a href="#regression-outcomes" id="toc-regression-outcomes">Regression outcomes</a>
 <ul>
-<li><a href="#explained-variance">Explained variance</a></li>
-<li><a href="#mean-absolute-error">Mean absolute error</a></li>
-<li><a href="#relative-absolute-error">Relative absolute error</a></li>
-<li><a href="#mean-log-absolute-error">Mean log absolute error</a></li>
-<li><a href="#mean-squared-error">Mean squared error</a></li>
-<li><a href="#relative-squared-error">Relative squared error</a></li>
-<li><a href="#mean-squared-log-error">Mean squared log error</a></li>
-<li><a href="#median-absolute-error">Median absolute error</a></li>
-<li><a href="#r2-score">R<sup>2</sup> score</a></li>
-<li><a href="#root-mean-square-error">Root mean square error</a></li>
-<li><a href="#root-relative-squared-error">Root relative squared
+<li><a href="#explained-variance" id="toc-explained-variance">Explained
+variance</a></li>
+<li><a href="#mean-absolute-error" id="toc-mean-absolute-error">Mean
+absolute error</a></li>
+<li><a href="#relative-absolute-error" id="toc-relative-absolute-error">Relative absolute error</a></li>
+<li><a href="#mean-log-absolute-error" id="toc-mean-log-absolute-error">Mean log absolute error</a></li>
+<li><a href="#mean-squared-error" id="toc-mean-squared-error">Mean
+squared error</a></li>
+<li><a href="#relative-squared-error" id="toc-relative-squared-error">Relative squared error</a></li>
+<li><a href="#mean-squared-log-error" id="toc-mean-squared-log-error">Mean squared log error</a></li>
+<li><a href="#median-absolute-error" id="toc-median-absolute-error">Median absolute error</a></li>
+<li><a href="#r2-score" id="toc-r2-score">R<sup>2</sup> score</a></li>
+<li><a href="#root-mean-square-error" id="toc-root-mean-square-error">Root mean square error</a></li>
+<li><a href="#root-relative-squared-error" id="toc-root-relative-squared-error">Root relative squared
 error</a></li>
-<li><a href="#root-mean-square-log-error">Root mean square log
-error</a></li>
+<li><a href="#root-mean-square-log-error" id="toc-root-mean-square-log-error">Root mean square log error</a></li>
 </ul></li>
-<li><a href="#survival-outcomes">Survival outcomes</a>
+<li><a href="#survival-outcomes" id="toc-survival-outcomes">Survival
+outcomes</a>
 <ul>
-<li><a href="#concordance-index">Concordance index</a></li>
+<li><a href="#concordance-index" id="toc-concordance-index">Concordance
+index</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul>
 </div>
 

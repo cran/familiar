@@ -1,7 +1,7 @@
 ---
 title: "Using familiar prospectively"
 author: "Alex Zwanenburg"
-date: "2022-04-07"
+date: "2022-08-12"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -128,9 +128,12 @@ model_directory_path <- file.path(tempdir(), "trained_models", "lasso", "none")
 
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20220407171238_hyperparameters_lasso_none_2_1.RDS" "20220407171238_hyperparameters_lasso_none_2_2.RDS" "20220407171238_hyperparameters_lasso_none_2_3.RDS" "20220407171238_hyperparameters_lasso_none_2_4.RDS"
-#>  [5] "20220407171238_hyperparameters_lasso_none_2_5.RDS" "20220407171238_lasso_none_1_1_ensemble.RDS"        "20220407171238_lasso_none_2_1_model.RDS"           "20220407171238_lasso_none_2_2_model.RDS"          
-#>  [9] "20220407171238_lasso_none_2_3_model.RDS"           "20220407171238_lasso_none_2_4_model.RDS"           "20220407171238_lasso_none_2_5_model.RDS"
+#>  [1] "20220812142127_hyperparameters_lasso_none_2_1.RDS" "20220812142127_hyperparameters_lasso_none_2_2.RDS"
+#>  [3] "20220812142127_hyperparameters_lasso_none_2_3.RDS" "20220812142127_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20220812142127_hyperparameters_lasso_none_2_5.RDS" "20220812142127_lasso_none_1_1_ensemble.RDS"       
+#>  [7] "20220812142127_lasso_none_2_1_model.RDS"           "20220812142127_lasso_none_2_2_model.RDS"          
+#>  [9] "20220812142127_lasso_none_2_3_model.RDS"           "20220812142127_lasso_none_2_4_model.RDS"          
+#> [11] "20220812142127_lasso_none_2_5_model.RDS"
 ```
 
 There are 5 models in the directory, which are stored in RDS format in files ending with `*_model.RDS`. We can inspect the first model in the directory.
@@ -143,7 +146,7 @@ model_path <- file.path(model_directory_path, list.files(model_directory_path, p
 # Load the model.
 model <- readRDS(model_path)
 model
-#> A lasso model (class: familiarGLMnetLasso; v1.1.0) trained using glmnet (v4.1.3) package.
+#> A lasso model (class: familiarGLMnetLasso; v1.2.0) trained using glmnet (v4.1.4) package.
 #> 
 #> --------------- Model details ---------------
 #> 
@@ -165,20 +168,20 @@ model
 #> Variable importance was determined using the none variable importance method.
 #> 
 #> The following features were used in the model:
-#> previous_premature_labours (numeric).
-#> ethnicity (categorical), with levels: white (reference), black and other.
 #> age_mother (numeric):
-#>   transformation (yeo_johnson) with <U+03BB> = -0.8.
+#>   transformation (yeo_johnson) with λ = -0.8.
 #>   normalisation (standardisation) with shift = 1.15040432726622 and scale = 0.0170214246457444.
-#> smoking_during_pregnancy (categorical), with levels: no (reference) and yes.
-#> hypertension_history (categorical), with levels: no (reference) and yes.
-#> physician_visits_first_trimester (numeric):
-#>   transformation (yeo_johnson) with <U+03BB> = -0.8.
-#>   normalisation (standardisation) with shift = 0.313192082386248 and scale = 0.324948104478325.
-#> uterine_irritability (categorical), with levels: no (reference) and yes.
 #> weight_mother_before_pregnancy (numeric):
-#>   transformation (yeo_johnson) with <U+03BB> = -1.2.
+#>   transformation (yeo_johnson) with λ = -1.2.
 #>   normalisation (standardisation) with shift = 0.830774795606794 and scale = 0.00055659494321713.
+#> ethnicity (categorical), with levels: white (reference), black and other.
+#> smoking_during_pregnancy (categorical), with levels: no (reference) and yes.
+#> physician_visits_first_trimester (numeric):
+#>   transformation (yeo_johnson) with λ = -0.8.
+#>   normalisation (standardisation) with shift = 0.313192082386248 and scale = 0.324948104478325.
+#> previous_premature_labours (numeric).
+#> hypertension_history (categorical), with levels: no (reference) and yes.
+#> uterine_irritability (categorical), with levels: no (reference) and yes.
 #> 
 #> A novelty detector was trained using the model features.
 ```
@@ -225,17 +228,17 @@ For example, we can predict novelty of the samples as follows:
 ```r
 predict(object=model, newdata=data, type="novelty")
 #>        novelty
-#>   1: 0.5516226
-#>   2: 0.4990168
-#>   3: 0.4284058
-#>   4: 0.5470531
-#>   5: 0.5342916
+#>   1: 0.5405158
+#>   2: 0.5189630
+#>   3: 0.4321431
+#>   4: 0.5457869
+#>   5: 0.5327412
 #>  ---          
-#> 185: 0.4836259
-#> 186: 0.5527352
-#> 187: 0.4956612
-#> 188: 0.5587405
-#> 189: 0.5180092
+#> 185: 0.5043111
+#> 186: 0.5929287
+#> 187: 0.4849340
+#> 188: 0.5315313
+#> 189: 0.5354449
 ```
 
 More powerful however, is the ability to perform any of the evaluation and
@@ -253,7 +256,8 @@ plots <- familiar::plot_model_performance(object=model,
                                           facet_by="metric",
                                           data=data[batch_id=="validation"],
                                           metric=c("auc", "accuracy"))
-#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence interval estimates instead of point estimates.
+#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence
+#> interval estimates instead of point estimates.
 ```
 
 You may notice that no plot is produced. This is because the type of plot
@@ -304,9 +308,12 @@ Model ensembles generated by familiar are stored in the same subdirectory of the
 ```r
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20220407171238_hyperparameters_lasso_none_2_1.RDS" "20220407171238_hyperparameters_lasso_none_2_2.RDS" "20220407171238_hyperparameters_lasso_none_2_3.RDS" "20220407171238_hyperparameters_lasso_none_2_4.RDS"
-#>  [5] "20220407171238_hyperparameters_lasso_none_2_5.RDS" "20220407171238_lasso_none_1_1_ensemble.RDS"        "20220407171238_lasso_none_2_1_model.RDS"           "20220407171238_lasso_none_2_2_model.RDS"          
-#>  [9] "20220407171238_lasso_none_2_3_model.RDS"           "20220407171238_lasso_none_2_4_model.RDS"           "20220407171238_lasso_none_2_5_model.RDS"
+#>  [1] "20220812142127_hyperparameters_lasso_none_2_1.RDS" "20220812142127_hyperparameters_lasso_none_2_2.RDS"
+#>  [3] "20220812142127_hyperparameters_lasso_none_2_3.RDS" "20220812142127_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20220812142127_hyperparameters_lasso_none_2_5.RDS" "20220812142127_lasso_none_1_1_ensemble.RDS"       
+#>  [7] "20220812142127_lasso_none_2_1_model.RDS"           "20220812142127_lasso_none_2_2_model.RDS"          
+#>  [9] "20220812142127_lasso_none_2_3_model.RDS"           "20220812142127_lasso_none_2_4_model.RDS"          
+#> [11] "20220812142127_lasso_none_2_5_model.RDS"
 ```
 
 In this case there is only one ensemble in the directory, which is stored in RDS
@@ -322,7 +329,7 @@ ensemble_path <- file.path(model_directory_path, list.files(model_directory_path
 # Load the model.
 ensemble <- readRDS(ensemble_path)
 ensemble
-#> An ensemble of 5 lasso models (v1.1.0).
+#> An ensemble of 5 lasso models (v1.2.0).
 #> 
 #> The following outcome was modelled:
 #> birth_weight (binomial), with classes: normal (reference) and low.
@@ -330,14 +337,14 @@ ensemble
 #> Variable importance was determined using the none variable importance method.
 #> 
 #> The following features were used in the ensemble:
-#> previous_premature_labours (numeric).
-#> ethnicity (categorical), with levels: white (reference), black and other.
 #> age_mother (numeric).
-#> smoking_during_pregnancy (categorical), with levels: no (reference) and yes.
-#> hypertension_history (categorical), with levels: no (reference) and yes.
-#> physician_visits_first_trimester (numeric).
-#> uterine_irritability (categorical), with levels: no (reference) and yes.
 #> weight_mother_before_pregnancy (numeric).
+#> ethnicity (categorical), with levels: white (reference), black and other.
+#> smoking_during_pregnancy (categorical), with levels: no (reference) and yes.
+#> physician_visits_first_trimester (numeric).
+#> previous_premature_labours (numeric).
+#> hypertension_history (categorical), with levels: no (reference) and yes.
+#> uterine_irritability (categorical), with levels: no (reference) and yes.
 ```
 
 One can use ensembles of models for prediction:
@@ -347,16 +354,16 @@ One can use ensembles of models for prediction:
 predict(object=ensemble, newdata=data)
 #>      predicted_class_probability_normal predicted_class_probability_low predicted_class
 #>   1:                          0.3895135                       0.6104865             low
-#>   2:                          0.7774048                       0.2225952          normal
-#>   3:                          0.3768794                       0.6231206             low
-#>   4:                          0.3399216                       0.6600784             low
-#>   5:                          0.2783538                       0.7216462             low
+#>   2:                          0.7774049                       0.2225951          normal
+#>   3:                          0.3768812                       0.6231188             low
+#>   4:                          0.3399229                       0.6600771             low
+#>   5:                          0.2783554                       0.7216446             low
 #>  ---                                                                                   
 #> 185:                          0.5286951                       0.4713049          normal
 #> 186:                          0.4283572                       0.5716428             low
-#> 187:                          0.3315968                       0.6684032             low
-#> 188:                          0.3735422                       0.6264578             low
-#> 189:                          0.3906784                       0.6093216             low
+#> 187:                          0.3315960                       0.6684040             low
+#> 188:                          0.3735415                       0.6264585             low
+#> 189:                          0.3906818                       0.6093182             low
 ```
 
 Ensembles behave similarly to models during evaluation and explanation steps:
@@ -412,7 +419,8 @@ the `familiar_data` folder.
 
 ```r
 list.files(file.path(tempdir(), "familiar_data"))
-#> [1] "20220407171238_lasso_none_1_1_ensemble_1_1_validation_data.RDS" "20220407171238_lasso_none_1_1_pool_1_1_development_data.RDS"    "20220407171238_lasso_none_1_1_pool_1_1_validation_data.RDS"
+#> [1] "20220812142127_lasso_none_1_1_ensemble_1_1_validation_data.RDS" "20220812142127_lasso_none_1_1_pool_1_1_development_data.RDS"   
+#> [3] "20220812142127_lasso_none_1_1_pool_1_1_validation_data.RDS"
 ```
 
 In our example, we generated three data objects: one for internal development, one for internal validation, and one for

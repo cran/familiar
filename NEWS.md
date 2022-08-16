@@ -1,3 +1,69 @@
+# Version 1.2.0 (Jocund Jackdaw)
+
+## Major changes
+
+- Several pre-processing steps, i.e. transformation, normalisation, batch normalisation, imputation and clustering have been re-implemented as objects. This allows for better portability between experiments, improved flexibility and extensibility to newer methods, and better forward compatibility.
+
+- Variable importance / feature selection is now implemented in an object-oriented fashion. Variable importance data written to the file system are now `vimpTable` objects, instead of data collected in a loose list. The `aggregate_vimp_table` and `get_vimp_table` methods can be used to aggregate multiple variable importance tables and retrieve the variable importance table as a `data.table` respectively.
+
+- It is now possible to warm-start different experiments by providing an `experimentData` object to the `summon_familiar` function using the `experiment_data` argument. Such objects are created using the `precompute_data_assignment`, `precompute_feature_info` and `precompute_vimp` functions. These functions assign instances to training, validation and test data, derive feature processing parameters and compute variable importance respectively. `precompute_vimp` and `precompute_feature_info` includes any previous steps. 
+
+## Minor changes
+
+- It is now possible to set the number of bootstraps that are initially explored for hyperparameter optimisation using the `smbo_initial_bootstraps` configuration parameter. The default value is `1`, indicating that the initial hyperparameter sets are initially evaluated on a single bootstrap.
+
+- Updated objects now both show initial and current familiar versions.
+
+## Bug fixes
+
+- Consistency of S4 objects is more actively checked in exported methods and functions by calling `update_object`. This prevents errors attempting when attempting to use a more recent version of familiar than the one used to create the objects. Previously these checks were only rigorously performed for objects that were loaded internally, and not those directly loaded by the user.
+
+- The `n_dim` parameter for isolation forests is now correctly set for datasets without any features.
+
+- Pseudo-R<sup>2</sup> similarity metrics now correctly produce a value of 1.0 for exact fits. Previously these could produce infinite log-likelihoods, and return default value of 0.0 (no similarity).
+
+- A default value of the `time_max` parameter can now be determined even if training cohorts are not explicitly set.
+
+# Version 1.1.4 (Innovative Iguana)
+
+## Bug fixes
+
+- Fixed an issue with LASSO-based imputation that lead to errors when attempting to impute values using LASSO models that were trained on a single feature.
+
+# Version 1.1.3 (Hoarse Horse)
+
+## Bug fixes
+
+- Fixed an issue with LASSO-based imputation when aggregating from LASSO models with different required features. This is a temporary solution, that will be tackled more comprehensively in version 1.2.0.
+
+- Fixed an issue with the parenthesis check in nested experimental designs.
+
+- Fixed an issue that would prevent data where the same instance appears multiple times (e.g. bootstraps) from being properly evaluated.
+
+# Version 1.1.2 (Gregarious Gopher)
+
+## Bug fixes
+
+- Fixed an issue that would cause all features to be used for hyperparameter optimisation for `signature_only` and `random` feature selection methods.
+
+# Version 1.1.1 (Flamboyant Flamingo)
+
+## Minor changes
+
+-   Random forest-based variable importance methods now have variants that use the default values provided by the underlying algorithms. These can be recognised by the suffix `_default`. This is mainly done to avoid long hyperparameter optimisation times for such methods during feature selection.
+
+## Bug fixes
+
+-   Hyperparameter time limit and time taken are now always correctly parsed to minutes instead of seconds, minutes, or rarely, hours.
+
+-   Familiar model objects now correctly show that no novelty detector was trained with `novelty_detector="none"`.
+
+-   Fixed missing documentation for the `optimisation_function` configuration parameter.
+
+-   Confidence intervals in calibration plots are no longer cropped to the [0,1] range. Previously, the estimate itself was not cropped, whereas its confidence interval was.
+
+-   `xgboost` models now still work after being loaded from a file.
+
 # Version 1.1.0 (Enchanting Earthworm)
 
 ## Major changes
@@ -28,13 +94,13 @@
 -   The default `optimisation_function` is now `validation`.
 -   The default `smbo_stop_tolerance` now depends on the number of samples and varies between `0.01` for 100 or fewer samples, and `0.001` for 10000 or more samples.
 -   Additional data are now exported after optimising hyperparameters, namely the iteration step during which performance data were obtained, the time taken by the optimisation process, the learner used to learn how well hyperparameter sets perform, and the optimisation function. This is in addition to the score table and parameter tables that were already exported previously.
--   The `stringi` package has been phased out, and is no longer suggested or imported.
+-   The *stringi* package has been phased out, and is no longer suggested or imported.
 
 ## Bug fixes
 
 -   Fixed some missing verbosity settings.
 
--   Fixed a deprecation warning in the `xgboost` package for DART boosters, that appeared for versions 1.4.0 and newer.
+-   Fixed a deprecation warning in the *xgboost* package for DART boosters, that appeared for versions 1.4.0 and newer.
 
 -   Trained models now contain information for features used only for missing data inference.
 
