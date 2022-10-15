@@ -16,7 +16,8 @@
   censoring_indicator,
   event_indicator,
   competing_risk_indicator,
-  check_stringency = "strict"
+  check_stringency = "strict",
+  reference_method = "auto"
 )
 }
 \arguments{
@@ -124,6 +125,22 @@ checking data for evaluation and explanation.
 \item \code{external}: value used for external methods such as \code{predict}. Less
 stringent checks, particularly for identifier and outcome columns, which may
 be completely absent. Used internally for \code{predict}.
+}}
+
+\item{reference_method}{(\emph{optional}) Method used to set reference levels for
+categorical features. There are several options:
+\itemize{
+\item \code{auto} (default): Categorical features that are not explicitly set by the
+user, i.e. columns containing boolean values or characters, use the most
+frequent level as reference. Categorical features that are explicitly set,
+i.e. as factors, are used as is.
+\item \code{always}: Both automatically detected and user-specified categorical
+features have the reference level set to the most frequent level. Ordinal
+features are not altered, but are used as is.
+\item \code{never}: User-specified categorical features are used as is.
+Automatically detected categorical features are simply sorted, and the
+first level is then used as the reference level. This was the behaviour
+prior to familiar version 1.3.0.
 }}
 }
 \value{

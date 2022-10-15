@@ -310,7 +310,7 @@ by default.}
 similarity between features. Similarity is computed in the same manner as
 for clustering, and \code{feature_similarity_metric} therefore has the same
 options as \code{cluster_similarity_metric}: \code{mcfadden_r2}, \code{cox_snell_r2},
-\code{nagelkerke_r2}, \code{spearman}, \code{kendall} and \code{pearson}.
+\code{nagelkerke_r2}, \code{mutual_information}, \code{spearman}, \code{kendall} and \code{pearson}.
 
 The value used for the \code{cluster_similarity_metric} configuration parameter
 is used by default.}

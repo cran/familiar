@@ -105,9 +105,11 @@ test_all_learners_train_predict_vimp <- function(learners,
                                            hyperparameter_list=hyperparameters,
                                            learner=learner,
                                            time_max=1832,
-                                           trim_model = FALSE))
+                                           trim_model=FALSE))
       
-      # Create a trimmed model.
+      # Create a trimmed model -- this is the only instance were we do that
+      # without setting the time-out to infinite to test whether the timeout
+      # handler returns it correctly.
       trimmed_model <- trim_model(model)
       
       # Generate a file name to save the model to.
@@ -428,7 +430,7 @@ test_all_learners_train_predict_vimp <- function(learners,
                                            time_max=1832))
       
       # Create a trimmed model.
-      trimmed_model <- trim_model(model)
+      trimmed_model <- trim_model(model, timeout=Inf)
       
       # Test that models can be created.
       test_fun(paste0("Model for ", outcome_type, " can be created using ", learner, " using a one-feature dataset."), {
@@ -640,7 +642,7 @@ test_all_learners_train_predict_vimp <- function(learners,
                                              time_max=1832))
         
         # Create a trimmed model.
-        trimmed_model <- trim_model(model)
+        trimmed_model <- trim_model(model, timeout=Inf)
         
         # Test that models can be created.
         test_fun(paste0("Model for ", outcome_type, " can be created using ", learner, " using a dataset without censoring."), {
@@ -734,7 +736,7 @@ test_all_learners_train_predict_vimp <- function(learners,
                                              time_max=1832))
         
         # Create a trimmed model.
-        trimmed_model <- trim_model(model)
+        trimmed_model <- trim_model(model, timeout=Inf)
         
         # Test that models can be created.
         test_fun(paste0("Model for ", outcome_type, " can be created using ", learner, " using a dataset with one censored sample."), {
@@ -828,7 +830,7 @@ test_all_learners_train_predict_vimp <- function(learners,
                                              time_max=1832))
         
         # Create a trimmed model.
-        trimmed_model <- trim_model(model)
+        trimmed_model <- trim_model(model, timeout=Inf)
         
         # Test that models can be created.
         test_fun(paste0("Model for ", outcome_type, " can be created using ", learner, " using a dataset with few censored samples."), {
@@ -1183,7 +1185,7 @@ test_all_novelty_detectors <- function(detectors,
                                                           detector=detector))
     
     # Create a trimmed detector.
-    trimmed_model <- trim_model(model)
+    trimmed_model <- trim_model(model, timeout=Inf)
     
     # Check that the the novelty detector can be trimmed.
     test_fun(paste0("Detector created using the ", detector, " algorithm can be trimmed."), {
@@ -1258,7 +1260,7 @@ test_all_novelty_detectors <- function(detectors,
                                                           detector=detector))
     
     # Create a trimmed novelty detector.
-    trimmed_model <- trim_model(model)
+    trimmed_model <- trim_model(model, timeout=Inf)
     
     # Test that the novelty detector can be created.
     test_fun(paste0("Detector can be created using the ", detector, " algorithm using a one-feature dataset."), {
@@ -1908,9 +1910,9 @@ test_all_metrics_available <- function(metrics){
 
 
 test_all_metrics <- function(metrics,
-                             except_one_sample=FALSE,
-                             except_identical=FALSE,
-                             except_same_prediction=FALSE,
+                             not_available_single_sample=FALSE,
+                             not_available_all_samples_identical=FALSE,
+                             not_available_all_predictions_identical=FALSE,
                              debug=FALSE){
   
   if(debug){
@@ -1945,14 +1947,14 @@ test_all_metrics <- function(metrics,
     
     
     # Set exceptions per outcome type.
-    .except_one_sample <- except_one_sample
-    if(is.character(.except_one_sample)) .except_one_sample <- any(.except_one_sample == outcome_type)
+    .not_available_single_sample <- not_available_single_sample
+    if(is.character(.not_available_single_sample)) .not_available_single_sample <- any(.not_available_single_sample == outcome_type)
     
-    .except_identical <- except_identical
-    if(is.character(.except_identical)) .except_identical <- any(.except_identical == outcome_type)
+    .not_available_all_samples_identical <- not_available_all_samples_identical
+    if(is.character(.not_available_all_samples_identical)) .not_available_all_samples_identical <- any(.not_available_all_samples_identical == outcome_type)
     
-    .except_same_prediction <- except_same_prediction
-    if(is.character(.except_same_prediction)) .except_same_prediction <- any(.except_same_prediction == outcome_type)
+    .not_available_all_predictions_identical <- not_available_all_predictions_identical
+    if(is.character(.not_available_all_predictions_identical)) .not_available_all_predictions_identical <- any(.not_available_all_predictions_identical == outcome_type)
     
     # Iterate over metrics
     for(metric in metrics){
@@ -1969,6 +1971,15 @@ test_all_metrics <- function(metrics,
                                               "binomial"="logistic",
                                               "multinomial"="multinomial",
                                               "survival"="cox"))
+      
+      # Parse hyperparameter list for glmnet test.
+      hyperparameters_lasso <- list("sign_size"=get_n_features(full_data),
+                                    "family"=switch(outcome_type,
+                                                    "continuous"="gaussian",
+                                                    "count"="poisson",
+                                                    "binomial"="binomial",
+                                                    "multinomial"="multinomial",
+                                                    "survival"="cox"))
       
       #####Full dataset#########################################################
       
@@ -2257,7 +2268,7 @@ test_all_metrics <- function(metrics,
       
       # Test that metric values cannot be computed for a one-sample dataset.
       test_fun(paste0("2A. Model performance for ", outcome_type, " outcomes ",
-                      ifelse(.except_one_sample, "cannot", "can"),
+                      ifelse(.not_available_single_sample, "cannot", "can"),
                       " be assessed by the ", metric_object@name,
                       " (", metric_object@metric, ") metric for a one-sample data set."), {
                         
@@ -2289,7 +2300,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the score is a finite,
                         # non-missing number, and NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(score,
@@ -2301,7 +2312,7 @@ test_all_metrics <- function(metrics,
                         # Expect that the objective score is a
                         # non-missing number in the range [-1, 1] and
                         # NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(objective_score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(objective_score,
@@ -2312,7 +2323,7 @@ test_all_metrics <- function(metrics,
                       })
       
       test_fun(paste0("2B. Model performance for ", outcome_type, " outcomes ",
-                      ifelse(.except_one_sample, "cannot", "can"),
+                      ifelse(.not_available_single_sample, "cannot", "can"),
                       " be assessed by the ", metric_object@name,
                       " (", metric_object@metric, ") metric for a dataset with only one instance with known outcomes."), {
                         
@@ -2344,7 +2355,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the score is a finite,
                         # non-missing number, and NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(score,
@@ -2356,7 +2367,7 @@ test_all_metrics <- function(metrics,
                         # Expect that the objective score is a
                         # non-missing number in the range [-1, 1] and
                         # NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(objective_score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(objective_score,
@@ -2397,7 +2408,7 @@ test_all_metrics <- function(metrics,
       
       # Test that metric values can be computed for a dataset where are samples identical.
       test_fun(paste0("4. Model performance for ", outcome_type, " outcomes ",
-                      ifelse(.except_identical, "cannot", "can"),
+                      ifelse(.not_available_all_samples_identical, "cannot", "can"),
                       " be assessed by the ",
                       metric_object@name, " (", metric_object@metric, ") metric for a dataset with identical samples."), {
                         
@@ -2419,7 +2430,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the score is a finite,
                         # non-missing number.
-                        if(.except_identical){
+                        if(.not_available_all_samples_identical){
                           testthat::expect_equal(is.na(score), TRUE)
                           
                         } else {
@@ -2432,7 +2443,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the objective score is a
                         # non-missing number in the range [-1, 1].
-                        if(.except_identical){
+                        if(.not_available_all_samples_identical){
                           testthat::expect_equal(is.na(objective_score), TRUE)
                           
                         } else {
@@ -2506,7 +2517,7 @@ test_all_metrics <- function(metrics,
       
       # Test that metric values cannot be computed for a one-sample dataset.
       test_fun(paste0("6. Model performance for ", outcome_type, " outcomes ",
-                      ifelse(.except_one_sample, "cannot", "can"),
+                      ifelse(.not_available_single_sample, "cannot", "can"),
                       " be assessed by the ", metric_object@name,
                       " (", metric_object@metric, ") metric for a one-feature, one-sample dataset."), {
                         
@@ -2538,7 +2549,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the score is a finite,
                         # non-missing number, and NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(score,
@@ -2550,7 +2561,7 @@ test_all_metrics <- function(metrics,
                         # Expect that the objective score is a
                         # non-missing number in the range [-1, 1] and
                         # NA otherwise.
-                        if(.except_one_sample){
+                        if(.not_available_single_sample){
                           testthat::expect_equal(is.na(objective_score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(objective_score,
@@ -2564,7 +2575,7 @@ test_all_metrics <- function(metrics,
       # Test that metric values can be computed for the one-feature model with
       # invariant predicted outcomes for all samples.
       test_fun(paste0("7. Model performance for ", outcome_type, " outcomes ",
-                      ifelse(.except_same_prediction, "can", "cannot"),
+                      ifelse(.not_available_all_predictions_identical, "can", "cannot"),
                       " be assessed by the ",
                       metric_object@name, " (", metric_object@metric, ") metric for a one-feature dataset with identical predictions."), {
                         
@@ -2596,7 +2607,7 @@ test_all_metrics <- function(metrics,
                         
                         # Expect that the score is a finite,
                         # non-missing number, and NA otherwise.
-                        if(.except_same_prediction){
+                        if(.not_available_all_predictions_identical){
                           testthat::expect_equal(is.na(score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(score,
@@ -2608,7 +2619,7 @@ test_all_metrics <- function(metrics,
                         # Expect that the objective score is a
                         # non-missing number in the range [-1, 1] and
                         # NA otherwise.
-                        if(.except_same_prediction){
+                        if(.not_available_all_predictions_identical){
                           testthat::expect_equal(is.na(objective_score), TRUE)
                         } else {
                           testthat::expect_equal(data.table::between(objective_score,
@@ -2670,10 +2681,107 @@ test_all_metrics <- function(metrics,
                         # non-missing number in the range [-1, 1].
                         testthat::expect_equal(is.na(objective_score), TRUE)
                       })
+      
+      ##### Model cannot provide valid values ----------------------------------
+      model <- suppressWarnings(test_train(data=bad_data,
+                                           cluster_method="none",
+                                           imputation_method="simple",
+                                           hyperparameter_list=hyperparameters_lasso,
+                                           learner="lasso_test_all_fail",
+                                           time_max=1832))
+      
+      # Create metric object
+      metric_object <- as_metric(metric=metric,
+                                 object=model)
+      
+      test_fun(paste0("9. Model performance for ", outcome_type, " outcomes cannot be assessed by the ",
+                      metric_object@name, " (", metric_object@metric, ") metric for a model that only produces invalid predictions."), {
+                        
+                        # Expect predictions to be made.
+                        prediction_table <- suppressWarnings(.predict(model, data=full_data))
+                        
+                        # Test that the predictions were successfully made.
+                        testthat::expect_equal(any_predictions_valid(prediction_table, outcome_type), FALSE)
+                        
+                        if(outcome_type %in% c("binomial", "multinomial")){
+                          # Expect that the predicted_class column is
+                          # a factor.
+                          testthat::expect_s3_class(prediction_table$predicted_class, "factor")
+                          
+                          # Expect that the class levels are the same
+                          # as those in the model.
+                          testthat::expect_equal(levels(prediction_table$predicted_class), get_outcome_class_levels(model))
+                        }
+                        
+                        # Compute a score.
+                        score <- compute_metric_score(metric=metric_object,
+                                                      data=prediction_table,
+                                                      object=model)
+                        
+                        # Compute an objective score.
+                        objective_score <- compute_objective_score(metric=metric_object,
+                                                                   data=prediction_table,
+                                                                   object=model)
+                        
+                        # Expect that the score is NA.
+                        testthat::expect_equal(is.na(score), TRUE)
+                        
+                        # Expect that the objective score is a
+                        # non-missing number in the range [-1, 1].
+                        testthat::expect_equal(is.na(objective_score), TRUE)
+                      })
+      
+      
+      ##### Model cannot provide valid values for some instances ---------------
+      model <- suppressWarnings(test_train(data=bad_data,
+                                           cluster_method="none",
+                                           imputation_method="simple",
+                                           hyperparameter_list=hyperparameters_lasso,
+                                           learner="lasso_test_some_fail",
+                                           time_max=1832))
+      
+      # Create metric object
+      metric_object <- as_metric(metric=metric,
+                                 object=model)
+      
+      test_fun(paste0("10. Model performance for ", outcome_type, " outcomes cannot be assessed by the ",
+                      metric_object@name, " (", metric_object@metric, ") metric for a model that produces some invalid predictions."), {
+                        
+                        # Expect predictions to be made.
+                        prediction_table <- suppressWarnings(.predict(model, data=full_data))
+                        
+                        # Test that the predictions were successfully made.
+                        testthat::expect_equal(any_predictions_valid(prediction_table, outcome_type), FALSE)
+                        
+                        if(outcome_type %in% c("binomial", "multinomial")){
+                          # Expect that the predicted_class column is
+                          # a factor.
+                          testthat::expect_s3_class(prediction_table$predicted_class, "factor")
+                          
+                          # Expect that the class levels are the same
+                          # as those in the model.
+                          testthat::expect_equal(levels(prediction_table$predicted_class), get_outcome_class_levels(model))
+                        }
+                        
+                        # Compute a score.
+                        score <- compute_metric_score(metric=metric_object,
+                                                      data=prediction_table,
+                                                      object=model)
+                        
+                        # Compute an objective score.
+                        objective_score <- compute_objective_score(metric=metric_object,
+                                                                   data=prediction_table,
+                                                                   object=model)
+                        
+                        # Expect that the score is NA.
+                        testthat::expect_equal(is.na(score), TRUE)
+                        
+                        # Expect that the objective score is a
+                        # non-missing number in the range [-1, 1].
+                        testthat::expect_equal(is.na(objective_score), TRUE)
+                      })
     }
-    
   }
-  
 }
 
 
@@ -2681,8 +2789,7 @@ test_all_metrics <- function(metrics,
 test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                                              learners=NULL,
                                              outcome_type_available=c("count", "continuous", "binomial", "multinomial", "survival"),
-                                             always_available=FALSE,
-                                             no_hyperparameters=FALSE,
+                                             not_available_no_samples=TRUE,
                                              n_max_bootstraps=25L,
                                              n_max_optimisation_steps=3L,
                                              n_max_intensify_steps=2L,
@@ -2757,8 +2864,11 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
     one_feature_invariant_data <- test.create_one_feature_invariant_data_set(outcome_type)
     
     # Set exceptions per outcome type.
-    .always_available <- always_available
-    if(is.character(.always_available)) .always_available <- any(.always_available == outcome_type)
+    .not_available_no_samples <- not_available_no_samples
+    if(is.character(.not_available_no_samples)) .not_available_no_samples <- any(.not_available_no_samples == outcome_type)
+    
+    .not_available_invariant_data <- FALSE
+    if(is.character(.not_available_invariant_data)) .not_available_invariant_data <- any(.not_available_invariant_data == outcome_type)
     
     # Iterate over learners or variable importance methods..
     for(current_method in method_pool){
@@ -2776,6 +2886,8 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
       if(!.check_learner_outcome_type(learner=learner, outcome_type=outcome_type, as_flag=TRUE)) next()
       if(!.check_vimp_outcome_type(method=vimp_method, outcome_type=outcome_type, as_flag=TRUE)) next()
       
+      
+      
       #####Full data set--------------------------------------------------------
       
       # Create object
@@ -2787,6 +2899,26 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
       
       # Check that object is available for the outcome.
       if(!is_available(object)) next()
+      
+      .not_available_invariant_data <- FALSE
+      .no_hyperparameters <- FALSE
+      
+      # Check default parameters
+      default_hyperparameters <- get_default_hyperparameters(object, data=full_data)
+      if(length(default_hyperparameters) > 0){
+        randomised_hyperparameters <- sapply(default_hyperparameters, function(x) x$randomise)
+        
+        if("sign_size" %in% names(randomised_hyperparameters)){
+          .not_available_invariant_data <- sum(randomised_hyperparameters) > 1L || !randomised_hyperparameters["sign_size"]
+          
+        } else {
+          .not_available_invariant_data <- sum(randomised_hyperparameters) > 0L
+        }
+        
+      } else {
+        .no_hyperparameters <- TRUE
+        .not_available_invariant_data <- TRUE
+      }
       
       if(verbose) message(paste0("\nComputing hyperparameters for ", current_method,
                                  ifelse(is_vimp, " variable importance method", " learner"), " and ",
@@ -2811,11 +2943,11 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a complete data set."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(!no_hyperparameters | always_available){
+                        } else if(!.no_hyperparameters | !not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -2864,12 +2996,12 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a data set with only identical entries."), {
                         
-                        if(no_hyperparameters | !always_available){
+                        if(.no_hyperparameters | .not_available_invariant_data){
                           # Test that no hyperparameters are set. Models cannot
                           # train on completely invariant data.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(always_available){
+                        } else if(!.not_available_invariant_data){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -2918,13 +3050,13 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a data set with only one entry."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set. Single entry
                           # data cannot be used to generate hyperparameter sets
                           # unless they are always available.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(always_available){
+                        } else if(!not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -2996,15 +3128,15 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
       test_fun(paste0("4. Hyperparameters for the ", current_method,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes ",
-                      ifelse(always_available, "can", "cannot"),
+                      ifelse(!not_available_no_samples, "can", "cannot"),
                       " be created for an empty data set."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set. Empty datasets
                           # cannot be used to create hyperparameters.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(always_available){
+                        } else if(!not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -3067,11 +3199,11 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a data set with only one feature."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(!no_hyperparameters | always_available){
+                        } else if(!.no_hyperparameters | !not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -3110,13 +3242,13 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a data set with only one feature and sample."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set.
                           # Hyperparameters cannot be set for datasets with only
                           # a single sample.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(always_available){
+                        } else if(!not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -3179,13 +3311,13 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
                       ifelse(is_vimp, " variable importance method", " learner"), " and ",
                       outcome_type, " outcomes can be created for a data set with only one, invariant feature."), {
                         
-                        if(no_hyperparameters){
+                        if(.no_hyperparameters){
                           # Test that no hyperparameters are set.
                           # Hyperparameters cannot be set for datasets with
                           # invariant features.
                           testthat::expect_equal(is.null(new_object@hyperparameters), TRUE)
                           
-                        } else if(always_available){
+                        } else if(!not_available_no_samples){
                           # Test that hyperparameters are set.
                           testthat::expect_equal(is.null(new_object@hyperparameters), FALSE)
                           
@@ -3232,11 +3364,13 @@ test_hyperparameter_optimisation <- function(vimp_methods=NULL,
 test_plots <- function(plot_function,
                        data_element,
                        outcome_type_available=c("count", "continuous", "binomial", "multinomial", "survival"),
-                       always_available=FALSE,
-                       except_one_feature=FALSE,
-                       except_failed_survival_prediction=TRUE,
-                       except_prospective=FALSE,
-                       except_one_sample=FALSE,
+                       not_available_no_samples=TRUE,
+                       not_available_single_feature=FALSE,
+                       not_available_all_predictions_fail=TRUE,
+                       not_available_some_predictions_fail=TRUE,
+                       not_available_all_prospective=FALSE,
+                       not_available_any_prospective=FALSE,
+                       not_available_single_sample=FALSE,
                        ...,
                        plot_args=list(),
                        test_specific_config=FALSE,
@@ -3299,24 +3433,26 @@ test_plots <- function(plot_function,
     partially_prospective_data <- test.create_partially_prospective_data_set(outcome_type)
     
     # Set exceptions per outcome type.
-    .always_available <- always_available
-    if(is.character(.always_available)) .always_available <- any(.always_available == outcome_type)
+    .not_available_no_samples <- not_available_no_samples
+    if(is.character(.not_available_no_samples)) .not_available_no_samples <- any(.not_available_no_samples == outcome_type)
     
-    .except_one_feature <- except_one_feature
-    if(is.character(.except_one_feature)) .except_one_feature <- any(.except_one_feature == outcome_type)
+    .not_available_single_feature <- not_available_single_feature
+    if(is.character(.not_available_single_feature)) .not_available_single_feature <- any(.not_available_single_feature == outcome_type)
     
-    .except_failed_survival_prediction <- except_failed_survival_prediction
-    if(is.character(.except_failed_survival_prediction)) .except_failed_survival_prediction <- any(.except_failed_survival_prediction == outcome_type)
+    .not_available_all_predictions_fail <- not_available_all_predictions_fail
+    if(is.character(.not_available_all_predictions_fail)) .not_available_all_predictions_fail <- any(.not_available_all_predictions_fail == outcome_type)
     
-    .except_prospective <- except_prospective
-    if(is.character(.except_prospective)) .except_prospective <- any(.except_prospective == outcome_type)
+    .not_available_some_predictions_fail <- not_available_some_predictions_fail
+    if(is.character(.not_available_some_predictions_fail)) .not_available_some_predictions_fail <- any(.not_available_some_predictions_fail == outcome_type)
     
-    .except_one_sample <- except_one_sample
-    if(is.character(.except_one_sample)) .except_one_sample <- any(.except_one_sample == outcome_type)
+    .not_available_any_prospective <- not_available_any_prospective
+    if(is.character(.not_available_any_prospective)) .not_available_any_prospective <- any(.not_available_any_prospective == outcome_type)
     
-    if(.always_available){
-      .except_one_feature <- .except_prospective <- .except_failed_survival_prediction <- .except_one_sample <- FALSE
-    }
+    .not_available_all_prospective <- not_available_all_prospective
+    if(is.character(.not_available_all_prospective)) .not_available_all_prospective <- any(.not_available_all_prospective == outcome_type)
+    
+    .not_available_single_sample <- not_available_single_sample
+    if(is.character(.not_available_single_sample)) .not_available_single_sample <- any(.not_available_single_sample == outcome_type)
     
     # Parse hyperparameter list
     hyperparameters <- list("sign_size"=get_n_features(full_data),
@@ -3326,7 +3462,6 @@ test_plots <- function(plot_function,
                                             "binomial"="binomial",
                                             "multinomial"="multinomial",
                                             "survival"="cox"))
-    
     
     #####Full data set########################################################
     
@@ -3400,7 +3535,7 @@ test_plots <- function(plot_function,
     
     # Create plots.
     test_fun(paste0("2A. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & !.except_prospective, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & !.not_available_all_prospective, "can", "cannot"),
                     " be created for a prospective data set without known outcome."), {
                       
                       object <- list(data_prospective_full_1)
@@ -3411,7 +3546,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_prospective){
+                      if(outcome_type %in% outcome_type_available & !.not_available_all_prospective){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3432,7 +3567,7 @@ test_plots <- function(plot_function,
     
     # Create plots.
     test_fun(paste0("2B. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & (!.except_prospective | !.except_one_sample), "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & (!.not_available_any_prospective | !.not_available_single_sample), "can", "cannot"),
                     " be created for a prospective data set with one instance with known outcome."), {
                       
                       object <- list(data_prospective_most_1)
@@ -3443,7 +3578,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & (!.except_prospective | !.except_one_sample)){
+                      if(outcome_type %in% outcome_type_available & (!.not_available_any_prospective | !.not_available_single_sample)){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3490,7 +3625,7 @@ test_plots <- function(plot_function,
                                                ...)
     
     test_fun(paste0("2D. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & !.except_one_sample, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & !.not_available_single_sample, "can", "cannot"),
                     " be created for a prospective data set with one instance."), {
                       
                       object <- list(data_one_sample_full_1)
@@ -3501,7 +3636,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_sample){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_sample){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3615,7 +3750,7 @@ test_plots <- function(plot_function,
     
     # Create a dataset with all missing quadrants
     test_fun(paste0("4. Plots for ", outcome_type, " outcomes ",
-                    ifelse(.always_available, "can", "cannot"),
+                    ifelse(!.not_available_no_samples, "can", "cannot"),
                     " be created for a dataset with completely missing data."), {
                       
                       object <- list(data_empty_full_1, data_empty_full_2, data_empty_full_1, data_empty_full_2)
@@ -3626,7 +3761,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & .always_available){
+                      if(outcome_type %in% outcome_type_available & !.not_available_no_samples){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else {
@@ -3722,7 +3857,7 @@ test_plots <- function(plot_function,
     
     # Create a completely intact, one sample dataset.
     test_fun(paste0("8. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a complete one-feature data set."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_good_one_1, data_good_one_2)
@@ -3733,7 +3868,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3746,7 +3881,7 @@ test_plots <- function(plot_function,
     
     # Create a dataset with a one-sample quadrant.
     test_fun(paste0("9. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a dataset with some one-sample data."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_one_sample_one_1, data_one_sample_one_2)
@@ -3757,7 +3892,7 @@ test_plots <- function(plot_function,
                       plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(any(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3770,7 +3905,7 @@ test_plots <- function(plot_function,
     
     # Create a dataset with some identical data.
     test_fun(paste0("10. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a dataset with some invariant data."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_identical_one_1, data_identical_one_2)
@@ -3781,7 +3916,7 @@ test_plots <- function(plot_function,
                       plot_list <- suppressWarnings(do.call(plot_function, args=c(list("object"=collection), plot_args)))
                       which_present <- .test_which_plot_present(plot_list)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(any(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -3851,41 +3986,86 @@ test_plots <- function(plot_function,
                       })
     }
     
-    ##### Model with missing survival predictions ##############################
-    if(outcome_type %in% c("survival", "competing_risk")){
-      # Train the model.
-      model_failed_predictions <- suppressWarnings(test_train(cl=cl,
-                                                              data=full_data,
-                                                              cluster_method="none",
-                                                              imputation_method="simple",
-                                                              fs_method="mim",
-                                                              hyperparameter_list=hyperparameters,
-                                                              learner="lasso_test",
-                                                              time_max=1832,
-                                                              create_novelty_detector=create_novelty_detector))
-      
-      failed_prediction_data <- as_familiar_data(object=model_failed_predictions, data=full_data, data_element=data_element, cl=cl, ...)
-      
-      test_fun(paste0("12. Plots for ", outcome_type, " outcomes ",
-                      ifelse(outcome_type %in% outcome_type_available && !.except_failed_survival_prediction, "can", "cannot"),
-                      " be created for models that do not allow for predicting survival probabilitiies."), {
+    ##### Model with fully missing or invalid predictions ----------------------
+    
+    # Train the model.
+    model_failed_predictions <- suppressWarnings(test_train(cl=cl,
+                                                            data=full_data,
+                                                            cluster_method="none",
+                                                            imputation_method="simple",
+                                                            fs_method="mim",
+                                                            hyperparameter_list=hyperparameters,
+                                                            learner="lasso_test_all_fail",
+                                                            time_max=1832,
+                                                            create_novelty_detector=create_novelty_detector))
+    
+    failed_prediction_data <- as_familiar_data(object=model_failed_predictions,
+                                               data=full_data,
+                                               data_element=data_element,
+                                               cl=cl,
+                                               ...)
+    
+    test_fun(paste0("12. Plots for ", outcome_type, " outcomes ",
+                    ifelse(outcome_type %in% outcome_type_available && !not_available_all_predictions_fail, "can", "cannot"),
+                    " be created for models yield only invalid predictions."), {
+                      
+                      collection <- suppressWarnings(as_familiar_collection(failed_prediction_data,
+                                                                            familiar_data_names=c("failed_predictions")))
+                      
+                      plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
+                      which_present <- .test_which_plot_present(plot_list)
+                      
+                      if(outcome_type %in% outcome_type_available & !not_available_all_predictions_fail){
+                        testthat::expect_equal(all(which_present), TRUE) 
                         
-                        collection <- suppressWarnings(as_familiar_collection(failed_prediction_data, familiar_data_names=c("no_survival_predictions")))
+                      } else if(!outcome_type %in% outcome_type_available){
+                        testthat::expect_equal(all(!which_present), TRUE)
                         
-                        plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
-                        which_present <- .test_which_plot_present(plot_list)
+                      } else {
+                        testthat::expect_equal(any(!which_present), TRUE)
+                      }
+                    })
+    
+    ##### Model with partially missing or invalid predictions ------------------
+    
+    # Train the model.
+    model_failing_predictions <- suppressWarnings(test_train(cl=cl,
+                                                             data=full_data,
+                                                             cluster_method="none",
+                                                             imputation_method="simple",
+                                                             fs_method="mim",
+                                                             hyperparameter_list=hyperparameters,
+                                                             learner="lasso_test_some_fail",
+                                                             time_max=1832,
+                                                             create_novelty_detector=create_novelty_detector))
+    
+    failing_prediction_data <- as_familiar_data(object=model_failing_predictions,
+                                                data=full_data,
+                                                data_element=data_element,
+                                                cl=cl,
+                                                ...)
+    
+    test_fun(paste0("13. Plots for ", outcome_type, " outcomes ",
+                    ifelse(outcome_type %in% outcome_type_available && !not_available_some_predictions_fail, "can", "cannot"),
+                    " be created for models yield some invalid predictions."), {
+                      
+                      collection <- suppressWarnings(as_familiar_collection(failing_prediction_data,
+                                                                            familiar_data_names=c("failed_predictions")))
+                      
+                      plot_list <- do.call(plot_function, args=c(list("object"=collection), plot_args))
+                      which_present <- .test_which_plot_present(plot_list)
+                      
+                      if(outcome_type %in% outcome_type_available & !not_available_some_predictions_fail){
+                        testthat::expect_equal(all(which_present), TRUE) 
                         
-                        if(outcome_type %in% outcome_type_available & !.except_failed_survival_prediction){
-                          testthat::expect_equal(all(which_present), TRUE) 
-                          
-                        } else if(!outcome_type %in% outcome_type_available){
-                          testthat::expect_equal(all(!which_present), TRUE)
-                          
-                        } else {
-                          testthat::expect_equal(any(!which_present), TRUE)
-                        }
-                      })
-    }
+                      } else if(!outcome_type %in% outcome_type_available){
+                        testthat::expect_equal(all(!which_present), TRUE)
+                        
+                      } else {
+                        testthat::expect_equal(any(!which_present), TRUE)
+                      }
+                    })
+    
   }
 }
 
@@ -4023,11 +4203,12 @@ test_plot_ordering <- function(plot_function,
 test_export <- function(export_function,
                         data_element,
                         outcome_type_available=c("count", "continuous", "binomial", "multinomial", "survival"),
-                        always_available=FALSE,
-                        except_one_feature=FALSE,
-                        except_failed_survival_prediction=TRUE,
-                        except_prospective=FALSE,
-                        except_one_sample=FALSE,
+                        not_available_no_samples=TRUE,
+                        not_available_single_feature=FALSE,
+                        not_available_all_predictions_fail=TRUE,
+                        not_available_some_predictions_fail=TRUE,
+                        not_available_any_prospective=FALSE,
+                        not_available_single_sample=FALSE,
                         ...,
                         export_args=list(),
                         test_specific_config=FALSE,
@@ -4090,25 +4271,24 @@ test_export <- function(export_function,
     partially_prospective_data <- test.create_partially_prospective_data_set(outcome_type)
     
     # Set exceptions per outcome type.
-    .always_available <- always_available
-    if(is.character(.always_available)) .always_available <- any(.always_available == outcome_type)
+    .not_available_no_samples <- not_available_no_samples
+    if(is.character(.not_available_no_samples)) .not_available_no_samples <- any(.not_available_no_samples == outcome_type)
     
-    .except_one_feature <- except_one_feature
-    if(is.character(.except_one_feature)) .except_one_feature <- any(.except_one_feature == outcome_type)
+    .not_available_single_feature <- not_available_single_feature
+    if(is.character(.not_available_single_feature)) .not_available_single_feature <- any(.not_available_single_feature == outcome_type)
     
-    .except_prospective <- except_prospective
-    if(is.character(.except_prospective)) .except_prospective <- any(.except_prospective == outcome_type)
+    .not_available_any_prospective <- not_available_any_prospective
+    if(is.character(.not_available_any_prospective)) .not_available_any_prospective <- any(.not_available_any_prospective == outcome_type)
     
-    .except_failed_survival_prediction <- except_failed_survival_prediction
-    if(is.character(.except_failed_survival_prediction)) .except_failed_survival_prediction <- any(.except_failed_survival_prediction == outcome_type)
+    .not_available_all_predictions_fail <- not_available_all_predictions_fail
+    if(is.character(.not_available_all_predictions_fail)) .not_available_all_predictions_fail <- any(.not_available_all_predictions_fail == outcome_type)
     
-    .except_one_sample <- except_one_sample
-    if(is.character(.except_one_sample)) .except_one_sample <- any(.except_one_sample == outcome_type)
+    .not_available_some_predictions_fail <- not_available_some_predictions_fail
+    if(is.character(.not_available_some_predictions_fail)) .not_available_some_predictions_fail <- any(.not_available_some_predictions_fail == outcome_type)
     
-    if(.always_available){
-      .except_one_feature <- .except_prospective <- .except_failed_survival_prediction <- .except_one_sample <- FALSE
-    }
-    
+    .not_available_single_sample <- not_available_single_sample
+    if(is.character(.not_available_single_sample)) .not_available_single_sample <- any(.not_available_single_sample == outcome_type)
+
     # Parse hyperparameter list
     hyperparameters <- list("sign_size"=get_n_features(full_data),
                             "family"=switch(outcome_type,
@@ -4118,6 +4298,7 @@ test_export <- function(export_function,
                                             "multinomial"="multinomial",
                                             "survival"="cox"))
     
+
     #####Full data set########################################################
     
     if(n_models == 1){
@@ -4220,7 +4401,7 @@ test_export <- function(export_function,
     
     # Test prospective data set.
     test_fun(paste0("2A. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & !.except_prospective, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & !.not_available_any_prospective, "can", "cannot"),
                     " be created for a prospective data set without known outcome."), {
                       
                       object <- list(data_prospective_full_1)
@@ -4231,7 +4412,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_prospective){
+                      if(outcome_type %in% outcome_type_available & !.not_available_any_prospective){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4253,7 +4434,7 @@ test_export <- function(export_function,
     
     # Create plots.
     test_fun(paste0("2B. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & (!.except_prospective | !.except_one_sample), "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & (!.not_available_any_prospective | !.not_available_single_sample), "can", "cannot"),
                     " be created for a prospective data set with one instance with known outcome."), {
                       
                       object <- list(data_prospective_most_1)
@@ -4264,7 +4445,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & (!.except_prospective | !.except_one_sample)){
+                      if(outcome_type %in% outcome_type_available & (!.not_available_any_prospective | !.not_available_single_sample)){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4315,7 +4496,7 @@ test_export <- function(export_function,
                                                ...)
     
     test_fun(paste0("2D. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & !.except_one_sample, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & !.not_available_single_sample, "can", "cannot"),
                     " be created for a prospective data set with one instance."), {
                       
                       object <- list(data_one_sample_full_1)
@@ -4326,7 +4507,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_sample){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_sample){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4348,7 +4529,7 @@ test_export <- function(export_function,
                                                  ...)
     
     test_fun(paste0("2E. Plots for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available & !.except_one_sample, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available & !.not_available_single_sample, "can", "cannot"),
                     " be created for a prospective, bootstrapped, data set."), {
                       
                       object <- list(data_bootstrapped_full_1)
@@ -4360,7 +4541,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_sample){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_sample){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                       } else if(!outcome_type %in% outcome_type_available){
@@ -4448,7 +4629,7 @@ test_export <- function(export_function,
     
     # Create a dataset with all missing quadrants
     test_fun(paste0("4. Export data for ", outcome_type, " outcomes ",
-                    ifelse(.always_available, "can", "cannot"),
+                    ifelse(!.not_available_no_samples, "can", "cannot"),
                     " be created for a dataset with completely missing data."), {
                       
                       object <- list(data_empty_full_1, data_empty_full_2, data_empty_full_1, data_empty_full_2)
@@ -4459,7 +4640,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & .always_available){
+                      if(outcome_type %in% outcome_type_available & !.not_available_no_samples){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4564,7 +4745,7 @@ test_export <- function(export_function,
     
     # Create a completely intact, one sample dataset.
     test_fun(paste0("8. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a complete one-feature data set."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_good_one_1, data_good_one_2)
@@ -4575,7 +4756,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(all(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4590,7 +4771,7 @@ test_export <- function(export_function,
     
     # Create a dataset with a one-sample quadrant.
     test_fun(paste0("9. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a dataset with some one-sample data."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_one_sample_one_1, data_one_sample_one_2)
@@ -4601,7 +4782,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(any(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4616,7 +4797,7 @@ test_export <- function(export_function,
     
     # Create a dataset with some identical data.
     test_fun(paste0("10. Export data for ", outcome_type, " outcomes ",
-                    ifelse(outcome_type %in% outcome_type_available && !.except_one_feature, "can", "cannot"),
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_single_feature, "can", "cannot"),
                     " be created for a dataset with some invariant data."), {
                       
                       object <- list(data_good_one_1, data_good_one_2, data_identical_one_1, data_identical_one_2)
@@ -4627,7 +4808,7 @@ test_export <- function(export_function,
                       data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
                       which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
                       
-                      if(outcome_type %in% outcome_type_available & !.except_one_feature){
+                      if(outcome_type %in% outcome_type_available & !.not_available_single_feature){
                         testthat::expect_equal(any(which_present), TRUE) 
                         
                         if(debug) show(data_elements)
@@ -4699,44 +4880,87 @@ test_export <- function(export_function,
       
     }
     
-    ##### Model with missing survival predictions ##############################
-    if(outcome_type %in% c("survival", "competing_risk")){
-      # Train the model.
-      model_failed_predictions <- suppressWarnings(test_train(cl=cl,
-                                                              data=full_data,
-                                                              cluster_method="none",
-                                                              imputation_method="simple",
-                                                              fs_method="mim",
-                                                              hyperparameter_list=hyperparameters,
-                                                              learner="lasso_test",
-                                                              time_max=1832,
-                                                              create_novelty_detector=create_novelty_detector))
-      
-      failed_prediction_data <- as_familiar_data(object=model_failed_predictions, data=full_data, data_element=data_element, cl=cl, ...)
-      
-      test_fun(paste0("12. Exports for ", outcome_type, " outcomes ",
-                      ifelse(outcome_type %in% outcome_type_available && .except_failed_survival_prediction, "can", "cannot"),
-                      " be created for models that do not allow for predicting survival probabilitiies."), {
-                        
-                        collection <- suppressWarnings(as_familiar_collection(failed_prediction_data, familiar_data_names=c("no_survival_predictions")))
-                        
-                        data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
-                        which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
-                        
-                        if(outcome_type %in% outcome_type_available & !.except_failed_survival_prediction){
-                          testthat::expect_equal(all(which_present), TRUE) 
-                          
-                          if(debug) show(data_elements)
-                          
-                        } else if(!outcome_type %in% outcome_type_available){
-                          testthat::expect_equal(all(!which_present), TRUE)
-                          
-                        } else {
-                          testthat::expect_equal(any(!which_present), TRUE)
-                        }
-                      })
-    }
+    # Train the model.
+    model_failed_predictions <- suppressWarnings(test_train(cl=cl,
+                                                            data=full_data,
+                                                            cluster_method="none",
+                                                            imputation_method="simple",
+                                                            fs_method="mim",
+                                                            hyperparameter_list=hyperparameters,
+                                                            learner="lasso_test_all_fail",
+                                                            time_max=1832,
+                                                            create_novelty_detector=create_novelty_detector))
     
+    failed_prediction_data <- as_familiar_data(object=model_failed_predictions,
+                                               data=full_data,
+                                               data_element=data_element,
+                                               cl=cl,
+                                               ...)
+    
+    test_fun(paste0("12. Exports for ", outcome_type, " outcomes ",
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_all_predictions_fail, "can", "cannot"),
+                    " be created for models that do not allow for predicting survival probabilitiies."), {
+                      
+                      collection <- suppressWarnings(as_familiar_collection(failed_prediction_data,
+                                                                            familiar_data_names=c("all_failed_predictions")))
+                      
+                      data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
+                      which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
+                      
+                      if(outcome_type %in% outcome_type_available & !.not_available_all_predictions_fail){
+                        testthat::expect_equal(all(which_present), TRUE) 
+                        
+                        if(debug) show(data_elements)
+                        
+                      } else if(!outcome_type %in% outcome_type_available){
+                        testthat::expect_equal(all(!which_present), TRUE)
+                        
+                      } else {
+                        testthat::expect_equal(any(!which_present), TRUE)
+                      }
+                    })
+    
+    
+    ##### Model with partially missing or invalid predictions ------------------
+    
+    model_failing_predictions <- suppressWarnings(test_train(cl=cl,
+                                                             data=full_data,
+                                                             cluster_method="none",
+                                                             imputation_method="simple",
+                                                             fs_method="mim",
+                                                             hyperparameter_list=hyperparameters,
+                                                             learner="lasso_test_some_fail",
+                                                             time_max=1832,
+                                                             create_novelty_detector=create_novelty_detector))
+    
+    failing_prediction_data <- as_familiar_data(object=model_failing_predictions,
+                                                data=full_data, 
+                                                data_element=data_element,
+                                                cl=cl, 
+                                                ...)
+    
+    test_fun(paste0("13. Export data for ", outcome_type, " outcomes ",
+                    ifelse(outcome_type %in% outcome_type_available && !.not_available_some_predictions_fail, "can", "cannot"),
+                    " be created for models that contain some invalid predictions."), {
+                      
+                      collection <- suppressWarnings(as_familiar_collection(failing_prediction_data,
+                                                                            familiar_data_names=c("some_failed_predictions")))
+                      
+                      data_elements <- do.call(export_function, args=c(list("object"=collection), export_args))
+                      which_present <- .test_which_data_element_present(data_elements, outcome_type=outcome_type)
+                      
+                      if(outcome_type %in% outcome_type_available & !not_available_some_predictions_fail){
+                        testthat::expect_equal(all(which_present), TRUE) 
+                        
+                        if(debug) show(data_elements)
+                        
+                      } else if(!outcome_type %in% outcome_type_available){
+                        testthat::expect_equal(all(!which_present), TRUE)
+                        
+                      } else {
+                        testthat::expect_equal(any(!which_present), TRUE)
+                      }
+                    })
   }
 }
 
@@ -5039,12 +5263,6 @@ test_not_deprecated <- function(x, deprecation_string=c("deprec", "replac")){
   data_element_present <- !sapply(x, is_empty)
   if(!any(data_element_present)) return(FALSE)
   
-  # Class-specific tests.
-  if(all(sapply(x, is, class2="familiarDataElementPredictionTable"))){
-    return(sapply(x, function(x, outcome_type) (any_predictions_valid(x@data, outcome_type)), outcome_type=outcome_type))
-    
-  }
-  
   return(data_element_present)
 }
 
@@ -5093,6 +5311,8 @@ test_not_deprecated <- function(x, deprecation_string=c("deprec", "replac")){
                                                vimp_method,
                                                learner,
                                                is_vimp,
+                                               cluster_method="none",
+                                               ...,
                                                set_signature_feature=FALSE){
   
   if(set_signature_feature){
@@ -5106,8 +5326,9 @@ test_not_deprecated <- function(x, deprecation_string=c("deprec", "replac")){
   feature_info_list <- create_feature_info(data=data,
                                            fs_method=vimp_method,
                                            learner=learner,
-                                           cluster_method="none",
+                                           cluster_method=cluster_method,
                                            imputation_method="simple",
+                                           ...,
                                            signature=signature_features,
                                            parallel=FALSE)
   

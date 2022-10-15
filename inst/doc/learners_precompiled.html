@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-08-12" />
+<meta name="date" content="2022-10-13" />
 
 <title>Learning algorithms and hyperparameter optimisation</title>
 
@@ -263,7 +263,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Learning algorithms and hyperparameter
 optimisation</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-08-12</h4>
+<h4 class="date">2022-10-13</h4>
 
 
 <div id="TOC">
@@ -1535,10 +1535,12 @@ expressed on the <span class="math inline">\(\log_{10}\)</span> scale:
 </div>
 <div id="linear-models-for-multinomial-outcomes" class="section level3">
 <h3>Linear models for multinomial outcomes</h3>
-<p>The linear model for multinomial outcomes is implemented using the
-<code>VGAM::vglm</code> function <span class="citation">(T. W. Yee and
-Wild 1996; T. Yee 2010; Thomas W. Yee 2015)</span>. Hyperparameters for
-this model are shown in the table below.</p>
+<p>Prior to version 1.3.0 the linear model for multinomial outcomes was
+implemented using the <code>VGAM::vglm</code> function <span class="citation">(T. W. Yee and Wild 1996; T. Yee 2010; Thomas W. Yee
+2015)</span>. For better scalability, this has been replaced by the
+<code>nnet::multinom</code> function <span class="citation">(Venables
+and Ripley 2002)</span>. Hyperparameters for this model are shown in the
+table below.</p>
 <table>
 <colgroup>
 <col width="24%" />
@@ -3325,6 +3327,10 @@ Theory</em> 58 (5): 3250–65.
 Therneau, Terry M, and Patricia M Grambsch. 2000. <em>Modeling Survival
 Data: Extending the Cox Model</em>. Statistics for Biology and Health.
 New York: Springer Science &amp; Business Media.
+</div>
+<div id="ref-Venables2002-ma" class="csl-entry">
+Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics
+with s</em>. Fourth. New York: Springer. <a href="https://www.stats.ox.ac.uk/pub/MASS4/">https://www.stats.ox.ac.uk/pub/MASS4/</a>.
 </div>
 <div id="ref-Wright2017-sj" class="csl-entry">
 Wright, Marvin N, Theresa Dankowski, and Andreas Ziegler. 2017.

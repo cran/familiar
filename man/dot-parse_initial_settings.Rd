@@ -120,6 +120,21 @@ overlap with \code{exclude_features}, but may overlap \code{signature}. Features
 \code{signature} and \code{novelty_features} are always included. If both
 \code{exclude_features} and \code{include_features} are provided, \code{include_features}
 takes precedence, provided that there is no overlap between the two.}
+    \item{\code{reference_method}}{(\emph{optional}) Method used to set reference levels for
+categorical features. There are several options:
+\itemize{
+\item \code{auto} (default): Categorical features that are not explicitly set by the
+user, i.e. columns containing boolean values or characters, use the most
+frequent level as reference. Categorical features that are explicitly set,
+i.e. as factors, are used as is.
+\item \code{always}: Both automatically detected and user-specified categorical
+features have the reference level set to the most frequent level. Ordinal
+features are not altered, but are used as is.
+\item \code{never}: User-specified categorical features are used as is.
+Automatically detected categorical features are simply sorted, and the
+first level is then used as the reference level. This was the behaviour
+prior to familiar version 1.3.0.
+}}
     \item{\code{experimental_design}}{(\strong{required}) Defines what the experiment looks
 like, e.g. \code{cv(bt(fs,20)+mb,3,2)+ev} for 2 times repeated 3-fold
 cross-validation with nested feature selection on 20 bootstraps and

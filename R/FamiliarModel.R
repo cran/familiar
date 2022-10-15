@@ -10,6 +10,8 @@ setMethod(".train", signature(object="familiarModel", data="dataObject"),
                    get_additional_info=FALSE,
                    is_pre_processed=FALSE,
                    trim_model=TRUE,
+                   timeout=60000,
+                   approximate=FALSE,
                    ...) {
             # Train method for model training
             
@@ -51,6 +53,7 @@ setMethod(".train", signature(object="familiarModel", data="dataObject"),
             # Train a new model based on data.
             if(can_train) object <- ..train(object=object,
                                             data=data,
+                                            approximate=approximate,
                                             ...)
             
             # Extract information required for assessing model performance,
@@ -80,7 +83,7 @@ setMethod(".train", signature(object="familiarModel", data="dataObject"),
                                              data=data)
             }
             
-            if(trim_model) object <- trim_model(object=object)
+            if(trim_model) object <- trim_model(object=object, timeout=timeout)
             
             # Add outcome distribution data
             object@outcome_info <- .compute_outcome_distribution_data(object=object@outcome_info, data=data)
@@ -795,12 +798,14 @@ setMethod("..set_risk_stratification_thresholds", signature(object="familiarMode
             
             if(object@outcome_type %in% c("survival", "competing_risk") & model_is_trained(object)){
               object@km_info <- learner.find_survival_grouping_thresholds(object=object, data=data)
+              
             } else {
               object@km_info <- NULL
             }
             
             return(object)
           })
+
 #####..set_vimp_parameters#####
 setMethod("..set_vimp_parameters", signature(object="familiarModel"),
           function(object, ...) return(object))
@@ -812,7 +817,7 @@ setMethod("..vimp", signature(object="familiarModel"),
 
 #####trim_model (familiarModel)-------------------------------------------------
 setMethod("trim_model", signature(object="familiarModel"),
-          function(object, ...){
+          function(object, timeout=60000, ...){
             
             # Do not trim the model if there is nothing to trim.
             if(!model_is_trained(object)) return(object)
@@ -824,8 +829,9 @@ setMethod("trim_model", signature(object="familiarModel"),
             if(!trimmed_object@is_trimmed) return(object)
             
             # Go over different functions.
-            trimmed_object <- suppressWarnings(.replace_broken_functions(object=object,
-                                                                         trimmed_object=trimmed_object))
+            trimmed_object <- .replace_broken_functions(object=object,
+                                                        trimmed_object=trimmed_object,
+                                                        timeout=timeout)
             
             return(trimmed_object)
           })
@@ -969,6 +975,9 @@ setMethod("get_signature", signature(object="list"),
               # Select all features.
               selected_features <- features_after_clustering(features=get_available_features(feature_info_list=object),
                                                              feature_info_list=object)
+              
+              # Shrink signature sizes that are too large.
+              if(signature_size > length(selected_features)) signature_size <- length(selected_features)
               
               # Randomly pick the signature.
               selected_features <- fam_sample(x=selected_features,

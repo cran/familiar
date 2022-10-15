@@ -340,7 +340,8 @@ is converted into a distance matrix that is subsequently used for
 clustering. The following metrics are supported to compute pairwise
 similarities:
 \itemize{
-\item \code{mcfadden_r2} (default): McFadden's pseudo R-squared (McFadden, 1974).
+\item \code{mutual_information} (default): normalised mutual information.
+\item \code{mcfadden_r2}: McFadden's pseudo R-squared (McFadden, 1974).
 \item \code{cox_snell_r2}: Cox and Snell's pseudo R-squared (Cox and Snell, 1989).
 \item \code{nagelkerke_r2}: Nagelkerke's pseudo R-squared (Nagelkerke, 1991).
 \item \code{spearman}: Spearman's rank order correlation.
@@ -367,7 +368,7 @@ This should be a numerical value between 0.0 and 1.0. Note however, that a
 reasonable threshold value depends strongly on the similarity metric. The
 following are the default values used:
 \itemize{
-\item \code{mcfadden_r2}: \code{0.30}
+\item \code{mcfadden_r2} and \code{mutual_information}: \code{0.30}
 \item \code{cox_snell_r2} and \code{nagelkerke_r2}: \code{0.75}
 \item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.90}
 }
@@ -376,9 +377,9 @@ Alternatively, if the \verb{fixed cut} method is not used, this value determines
 whether any clustering should be performed, because the data may not
 contain highly similar features. The default values in this situation are:
 \itemize{
-\item \code{mcfadden_r2}: \code{0.05}
+\item \code{mcfadden_r2}  and \code{mutual_information}: \code{0.25}
 \item \code{cox_snell_r2} and \code{nagelkerke_r2}: \code{0.40}
-\item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.50}
+\item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.70}
 }
 
 The threshold value is converted to a distance (1-similarity) prior to
@@ -934,7 +935,7 @@ default.}
 similarity between features. Similarity is computed in the same manner as
 for clustering, and \code{feature_similarity_metric} therefore has the same
 options as \code{cluster_similarity_metric}: \code{mcfadden_r2}, \code{cox_snell_r2},
-\code{nagelkerke_r2}, \code{spearman}, \code{kendall} and \code{pearson}.
+\code{nagelkerke_r2}, \code{mutual_information}, \code{spearman}, \code{kendall} and \code{pearson}.
 
 The value used for the \code{cluster_similarity_metric} configuration parameter
 is used by default.}

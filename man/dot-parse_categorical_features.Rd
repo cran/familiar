@@ -4,17 +4,15 @@
 \alias{.parse_categorical_features}
 \title{Internal function for setting categorical features}
 \usage{
-.parse_categorical_features(data, outcome_type)
+.parse_categorical_features(data, outcome_type, reference_method = "auto")
 }
 \arguments{
 \item{data}{data.table with feature data}
 
 \item{outcome_type}{character, indicating the type of outcome}
 
-\item{reference}{list with class levels (\code{levels}) and ordering (\code{ordered})
-per list entry. Each list entry should have the name of the corresponding
-feature. The intended use is that \code{featureInfo} objects are parsed to
-generate such a reference.}
+\item{reference_method}{character, indicating the type of method used to set
+the reference level.}
 }
 \value{
 data.table with several features converted to factor.

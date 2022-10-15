@@ -204,6 +204,21 @@ overlap with \code{exclude_features}, but may overlap \code{signature}. Features
 \code{signature} and \code{novelty_features} are always included. If both
 \code{exclude_features} and \code{include_features} are provided, \code{include_features}
 takes precedence, provided that there is no overlap between the two.}
+    \item{\code{reference_method}}{(\emph{optional}) Method used to set reference levels for
+categorical features. There are several options:
+\itemize{
+\item \code{auto} (default): Categorical features that are not explicitly set by the
+user, i.e. columns containing boolean values or characters, use the most
+frequent level as reference. Categorical features that are explicitly set,
+i.e. as factors, are used as is.
+\item \code{always}: Both automatically detected and user-specified categorical
+features have the reference level set to the most frequent level. Ordinal
+features are not altered, but are used as is.
+\item \code{never}: User-specified categorical features are used as is.
+Automatically detected categorical features are simply sorted, and the
+first level is then used as the reference level. This was the behaviour
+prior to familiar version 1.3.0.
+}}
     \item{\code{imbalance_correction_method}}{(\emph{optional}) Type of method used to
 address class imbalances. Available options are:
 \itemize{
@@ -543,7 +558,8 @@ is converted into a distance matrix that is subsequently used for
 clustering. The following metrics are supported to compute pairwise
 similarities:
 \itemize{
-\item \code{mcfadden_r2} (default): McFadden's pseudo R-squared (McFadden, 1974).
+\item \code{mutual_information} (default): normalised mutual information.
+\item \code{mcfadden_r2}: McFadden's pseudo R-squared (McFadden, 1974).
 \item \code{cox_snell_r2}: Cox and Snell's pseudo R-squared (Cox and Snell, 1989).
 \item \code{nagelkerke_r2}: Nagelkerke's pseudo R-squared (Nagelkerke, 1991).
 \item \code{spearman}: Spearman's rank order correlation.
@@ -570,7 +586,7 @@ This should be a numerical value between 0.0 and 1.0. Note however, that a
 reasonable threshold value depends strongly on the similarity metric. The
 following are the default values used:
 \itemize{
-\item \code{mcfadden_r2}: \code{0.30}
+\item \code{mcfadden_r2} and \code{mutual_information}: \code{0.30}
 \item \code{cox_snell_r2} and \code{nagelkerke_r2}: \code{0.75}
 \item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.90}
 }
@@ -579,9 +595,9 @@ Alternatively, if the \verb{fixed cut} method is not used, this value determines
 whether any clustering should be performed, because the data may not
 contain highly similar features. The default values in this situation are:
 \itemize{
-\item \code{mcfadden_r2}: \code{0.05}
+\item \code{mcfadden_r2}  and \code{mutual_information}: \code{0.25}
 \item \code{cox_snell_r2} and \code{nagelkerke_r2}: \code{0.40}
-\item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.50}
+\item \code{spearman}, \code{kendall} and \code{pearson}: \code{0.70}
 }
 
 The threshold value is converted to a distance (1-similarity) prior to
