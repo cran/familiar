@@ -181,7 +181,7 @@ the external validation data, designs such as \code{fs+mb+ev} or
 analyses can be done by obtaining one or more \code{familiarModel} objects from
 others and applying them to your own data set.
 
-Alternatively, the \code{experiment_design} parameter may be used to provide a
+Alternatively, the \code{experimental_design} parameter may be used to provide a
 path to a file containing iterations, which is named \verb{####_iterations.RDS}
 by convention. This path can be relative to the directory of the current
 experiment (\code{experiment_dir}), or an absolute path. The absolute path may

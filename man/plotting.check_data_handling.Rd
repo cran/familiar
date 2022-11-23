@@ -2,7 +2,7 @@
 % Please edit documentation in R/PlotUtilities.R
 \name{plotting.check_data_handling}
 \alias{plotting.check_data_handling}
-\title{Checks and sanitizes spliting variables for plotting.}
+\title{Checks and sanitizes splitting variables for plotting.}
 \usage{
 plotting.check_data_handling(
   x,
@@ -57,7 +57,7 @@ variables.}
 A sanitized list of splitting variables.
 }
 \description{
-Checks and sanitizes spliting variables for plotting.
+Checks and sanitizes splitting variables for plotting.
 }
 \details{
 This internal function allows some flexibility regarding the exact

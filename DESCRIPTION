@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 1.3.0
+Version: 1.4.0
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -29,10 +29,10 @@ BugReports: https://github.com/alexzwanenburg/familiar/issues
 Depends: R (>= 4.0.0)
 License: EUPL
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 0.3.4), rstream, survival
-Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro, cowplot,
+Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro,
         dynamicTreeCut, e1071 (>= 1.7.5), Ecdat, fastcluster, fastglm,
         ggplot2 (>= 3.0.0), glmnet, gtable, harmonicmeanp, isotree (>=
         0.3.0), knitr, labeling, laGP, MASS, maxstat, mboost (>=
@@ -44,10 +44,11 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'CheckArguments.R' 'CheckHyperparameters.R' 'CheckPackages.R'
         'ClassBalance.R' 'ClusteringMethod.R' 'Clustering.R'
         'ClusterRepresentation.R' 'Normalisation.R'
-        'CombatNormalisation.R' 'DataObject.R' 'DataParameterChecks.R'
-        'DataPreProcessing.R' 'DataProcessing.R' 'DataServerBackend.R'
-        'ErrorMessages.R' 'Evaluation.R' 'ExperimentData.R'
-        'ExperimentSetup.R' 'Familiar.R' 'FamiliarCollection.R'
+        'CombatNormalisation.R' 'LearnerS4Naive.R' 'DataObject.R'
+        'DataParameterChecks.R' 'DataPreProcessing.R'
+        'DataProcessing.R' 'DataServerBackend.R' 'ErrorMessages.R'
+        'Evaluation.R' 'ExperimentData.R' 'ExperimentSetup.R'
+        'Familiar.R' 'FamiliarCollection.R'
         'FamiliarCollectionExport.R' 'FamiliarData.R'
         'FamiliarDataComputation.R'
         'FamiliarDataComputationAUCCurves.R'
@@ -112,7 +113,7 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-10-13 10:47:23 UTC; alexz
+Packaged: 2022-11-23 20:57:10 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   Stefan Leger [ctb],
@@ -123,4 +124,4 @@ Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   German Cancer Research Center (DKFZ) [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2022-10-15 22:42:33 UTC
+Date/Publication: 2022-11-23 21:20:02 UTC

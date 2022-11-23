@@ -1,7 +1,7 @@
 ---
 title: "Evaluation and explanation"
 author: "Alex Zwanenburg"
-date: "2022-10-13"
+date: "2022-11-23"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -27,7 +27,7 @@ vignette: >
 ```r
 library(familiar)
 library(data.table)
-#> data.table 1.14.2 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
+#> data.table 1.14.6 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
 
 set.seed(19)
 ```
@@ -542,8 +542,8 @@ plots <- familiar::plot_decision_curve(object=binomial_model,
                                        y_range=c(-0.2, 0.5))
 
 plots[[1]]
-#> Warning: Removed 1 row(s) containing missing values (geom_path).
-#> Removed 1 row(s) containing missing values (geom_path).
+#> Warning: Removed 1 row containing missing values (`geom_line()`).
+#> Removed 1 row containing missing values (`geom_line()`).
 ```
 
 <img src="eval_and_explain/decision-curve-bci-1.png" alt="plot of chunk decision-curve-bci" style="display: block; margin: auto;" />

@@ -272,7 +272,7 @@ the external validation data, designs such as \code{fs+mb+ev} or
 analyses can be done by obtaining one or more \code{familiarModel} objects from
 others and applying them to your own data set.
 
-Alternatively, the \code{experiment_design} parameter may be used to provide a
+Alternatively, the \code{experimental_design} parameter may be used to provide a
 path to a file containing iterations, which is named \verb{####_iterations.RDS}
 by convention. This path can be relative to the directory of the current
 experiment (\code{experiment_dir}), or an absolute path. The absolute path may
@@ -843,8 +843,9 @@ The default value is \code{3}.}
     \item{\code{smbo_stop_tolerance}}{(\emph{optional}) Tolerance for early stopping due to
 convergent optimisation score.
 
-The default value depends on the number of samples (at the series level),
-ranging from \code{0.01} for 100 or fewer samples, to \code{0.001} for 10000 or more
+The default value depends on the square root of the number of samples (at
+the series level), and is \code{0.01} for 100 samples. This value is computed as
+\code{0.1 * 1 / sqrt(n_samples)}. The upper limit is \code{0.0001} for 1M or more
 samples.}
     \item{\code{smbo_time_limit}}{(\emph{optional}) Time limit (in minutes) for the
 optimisation process. Optimisation is stopped after this limit is exceeded.
@@ -915,6 +916,14 @@ the hyperparameter learner (not available for random search).
 \item \code{model_estimate_minus_sd}: seeks to maximise the OOB score estimate minus
 its estimated standard deviation, as predicted by the hyperparameter
 learner (not available for random search).
+\item \code{model_balanced_estimate}: seeks to maximise the estimate of the balanced
+IB and OOB score. This is similar to the \code{balanced} score, and in fact uses
+a hyperparameter learner to predict said score (not available for random
+search).
+\item \code{model_balanced_estimate_minus_sd}: seeks to maximise the estimate of the
+balanced IB and OOB score, minus its estimated standard deviation. This is
+similar to the \code{balanced} score, but takes into account its estimated
+spread.
 }
 
 Additional detail are provided in the \emph{Learning algorithms and
@@ -975,7 +984,11 @@ incumbent \strong{best} set in a series of steps. The exploration method
 controls how the set of alternative parameter sets is pruned after each
 step in an iteration. Can be one of the following:
 \itemize{
-\item \code{successive_halving} (default): The set of alternative parameter sets is
+\item \code{single_shot} (default): The set of alternative parameter sets is not
+pruned, and each intensification iteration contains only a single
+intensification step that only uses a single bootstrap. This is the fastest
+exploration method, but only superficially tests each parameter set.
+\item \code{successive_halving}: The set of alternative parameter sets is
 pruned by removing the worst performing half of the sets after each step
 (Jamieson and Talwalkar, 2016).
 \item \code{stochastic_reject}: The set of alternative parameter sets is pruned by
