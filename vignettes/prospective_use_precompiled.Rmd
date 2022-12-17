@@ -1,7 +1,7 @@
 ---
 title: "Using familiar prospectively"
 author: "Alex Zwanenburg"
-date: "2022-11-23"
+date: "2022-12-16"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -84,11 +84,12 @@ data$ht <- factor(data$ht, levels=c(0, 1), labels=c("no", "yes"))
 data$ui <- factor(data$ui, levels=c(0, 1), labels=c("no", "yes"))
 
 # Rename columns to make them clearer.
-data.table::setnames(data,
-                     old=c("low", "age", "lwt", "race", "smoke", "ptl", "ht", "ui", "ftv"),
-                     new=c("birth_weight", "age_mother", "weight_mother_before_pregnancy",
-                           "ethnicity", "smoking_during_pregnancy", "previous_premature_labours",
-                           "hypertension_history", "uterine_irritability", "physician_visits_first_trimester"))
+data.table::setnames(
+  data,
+  old=c("low", "age", "lwt", "race", "smoke", "ptl", "ht", "ui", "ftv"),
+  new=c("birth_weight", "age_mother", "weight_mother_before_pregnancy",
+        "ethnicity", "smoking_during_pregnancy", "previous_premature_labours",
+        "hypertension_history", "uterine_irritability", "physician_visits_first_trimester"))
 ```
 
 Then we call `summon_familiar` create models for the data and assess these. We
@@ -102,19 +103,20 @@ will also only compute point estimates during evaluation (see the
 
 
 ```r
-familiar::summon_familiar(data=data,
-                          project_dir=tempdir(),
-                          sample_id_column="sample_id",
-                          batch_id_column="batch_id",
-                          development_batch_id="development",
-                          outcome_type="binomial",
-                          outcome_column="birth_weight",
-                          experimental_design="bs(fs+mb,5) + ev",
-                          cluster_method="none",
-                          fs_method="none",
-                          learner="lasso",
-                          parallel=FALSE,
-                          estimation_type="point")
+familiar::summon_familiar(
+  data=data,
+  project_dir=tempdir(),
+  sample_id_column="sample_id",
+  batch_id_column="batch_id",
+  development_batch_id="development",
+  outcome_type="binomial",
+  outcome_column="birth_weight",
+  experimental_design="bs(fs+mb,5) + ev",
+  cluster_method="none",
+  fs_method="none",
+  learner="lasso",
+  parallel=FALSE,
+  estimation_type="point")
 ```
 
 # Using models prospectively
@@ -128,12 +130,9 @@ model_directory_path <- file.path(tempdir(), "trained_models", "lasso", "none")
 
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20221123155034_hyperparameters_lasso_none_2_1.RDS" "20221123155034_hyperparameters_lasso_none_2_2.RDS"
-#>  [3] "20221123155034_hyperparameters_lasso_none_2_3.RDS" "20221123155034_hyperparameters_lasso_none_2_4.RDS"
-#>  [5] "20221123155034_hyperparameters_lasso_none_2_5.RDS" "20221123155034_lasso_none_1_1_ensemble.RDS"       
-#>  [7] "20221123155034_lasso_none_2_1_model.RDS"           "20221123155034_lasso_none_2_2_model.RDS"          
-#>  [9] "20221123155034_lasso_none_2_3_model.RDS"           "20221123155034_lasso_none_2_4_model.RDS"          
-#> [11] "20221123155034_lasso_none_2_5_model.RDS"
+#>  [1] "20221216133548_hyperparameters_lasso_none_2_1.RDS" "20221216133548_hyperparameters_lasso_none_2_2.RDS" "20221216133548_hyperparameters_lasso_none_2_3.RDS" "20221216133548_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20221216133548_hyperparameters_lasso_none_2_5.RDS" "20221216133548_lasso_none_1_1_ensemble.RDS"        "20221216133548_lasso_none_2_1_model.RDS"           "20221216133548_lasso_none_2_2_model.RDS"          
+#>  [9] "20221216133548_lasso_none_2_3_model.RDS"           "20221216133548_lasso_none_2_4_model.RDS"           "20221216133548_lasso_none_2_5_model.RDS"
 ```
 
 There are 5 models in the directory, which are stored in RDS format in files ending with `*_model.RDS`. We can inspect the first model in the directory.
@@ -146,7 +145,7 @@ model_path <- file.path(model_directory_path, list.files(model_directory_path, p
 # Load the model.
 model <- readRDS(model_path)
 model
-#> A lasso model (class: familiarGLMnetLasso; v1.4.0) trained using glmnet (v4.1.4) package.
+#> A lasso model (class: familiarGLMnetLasso; v1.4.1) trained using glmnet (v4.1.6) package.
 #> 
 #> --------------- Model details ---------------
 #> 
@@ -169,16 +168,16 @@ model
 #> 
 #> The following features were used in the model:
 #> age_mother (numeric):
-#>   transformation (yeo_johnson) with λ = -0.8.
-#>   normalisation (standardisation) with shift = 1.15040432726622 and scale = 0.0170214246457444.
+#>   transformation (yeo_johnson_robust) with λ = -0.5.
+#>   normalisation (standardisation_robust) with shift = 1.58921828040236 and scale = 0.0489241429455001.
 #> weight_mother_before_pregnancy (numeric):
-#>   transformation (yeo_johnson) with λ = -1.2.
-#>   normalisation (standardisation) with shift = 0.830774795606794 and scale = 0.00055659494321713.
+#>   transformation (yeo_johnson_robust) with λ = -1.2.
+#>   normalisation (standardisation_robust) with shift = 0.830775375081118 and scale = 0.000576197086994417.
 #> ethnicity (categorical), with levels: white (reference), black and other.
 #> smoking_during_pregnancy (categorical), with levels: no (reference) and yes.
 #> physician_visits_first_trimester (numeric):
-#>   transformation (yeo_johnson) with λ = -0.8.
-#>   normalisation (standardisation) with shift = 0.313192082386248 and scale = 0.324948104478325.
+#>   transformation (yeo_johnson_robust) with λ = -0.8.
+#>   normalisation (standardisation_robust) with shift = 0.310658008586882 and scale = 0.392221755361211.
 #> previous_premature_labours (numeric).
 #> hypertension_history (categorical), with levels: no (reference) and yes.
 #> uterine_irritability (categorical), with levels: no (reference) and yes.
@@ -192,17 +191,17 @@ This model can then be used to predict values for a given dataset, among other t
 ```r
 predict(object=model, newdata=data)
 #>      predicted_class_probability_normal predicted_class_probability_low predicted_class
-#>   1:                          0.5223895                       0.4776105          normal
-#>   2:                          0.8069339                       0.1930661          normal
-#>   3:                          0.3371651                       0.6628349             low
-#>   4:                          0.3795003                       0.6204997             low
-#>   5:                          0.2442456                       0.7557544             low
+#>   1:                          0.5313997                       0.4686003          normal
+#>   2:                          0.7986109                       0.2013891          normal
+#>   3:                          0.3311981                       0.6688019             low
+#>   4:                          0.3672995                       0.6327005             low
+#>   5:                          0.2523367                       0.7476633             low
 #>  ---                                                                                   
-#> 185:                          0.5080641                       0.4919359          normal
-#> 186:                          0.4159872                       0.5840128             low
-#> 187:                          0.3490836                       0.6509164             low
-#> 188:                          0.4597962                       0.5402038             low
-#> 189:                          0.3901815                       0.6098185             low
+#> 185:                          0.4933279                       0.5066721             low
+#> 186:                          0.4287156                       0.5712844             low
+#> 187:                          0.3519040                       0.6480960             low
+#> 188:                          0.4746111                       0.5253889             low
+#> 189:                          0.3753937                       0.6246063             low
 ```
 
 In addition to default predictions, familiar allows for several different types
@@ -228,17 +227,17 @@ For example, we can predict novelty of the samples as follows:
 ```r
 predict(object=model, newdata=data, type="novelty")
 #>        novelty
-#>   1: 0.5405158
-#>   2: 0.5189630
-#>   3: 0.4321431
-#>   4: 0.5457869
-#>   5: 0.5327412
+#>   1: 0.5368978
+#>   2: 0.5241009
+#>   3: 0.4273222
+#>   4: 0.5396562
+#>   5: 0.5263258
 #>  ---          
-#> 185: 0.5043111
-#> 186: 0.5929287
-#> 187: 0.4849340
-#> 188: 0.5315313
-#> 189: 0.5354449
+#> 185: 0.5095876
+#> 186: 0.5713185
+#> 187: 0.4789844
+#> 188: 0.5232316
+#> 189: 0.5382750
 ```
 
 More powerful however, is the ability to perform any of the evaluation and
@@ -251,13 +250,13 @@ Let us for example compute and plot model performance AUC-ROC and accuracy for t
 
 
 ```r
-plots <- familiar::plot_model_performance(object=model,
-                                          draw=TRUE,
-                                          facet_by="metric",
-                                          data=data[batch_id=="validation"],
-                                          metric=c("auc", "accuracy"))
-#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-
-#> corrected estimates or bootstrap confidence interval estimates instead of point estimates.
+plots <- familiar::plot_model_performance(
+  object=model,
+  draw=TRUE,
+  facet_by="metric",
+  data=data[batch_id=="validation"],
+  metric=c("auc", "accuracy"))
+#> Warning in (new("standardGeneric", .Data = function (object, draw = FALSE, : Creating a violinplot requires bias-corrected estimates or bootstrap confidence interval estimates instead of point estimates.
 ```
 
 You may notice that no plot is produced. This is because the type of plot
@@ -270,13 +269,14 @@ bootstrap confidence intervals `bci`.
 # Draw model performance plots with bootstrap confidence intervals.
 # familiar_data_names argument specifies the name that appears below the plot.
 # The default is rather long.
-plots <- familiar::plot_model_performance(object=model,
-                                          draw=TRUE,
-                                          facet_by="metric",
-                                          data=data[batch_id=="validation"],
-                                          estimation_type="bci",
-                                          metric=c("auc", "accuracy"),
-                                          familiar_data_names="lasso")
+plots <- familiar::plot_model_performance(
+  object=model,
+  draw=TRUE,
+  facet_by="metric",
+  data=data[batch_id=="validation"],
+  estimation_type="bci",
+  metric=c("auc", "accuracy"),
+  familiar_data_names="lasso")
 ```
 
 <img src="prospective_use/prospective-model-performance-plot-1.png" alt="plot of chunk prospective-model-performance-plot" style="display: block; margin: auto;" />
@@ -286,13 +286,14 @@ Providing the path to the model as the `object` argument suffices:
 
 
 ```r
-plots <- familiar::plot_model_performance(object=model_path,
-                                          draw=TRUE,
-                                          facet_by="metric",
-                                          data=data[batch_id=="validation"],
-                                          estimation_type="bci",
-                                          metric=c("auc", "accuracy"),
-                                          familiar_data_names="lasso")
+plots <- familiar::plot_model_performance(
+  object=model_path,
+  draw=TRUE,
+  facet_by="metric",
+  data=data[batch_id=="validation"],
+  estimation_type="bci",
+  metric=c("auc", "accuracy"),
+  familiar_data_names="lasso")
 ```
 
 <img src="prospective_use/prospective-model-performance-plot-implicit-1.png" alt="plot of chunk prospective-model-performance-plot-implicit" style="display: block; margin: auto;" />
@@ -308,12 +309,9 @@ Model ensembles generated by familiar are stored in the same subdirectory of the
 ```r
 # List files present in the directory.
 list.files(model_directory_path)
-#>  [1] "20221123155034_hyperparameters_lasso_none_2_1.RDS" "20221123155034_hyperparameters_lasso_none_2_2.RDS"
-#>  [3] "20221123155034_hyperparameters_lasso_none_2_3.RDS" "20221123155034_hyperparameters_lasso_none_2_4.RDS"
-#>  [5] "20221123155034_hyperparameters_lasso_none_2_5.RDS" "20221123155034_lasso_none_1_1_ensemble.RDS"       
-#>  [7] "20221123155034_lasso_none_2_1_model.RDS"           "20221123155034_lasso_none_2_2_model.RDS"          
-#>  [9] "20221123155034_lasso_none_2_3_model.RDS"           "20221123155034_lasso_none_2_4_model.RDS"          
-#> [11] "20221123155034_lasso_none_2_5_model.RDS"
+#>  [1] "20221216133548_hyperparameters_lasso_none_2_1.RDS" "20221216133548_hyperparameters_lasso_none_2_2.RDS" "20221216133548_hyperparameters_lasso_none_2_3.RDS" "20221216133548_hyperparameters_lasso_none_2_4.RDS"
+#>  [5] "20221216133548_hyperparameters_lasso_none_2_5.RDS" "20221216133548_lasso_none_1_1_ensemble.RDS"        "20221216133548_lasso_none_2_1_model.RDS"           "20221216133548_lasso_none_2_2_model.RDS"          
+#>  [9] "20221216133548_lasso_none_2_3_model.RDS"           "20221216133548_lasso_none_2_4_model.RDS"           "20221216133548_lasso_none_2_5_model.RDS"
 ```
 
 In this case there is only one ensemble in the directory, which is stored in RDS
@@ -324,12 +322,14 @@ being formed. We can inspect the ensemble in the directory.
 
 ```r
 # Create path to the model.
-ensemble_path <- file.path(model_directory_path, list.files(model_directory_path, pattern="ensemble")[1])
+ensemble_path <- file.path(
+  model_directory_path,
+  list.files(model_directory_path, pattern="ensemble")[1])
 
 # Load the model.
 ensemble <- readRDS(ensemble_path)
 ensemble
-#> An ensemble of 5 lasso models (v1.4.0).
+#> An ensemble of 5 lasso models (v1.4.1).
 #> 
 #> The following outcome was modelled:
 #> birth_weight (binomial), with classes: normal (reference) and low.
@@ -353,30 +353,31 @@ One can use ensembles of models for prediction:
 ```r
 predict(object=ensemble, newdata=data)
 #>      predicted_class_probability_normal predicted_class_probability_low predicted_class
-#>   1:                          0.5000000                       0.5000000             low
-#>   2:                          0.7198838                       0.2801162          normal
-#>   3:                          0.3768812                       0.6231188             low
-#>   4:                          0.3957385                       0.6042615             low
-#>   5:                          0.3418261                       0.6581739             low
+#>   1:                          0.5313997                       0.4686003          normal
+#>   2:                          0.7194464                       0.2805536          normal
+#>   3:                          0.3809461                       0.6190539             low
+#>   4:                          0.4149866                       0.5850134             low
+#>   5:                          0.3574783                       0.6425217             low
 #>  ---                                                                                   
-#> 185:                          0.5000000                       0.5000000             low
-#> 186:                          0.4159872                       0.5840128             low
-#> 187:                          0.3490836                       0.6509164             low
-#> 188:                          0.4597962                       0.5402038             low
-#> 189:                          0.4370547                       0.5629453             low
+#> 185:                          0.4661910                       0.5338090             low
+#> 186:                          0.4287156                       0.5712844             low
+#> 187:                          0.3519040                       0.6480960             low
+#> 188:                          0.4746111                       0.5253889             low
+#> 189:                          0.4795694                       0.5204306             low
 ```
 
 Ensembles behave similarly to models during evaluation and explanation steps:
 
 
 ```r
-plots <- familiar::plot_model_performance(object=ensemble,
-                                          draw=TRUE,
-                                          facet_by="metric",
-                                          data=data[batch_id=="validation"],
-                                          estimation_type="bci",
-                                          metric=c("auc", "accuracy"),
-                                          familiar_data_names="lasso")
+plots <- familiar::plot_model_performance(
+  object=ensemble,
+  draw=TRUE,
+  facet_by="metric",
+  data=data[batch_id=="validation"],
+  estimation_type="bci",
+  metric=c("auc", "accuracy"),
+  familiar_data_names="lasso")
 ```
 
 <img src="prospective_use/prospective-model-performance-plot-ensemble-1.png" alt="plot of chunk prospective-model-performance-plot-ensemble" style="display: block; margin: auto;" />
@@ -399,13 +400,14 @@ tabular export methods.
 model_paths <- sapply(list.files(model_directory_path, pattern="model"), function(x) (file.path(model_directory_path, x)))
 
 # Generate plot using an ad-hoc ensemble.
-plots <- familiar::plot_model_performance(object=model_paths,
-                                          draw=TRUE,
-                                          facet_by="metric",
-                                          data=data[batch_id=="validation"],
-                                          estimation_type="bci",
-                                          metric=c("auc", "accuracy"),
-                                          familiar_data_names="lasso")
+plots <- familiar::plot_model_performance(
+  object=model_paths,
+  draw=TRUE,
+  facet_by="metric",
+  data=data[batch_id=="validation"],
+  estimation_type="bci",
+  metric=c("auc", "accuracy"),
+  familiar_data_names="lasso")
 ```
 
 <img src="prospective_use/prospective-model-performance-plot-new-directory-1.png" alt="plot of chunk prospective-model-performance-plot-new-directory" style="display: block; margin: auto;" />
@@ -419,9 +421,7 @@ the `familiar_data` folder.
 
 ```r
 list.files(file.path(tempdir(), "familiar_data"))
-#> [1] "20221123155034_lasso_none_1_1_ensemble_1_1_validation_data.RDS"
-#> [2] "20221123155034_lasso_none_1_1_pool_1_1_development_data.RDS"   
-#> [3] "20221123155034_lasso_none_1_1_pool_1_1_validation_data.RDS"
+#> [1] "20221216133548_lasso_none_1_1_ensemble_1_1_validation_data.RDS" "20221216133548_lasso_none_1_1_pool_1_1_development_data.RDS"    "20221216133548_lasso_none_1_1_pool_1_1_validation_data.RDS"
 ```
 
 In our example, we generated three data objects: one for internal development, one for internal validation, and one for
@@ -483,13 +483,16 @@ and created more quickly. To do so, we can call an export or plot method with
 
 ```r
 # Generate paths to the model objects.
-model_paths <- sapply(list.files(model_directory_path, pattern="model"), function(x) (file.path(model_directory_path, x)))
+model_paths <- sapply(
+  list.files(model_directory_path, pattern="model"),
+  function(x) (file.path(model_directory_path, x)))
 
 # Generate plot data (plots + collection) using an ad-hoc ensemble.
-plot_data <- familiar::plot_auc_roc_curve(object=model_paths,
-                                          draw=FALSE,
-                                          data=data[batch_id=="validation"],
-                                          export_collection=TRUE)
+plot_data <- familiar::plot_auc_roc_curve(
+  object=model_paths,
+  draw=FALSE,
+  data=data[batch_id=="validation"],
+  export_collection=TRUE)
 ```
 
 The `plot_data` variable is a list that contains (here) two items: `collection`
@@ -498,10 +501,11 @@ as the theme and palette.
 
 
 ```r
-plots <- familiar::plot_auc_roc_curve(object=plot_data$collection,
-                                      ggtheme=ggplot2::theme_dark(),
-                                      discrete_palette="R4",
-                                      draw=TRUE)
+plots <- familiar::plot_auc_roc_curve(
+  object=plot_data$collection,
+  ggtheme=ggplot2::theme_dark(),
+  discrete_palette="R4",
+  draw=TRUE)
 ```
 
 <img src="prospective_use/prospective-auc_roc-plot-from-exported-collection-1.png" alt="plot of chunk prospective-auc_roc-plot-from-exported-collection" style="display: block; margin: auto;" />

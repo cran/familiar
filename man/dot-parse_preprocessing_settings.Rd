@@ -151,26 +151,29 @@ methods are available:
 \item \code{none}: This disables transformation of features.
 \item \code{yeo_johnson} (default): Transformation using the Yeo-Johnson
 transformation (Yeo and Johnson, 2000). The algorithm tests various lambda
-values (-2.0, -1.0, -0.5, 0.0, 0.33333, 0.5, 1.0, 1.5, 2.0) and selects the
-lambda that maximises the log-likelihood.
+values and selects the lambda that maximises the log-likelihood.
 \item \code{yeo_johnson_trim}: As \code{yeo_johnson}, but based on the set of feature
 values where the 5\% lowest and 5\% highest values are discarded. This
 reduces the effect of outliers.
 \item \code{yeo_johnson_winsor}: As \code{yeo_johnson}, but based on the set of feature
 values where the 5\% lowest and 5\% highest values are winsorised. This
 reduces the effect of outliers.
+\item \code{yeo_johnson_robust}: A robust version of \code{yeo_johnson} after Raymaekers
+and Rousseeuw (2021). This method is less sensitive to outliers.
 \item \code{box_cox}: Transformation using the Box-Cox transformation (Box and Cox,
 1964). Unlike the Yeo-Johnson transformation, the Box-Cox transformation
 requires that all data are positive. Features that contain zero or negative
 values cannot be transformed using this transformation. The algorithm tests
-various lambda values (-2.0, -1.0, -0.5, 0.0, 0.3333, 0.5, 1.0, 1.5, 2.0)
-and selects the lambda that maximises the log-likelihood.
+various lambda values and selects the lambda that maximises the
+log-likelihood.
 \item \code{box_cox_trim}: As \code{box_cox}, but based on the set of feature values
 where the 5\% lowest and 5\% highest values are discarded. This reduces the
 effect of outliers.
 \item \code{box_cox_winsor}: As \code{box_cox}, but based on the set of feature values
 where the 5\% lowest and 5\% highest values are winsorised. This reduces the
 effect of outliers.
+\item \code{box_cox_robust}: A robust verson of \code{box_cox} after Raymaekers and
+Rousseew (2021). This method is less sensitive to outliers.
 }
 
 Only features that contain numerical data are transformed. Transformation
@@ -182,16 +185,17 @@ improve the comparability between numerical features that may have very
 different scales. The following normalisation methods can be chosen:
 \itemize{
 \item \code{none}: This disables feature normalisation.
-\item \code{standardisation} (default): Features are normalised by subtraction of
-their mean values and division by their standard deviations. This causes
-every feature to be have a center value of 0.0 and standard deviation of
-1.0.
+\item \code{standardisation}: Features are normalised by subtraction of their mean
+values and division by their standard deviations. This causes every feature
+to be have a center value of 0.0 and standard deviation of 1.0.
 \item \code{standardisation_trim}: As \code{standardisation}, but based on the set of
 feature values where the 5\% lowest and 5\% highest values are discarded.
 This reduces the effect of outliers.
 \item \code{standardisation_winsor}: As \code{standardisation}, but based on the set of
 feature values where the 5\% lowest and 5\% highest values are winsorised.
 This reduces the effect of outliers.
+\item \code{standardisation_robust} (default): A robust version of \code{standardisation}
+that relies on computing Huber's M-estimators for location and scale.
 \item \code{normalisation}: Features are normalised by subtraction of their minimum
 values and division by their ranges. This maps all feature values to a
 \eqn{[0, 1]} interval.
@@ -224,6 +228,9 @@ This reduces the effect of outliers.
 \item \code{standardisation_winsor}: As \code{standardisation}, but based on the set of
 feature values where the 5\% lowest and 5\% highest values are winsorised.
 This reduces the effect of outliers.
+\item \code{standardisation_robust}: A robust version of \code{standardisation} that
+relies on computing Huber's M-estimators for location and scale within each
+batch.
 \item \code{normalisation}: Features within each batch are normalised by subtraction
 of their minimum values and division by their range in each batch. This
 maps all feature values in each batch to a \eqn{[0, 1]} interval.
@@ -447,6 +454,8 @@ correlation coefficients for reliability research. J. Chiropr. Med. 15,
 improve normality or symmetry. Biometrika 87, 954–959 (2000).
 \item Box, G. E. P. & Cox, D. R. An analysis of transformations. J. R. Stat.
 Soc. Series B Stat. Methodol. 26, 211–252 (1964).
+\item Raymaekers, J., Rousseeuw,  P. J. Transforming variables to central
+normality. Mach Learn. (2021).
 \item Park, M. Y., Hastie, T. & Tibshirani, R. Averaged gene expressions for
 regression. Biostatistics 8, 212–227 (2007).
 \item Tolosi, L. & Lengauer, T. Classification with correlated features:

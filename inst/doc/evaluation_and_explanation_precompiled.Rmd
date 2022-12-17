@@ -1,7 +1,7 @@
 ---
 title: "Evaluation and explanation"
 author: "Alex Zwanenburg"
-date: "2022-11-23"
+date: "2022-12-16"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -27,6 +27,7 @@ vignette: >
 ```r
 library(familiar)
 library(data.table)
+#> Warning: package 'data.table' was built under R version 4.2.2
 #> data.table 1.14.6 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
 
 set.seed(19)

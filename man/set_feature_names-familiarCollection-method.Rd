@@ -5,34 +5,40 @@
 \alias{set_feature_names}
 \title{Rename features for plotting and export}
 \usage{
-\S4method{set_feature_names}{familiarCollection}(x, old = NULL, new, order = NULL)
+\S4method{set_feature_names}{familiarCollection}(x, old = NULL, new = NULL, order = NULL)
 }
 \arguments{
 \item{x}{A familiarCollection object.}
 
 \item{old}{(optional) Set of old labels to replace.}
 
-\item{new}{Set of replacement labels. The number of replacement labels should be equal to the number of provided old labels or the full number of labels.
-If a subset of labels is to be replaced, both \code{old} and \code{new} should be provided.}
+\item{new}{Set of replacement labels. The number of replacement labels should
+be equal to the number of provided old labels or the full number of labels.
+If a subset of labels is to be replaced, both \code{old} and \code{new}
+should be provided.}
 
-\item{order}{(optional) Ordered set of replacement labels. This is used to provide the order
-in which the labels should be placed, which affects e.g. levels in a plot. If the ordering is not explicitly provided,
-and \code{new} matches the total number of labels in length, the ordering of \code{new} is used to order the table.}
+\item{order}{(optional) Ordered set of replacement labels. This is used to
+provide the order in which the labels should be placed, which affects e.g.
+levels in a plot. If the ordering is not explicitly provided, the old
+ordering is used.}
 }
 \value{
 A familiarCollection object with updated labels.
 }
 \description{
-Tabular exports and figures created from a familiarCollection object can be customised by providing names for features.
+Tabular exports and figures created from a familiarCollection
+object can be customised by providing names for features.
 }
 \details{
-Labels convert the internal naming for features to the requested label at export or when plotting. This enables customisation
-without redoing the analysis with renamed input data. Currently assigned labels
-can be found using the \code{get_feature_names} method.
+Labels convert the internal naming for features to the requested
+label at export or when plotting. This enables customisation without
+redoing the analysis with renamed input data. Currently assigned labels can
+be found using the \code{get_feature_names} method.
 }
 \seealso{
 \itemize{
-\item \linkS4class{familiarCollection} for information concerning the familiarCollection class.
-\item \code{\link{get_feature_names}} for obtaining currently assigned feature names.
+\item \linkS4class{familiarCollection} for information concerning the
+familiarCollection class. * \code{\link{get_feature_names}} for obtaining
+currently assigned feature names.
 }
 }
