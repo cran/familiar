@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 1.4.1
+Version: 1.4.6
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -113,7 +113,7 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-12-16 12:57:55 UTC; alexz
+Packaged: 2024-01-24 12:38:17 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   Stefan Leger [ctb],
@@ -124,4 +124,4 @@ Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   German Cancer Research Center (DKFZ) [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2022-12-17 08:40:02 UTC
+Date/Publication: 2024-01-24 13:40:02 UTC

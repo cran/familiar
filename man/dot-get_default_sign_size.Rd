@@ -13,11 +13,6 @@ preset parameters are determined.}
 \item{restrict_samples}{Logical indicating whether the signature size should
 be limited by the number of samples in addition to the number of available
 features. This may help convergence of OLS-based methods.}
-
-\item{outcome_type}{Type of oucome. Default settings are determined, among
-others by the the outcome type. For example, one default signature size
-depends on the number of events for \code{survival} outcomes, based on rules of
-thumb.}
 }
 \value{
 List containing the preset values for the signature size parameter.

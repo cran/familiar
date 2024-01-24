@@ -1,3 +1,37 @@
+# Version 1.4.6 (Talented Toad)
+
+## Bug fixes
+
+- Fixes unused arguments appearing in documentation.
+
+# Version 1.4.5 (Reminiscing Rat)
+
+## Bug fixes
+
+- Creating data objects (`as_data_object`) using naive learners now works and no longer throws an error.
+
+# Version 1.4.4 (Quixotic Quail)
+
+## Bug fixes
+
+- Prevented an error that could occur when computing net benefit for decision curves of models that would predict class probabilities of exactly 1. This was a very rare error, as it would only occur if predicted class probabilities would have at most two distinct values, one of which is 1.0.
+
+- Prevented an issue that could occur when computing linear calibration fits where the fit can be computed without residual errors. This would prevent the t-statistic and p-value from being correctly computed for binomial, multinomial and survival outcomes.
+
+- Prevented an issue when computing linear calibration fits when all the expected values are the same. The model will then lack a slope. We now add a slope of 0, with an infinite confidence interval, if this is the case.
+
+# Version 1.4.3 (Puzzled Prawn)
+
+## Bug fixes
+
+- Prevented an error due to an overzealous check for hyperparameters being present for training a model.
+
+# Version 1.4.2 (Omnicompetent Owl)
+
+## Bug fixes
+
+- Fixed an error that could occur when creating a lasso model for imputation using just a single feature.
+
 # Version 1.4.1 (Nefarious Newt)
 
 ## Minor changes

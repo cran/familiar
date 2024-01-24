@@ -128,7 +128,7 @@ from biopsies, which constitutes a classification problem.
 ```r
 
 # Get a dataset.
-binomial_data <- familiar:::test.create_good_data_set(outcome_type="binomial")
+binomial_data <- familiar:::test_create_good_data(outcome_type="binomial")
 
 # Call familiar to create models. Note that we skip hyperparameter optimisation by manually defining the hyperparameters, and that we skip evaluation steps. This is to save time when creating the vignette.
 familiar::summon_familiar(data=binomial_data,
@@ -163,7 +163,7 @@ survival after treatment.
 ```r
 
 # Get a dataset.
-survival_data <- familiar:::test.create_good_data_set(outcome_type="survival")
+survival_data <- familiar:::test_create_good_data(outcome_type="survival")
 
 # Call familiar to create models. Note that we skip hyperparameter optimisation by manually defining the hyperparameters, and that we skip evaluation steps. This is to save time when creating the vignette.
 familiar::summon_familiar(data=survival_data,

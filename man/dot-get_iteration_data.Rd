@@ -14,6 +14,8 @@
 )
 }
 \arguments{
+\item{file_paths}{Set of paths to relevant files and directories.}
+
 \item{data}{Data set as loaded using the \code{.load_data} function.}
 
 \item{experiment_setup}{data.table with subsampler information at different
@@ -25,8 +27,6 @@ relevant to creating iterations.}
 \item{message_indent}{Indenting of messages.}
 
 \item{verbose}{Sets verbosity.}
-
-\item{file_dir}{Path to directory where iteration files are stored.}
 }
 \value{
 A list with the following elements:

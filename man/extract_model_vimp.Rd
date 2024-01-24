@@ -49,11 +49,6 @@ computation and extraction of various data elements.}
 computation and extraction of various data elements.}
 
 \item{...}{Unused arguments.}
-
-\item{feature_similarity_table}{Table containing pairwise distance between
-features. This is used to determine cluster information, and indicate
-co-clustered important features. The table is created by the
-\code{extract_feature_similarity} method.}
 }
 \value{
 A list containing variable importance information.
