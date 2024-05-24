@@ -2,8 +2,8 @@
 % Please edit documentation in R/Familiar.R
 \docType{package}
 \name{familiar}
-\alias{familiar}
 \alias{familiar-package}
+\alias{familiar}
 \title{familiar: Fully Automated Machine Learning with Interpretable Analysis of Results}
 \description{
 End-to-end, automated machine learning package for creating

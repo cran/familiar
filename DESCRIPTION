@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 1.4.6
+Version: 1.4.8
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -29,7 +29,7 @@ BugReports: https://github.com/alexzwanenburg/familiar/issues
 Depends: R (>= 4.0.0)
 License: EUPL
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 0.3.4), rstream, survival
 Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro,
@@ -113,7 +113,7 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2024-01-24 12:38:17 UTC; alexz
+Packaged: 2024-05-24 11:40:48 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   Stefan Leger [ctb],
@@ -124,4 +124,4 @@ Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   German Cancer Research Center (DKFZ) [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2024-01-24 13:40:02 UTC
+Date/Publication: 2024-05-24 21:10:04 UTC

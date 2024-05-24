@@ -298,7 +298,8 @@ aggregated for export.}
     \item{\code{plot}}{Plot to save, defaults to last plot displayed.}
     \item{\code{device}}{Device to use. Can either be a device function
 (e.g. \link{png}), or one of "eps", "ps", "tex" (pictex),
-"pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).}
+"pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only). If
+\code{NULL} (default), the device is guessed based on the \code{filename} extension.}
     \item{\code{path}}{Path of the directory to save plot to: \code{path} and \code{filename}
 are combined to create the fully qualified file name. Defaults to the
 working directory.}
@@ -310,6 +311,10 @@ save images larger than 50x50 inches, to prevent the common error of
 specifying dimensions in pixels.}
     \item{\code{bg}}{Background colour. If \code{NULL}, uses the \code{plot.background} fill value
 from the plot theme.}
+    \item{\code{create.dir}}{Whether to create new directories if a non-existing
+directory is specified in the \code{filename} or \code{path} (\code{TRUE}) or return an
+error (\code{FALSE}, default). If \code{FALSE} and run in an interactive session,
+a prompt will appear asking to create a new directory when necessary.}
     \item{\code{features}}{Names of the feature or features (2) assessed simultaneously.
 By default \code{NULL}, which means that all features are assessed one-by-one.}
     \item{\code{feature_x_range}}{When one or two features are defined using \code{features},

@@ -18,7 +18,7 @@ aggregate_vimp_table(x, aggregation_method, rank_threshold = NULL, ...)
 
 \S4method{aggregate_vimp_table}{vimpTable}(x, aggregation_method, rank_threshold = NULL, ...)
 
-\S4method{aggregate_vimp_table}{`NULL`}(x, aggregation_method, rank_threshold = NULL, ...)
+\S4method{aggregate_vimp_table}{NULL}(x, aggregation_method, rank_threshold = NULL, ...)
 
 \S4method{aggregate_vimp_table}{experimentData}(x, aggregation_method, rank_threshold = NULL, ...)
 }

@@ -18,7 +18,7 @@ get_vimp_table(x, state = "ranked", ...)
 
 \S4method{get_vimp_table}{vimpTable}(x, state = "ranked", ...)
 
-\S4method{get_vimp_table}{`NULL`}(x, state = "ranked", ...)
+\S4method{get_vimp_table}{NULL}(x, state = "ranked", ...)
 
 \S4method{get_vimp_table}{experimentData}(x, state = "ranked", ...)
 
