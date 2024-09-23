@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2024-09-20" />
 
 <title>Introducing familiar</title>
 
@@ -407,7 +407,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introducing familiar</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2022-12-16</h4>
+<h4 class="date">2024-09-20</h4>
 
 
 <div id="TOC">
@@ -457,12 +457,10 @@ experiment.</p>
 <p>Stable versions of familiar can be installed from CRAN.
 <code>dependencies=TRUE</code> prevents being prompted to install
 packages when using familiar.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;familiar&quot;</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                 <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;familiar&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>It can also be installed directly from the GitHub repository:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">require</span>(devtools)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/alexzwanenburg/familiar&quot;</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                         <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/alexzwanenburg/familiar&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="pipeline" class="section level2">
 <h2>Pipeline</h2>
@@ -588,34 +586,31 @@ minimal configuration parameters, and run the experiment. In practice,
 you may need to specify some additional configuration parameters, see
 the <a href="#configuring-familiar">Configuring familiar</a>
 section.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># Example experiment using the iris dataset.</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># You may want to specify a different path for experiment_dir.</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># This is where results are written to.</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(<span class="at">data=</span>iris,</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                          <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_1&quot;</span>),</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                          <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>                          <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>                          <span class="at">experimental_design=</span><span class="st">&quot;fs+mb&quot;</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>                          <span class="at">cluster_method=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>                          <span class="at">fs_method=</span><span class="st">&quot;mrmr&quot;</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                          <span class="at">learner=</span><span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>                          <span class="at">parallel=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Example experiment using the iris dataset. You may want to specify a different</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># path for experiment_dir. This is where results are written to.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">data =</span> iris,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">experiment_dir =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_1&quot;</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">outcome_type =</span> <span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">outcome_column =</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">experimental_design =</span> <span class="st">&quot;fs+mb&quot;</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">cluster_method =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">fs_method =</span> <span class="st">&quot;mrmr&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="at">learner =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>It is also possible to use a formula instead. This is generally
 feasible only for datasets with few features:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Example experiment using a formula interface.</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># You may want to specify a different path for experiment_dir.</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># This is where results are written to.</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                          <span class="at">data=</span>iris,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                          <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_2&quot;</span>),</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>                          <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                          <span class="at">experimental_design=</span><span class="st">&quot;fs+mb&quot;</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                          <span class="at">cluster_method=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>                          <span class="at">fs_method=</span><span class="st">&quot;mrmr&quot;</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>                          <span class="at">learner=</span><span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>                          <span class="at">parallel=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Example experiment using a formula interface. You may want to specify a</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># different path for experiment_dir. This is where results are written to.</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span> Petal.Length <span class="sc">+</span> Petal.Width,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">data =</span> iris,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">experiment_dir =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_2&quot;</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">outcome_type =</span> <span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">experimental_design =</span> <span class="st">&quot;fs+mb&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">cluster_method =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">fs_method =</span> <span class="st">&quot;mrmr&quot;</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">learner =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Data does not need to be loaded prior to calling
 <code>summon_familiar</code>. A path to a <em>csv</em> file can also be
 provided. The data can also be a <code>data.frame</code> or
@@ -623,39 +618,36 @@ provided. The data can also be a <code>data.frame</code> or
 file. Other data formats are currently not supported. If categorical
 features are encoded using integer values, it is recommended to load the
 data and manually encode them, as is explained in the <a href="#preparing-your-data">Preparing your data</a> section.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># Example experiment using a csv datafile.</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># Note that because the file does not exist,</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># you will not be able to execute the code as is.</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(<span class="at">data=</span><span class="st">&quot;path_to_data/iris.csv&quot;</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                          <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_3&quot;</span>),</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                          <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                          <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                          <span class="at">class_levels=</span><span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>),</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                          <span class="at">experimental_design=</span><span class="st">&quot;fs+mb&quot;</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                          <span class="at">cluster_method=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>                          <span class="at">fs_method=</span><span class="st">&quot;mrmr&quot;</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                          <span class="at">learner=</span><span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                          <span class="at">parallel=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Example experiment using a csv datafile. Note that because the file does not</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># exist, you will not be able to execute the code as is.</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">data =</span> <span class="st">&quot;path_to_data/iris.csv&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">experiment_dir =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_3&quot;</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">outcome_type =</span> <span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">outcome_column =</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">class_levels =</span> <span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="at">experimental_design =</span> <span class="st">&quot;fs+mb&quot;</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="at">cluster_method =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="at">fs_method =</span> <span class="st">&quot;mrmr&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="at">learner =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>For reproducibility purposes, it may be useful to configure
 <code>summon_familiar</code> using the configuration <em>xml</em> file.
 In that case, we will point to a data file using the
 <code>data_file</code> parameter.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># Example experiment using a configuration file.</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># Note that because the file does not exist,</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># you will not be able to execute the code as is.</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(<span class="at">config=</span><span class="st">&quot;path_to_configuration_file/config.xml&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Example experiment using a configuration file. Note that because the file does</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># not exist, you will not be able to execute the code as is.</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(<span class="at">config =</span> <span class="st">&quot;path_to_configuration_file/config.xml&quot;</span>)</span></code></pre></div>
 <p>Configuration parameters may also be mixed between parameters
 specified in the <em>xml</em> file and function arguments. Function
 arguments supersede parameters specified in the <em>xml</em> file:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># Example experiment using a csv datafile, but with additional arguments.</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># Note that because the configuration file does not exist,</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># you will not be able to execute the code as is.</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(<span class="at">config=</span><span class="st">&quot;path_to_configuration_file/config.xml&quot;</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>                          <span class="at">data=</span>iris,</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                          <span class="at">parallel=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Example experiment using a csv datafile, but with additional arguments. Note</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># that because the configuration file does not exist, you will not be able to</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># execute the code as is.</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">config =</span> <span class="st">&quot;path_to_configuration_file/config.xml&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">data =</span> iris,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <div id="configuring-familiar" class="section level2">
 <h2>Configuring familiar</h2>
 <p>Familiar is highly configurable. Parameters can be specified in two
@@ -734,10 +726,10 @@ data. Let us look at the <em>colon</em> dataset found in the survival
 package, which contains data from a clinical trial to assess a new
 anti-cancer drug in patients with colon cancer:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Get the colon dataset.</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">as.data.table</span>(survival<span class="sc">::</span>colon)[etype<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">as.data.table</span>(survival<span class="sc">::</span>colon)[etype <span class="sc">==</span> <span class="dv">1</span>]</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># Drop some irrelevant columns.</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>data[, <span class="st">&quot;:=&quot;</span>(<span class="st">&quot;node4&quot;</span><span class="ot">=</span><span class="cn">NULL</span>, <span class="st">&quot;etype&quot;</span><span class="ot">=</span><span class="cn">NULL</span>)]</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>data[, <span class="st">&quot;:=&quot;</span>(<span class="st">&quot;node4&quot;</span> <span class="ot">=</span> <span class="cn">NULL</span>, <span class="st">&quot;etype&quot;</span> <span class="ot">=</span> <span class="cn">NULL</span>)]</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
 <table>
@@ -929,15 +921,15 @@ integers be present in your dataset, you should manually encode such
 values in the data prior to passing the data to familiar. For the
 <em>colon</em> dataset, this could be done as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Categorical features</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>data<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="at">x=</span>data<span class="sc">$</span>sex, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>))</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>data<span class="sc">$</span>obstruct <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>obstruct, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>data<span class="sc">$</span>perfor <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>perfor, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>data<span class="sc">$</span>adhere <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>adhere, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>data<span class="sc">$</span>surg <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>surg, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;short&quot;</span>, <span class="st">&quot;long&quot;</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>data<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="at">x =</span> data<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>data<span class="sc">$</span>obstruct <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>obstruct, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>data<span class="sc">$</span>perfor <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>perfor, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>data<span class="sc">$</span>adhere <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>adhere, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>data<span class="sc">$</span>surg <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>surg, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;short&quot;</span>, <span class="st">&quot;long&quot;</span>))</span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># Ordinal features</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>data<span class="sc">$</span>differ <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>differ, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;well&quot;</span>, <span class="st">&quot;moderate&quot;</span>, <span class="st">&quot;poor&quot;</span>), <span class="at">ordered=</span><span class="cn">TRUE</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>data<span class="sc">$</span>extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>extent, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;submucosa&quot;</span>, <span class="st">&quot;muscle&quot;</span>,  <span class="st">&quot;serosa&quot;</span>, <span class="st">&quot;contiguous_structures&quot;</span>), <span class="at">ordered=</span><span class="cn">TRUE</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>data<span class="sc">$</span>differ <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>differ, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;well&quot;</span>, <span class="st">&quot;moderate&quot;</span>, <span class="st">&quot;poor&quot;</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>data<span class="sc">$</span>extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>extent, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;submucosa&quot;</span>, <span class="st">&quot;muscle&quot;</span>, <span class="st">&quot;serosa&quot;</span>, <span class="st">&quot;contiguous_structures&quot;</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
 <table>
@@ -1191,27 +1183,25 @@ the <code>experiment_data</code> argument for
 <code>summon_familiar</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># This creates both data assignment (5 bootstraps) and the corresponding feature</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># information.</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>experiment_data <span class="ot">=</span> familiar<span class="sc">::</span><span class="fu">precompute_feature_info</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="at">data=</span>iris,</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_1&quot;</span>),</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="at">experimental_design=</span><span class="st">&quot;bs(fs+mb,5)&quot;</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">cluster_method=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="at">parallel=</span><span class="cn">FALSE</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>)</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># Now we can warm-start a new experiment using the precomputed data.</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  <span class="at">data=</span>iris,</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="at">experiment_data =</span> experiment_data,</span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  <span class="at">experiment_dir=</span><span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_2&quot;</span>),</span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>  <span class="at">outcome_type=</span><span class="st">&quot;multinomial&quot;</span>,</span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>  <span class="at">outcome_column=</span><span class="st">&quot;Species&quot;</span>,</span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  <span class="at">fs_method=</span><span class="st">&quot;mrmr&quot;</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>  <span class="at">learner=</span><span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>  <span class="at">parallel=</span><span class="cn">FALSE</span></span>
-<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>experiment_data <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">precompute_feature_info</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="at">data =</span> iris,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">experiment_dir =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_1&quot;</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">outcome_type =</span> <span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="at">outcome_column =</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="at">experimental_design =</span> <span class="st">&quot;bs(fs+mb,5)&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">cluster_method =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># Now we can warm-start a new experiment using the precomputed data.</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>familiar<span class="sc">::</span><span class="fu">summon_familiar</span>(</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  <span class="at">data =</span> iris,</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  <span class="at">experiment_data =</span> experiment_data,</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="at">experiment_dir =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;familiar_2&quot;</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  <span class="at">outcome_type =</span> <span class="st">&quot;multinomial&quot;</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>  <span class="at">outcome_column =</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>  <span class="at">fs_method =</span> <span class="st">&quot;mrmr&quot;</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  <span class="at">learner =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>  <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

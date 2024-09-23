@@ -1,7 +1,7 @@
 ---
 title: "Evaluation and explanation"
 author: "Alex Zwanenburg"
-date: "2022-12-16"
+date: "2024-09-20"
 output:
   rmarkdown::html_vignette:
     includes:
@@ -24,11 +24,9 @@ vignette: >
 
 
 
-```r
+``` r
 library(familiar)
 library(data.table)
-#> Warning: package 'data.table' was built under R version 4.2.2
-#> data.table 1.14.6 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
 
 set.seed(19)
 ```
@@ -125,31 +123,39 @@ the Wisconsin breast cancer dataset [@Wolberg1990-gn] to predict cell malignancy
 from biopsies, which constitutes a classification problem.
 
 
-```r
-
+``` r
 # Get a dataset.
-binomial_data <- familiar:::test_create_good_data(outcome_type="binomial")
+binomial_data <- familiar:::test_create_good_data(outcome_type = "binomial")
 
-# Call familiar to create models. Note that we skip hyperparameter optimisation by manually defining the hyperparameters, and that we skip evaluation steps. This is to save time when creating the vignette.
-familiar::summon_familiar(data=binomial_data,
-                          project_dir=file.path(tempdir()),
-                          experiment_dir="binomial",
-                          experimental_design="fs+mb",
-                          cluster_method="none",
-                          fs_method="none",
-                          hyperparameter=list("random_forest_ranger"=
-                                                list("n_tree"=4,
-                                                     "sample_size"=0.7,
-                                                     "m_try"=0.5,
-                                                     "node_size"=20,
-                                                     "tree_depth"=3)),
-                          learner="random_forest_ranger",
-                          parallel=FALSE,
-                          skip_evaluation_elements="all")
+# Call familiar to create models. Note that we skip hyperparameter optimisation
+# by manually defining the hyperparameters, and that we skip evaluation steps.
+# This is to save time when creating the vignette.
+familiar::summon_familiar(
+  data = binomial_data,
+  project_dir = file.path(tempdir()),
+  experiment_dir = "binomial",
+  experimental_design = "fs+mb",
+  cluster_method = "none",
+  fs_method = "none",
+  hyperparameter = list(
+    "random_forest_ranger" =
+      list(
+        "n_tree" = 4,
+        "sample_size" = 0.7,
+        "m_try" = 0.5,
+        "node_size" = 20,
+        "tree_depth" = 3)),
+  learner = "random_forest_ranger",
+  parallel = FALSE,
+  skip_evaluation_elements = "all"
+)
 
 # Create path to the directory containing the models.
-model_directory_path <- file.path(tempdir(), "binomial", "trained_models", "random_forest_ranger", "none")
-model_path <- file.path(model_directory_path, list.files(model_directory_path, pattern="model")[1])
+model_directory_path <- file.path(
+  tempdir(), "binomial", "trained_models", "random_forest_ranger", "none")
+model_path <- file.path(
+  model_directory_path,
+  list.files(model_directory_path, pattern = "model")[1])
 
 # Load the model.
 binomial_model <- readRDS(model_path)
@@ -160,32 +166,40 @@ chemotherapy clinical trial dataset [@Moertel1995-bh] to predict overall
 survival after treatment.
 
 
-```r
-
+``` r
 # Get a dataset.
-survival_data <- familiar:::test_create_good_data(outcome_type="survival")
+survival_data <- familiar:::test_create_good_data(outcome_type = "survival")
 
-# Call familiar to create models. Note that we skip hyperparameter optimisation by manually defining the hyperparameters, and that we skip evaluation steps. This is to save time when creating the vignette.
-familiar::summon_familiar(data=survival_data,
-                          project_dir=file.path(tempdir()),
-                          experiment_dir="survival",
-                          experimental_design="fs+mb",
-                          cluster_method="none",
-                          fs_method="none",
-                          hyperparameter=list("random_forest_ranger"=
-                                                list("n_tree"=9,
-                                                     "sample_size"=0.95,
-                                                     "m_try"=0.68,
-                                                     "node_size"=30,
-                                                     "tree_depth"=2,
-                                                     "alpha"=0.25)),
-                          learner="random_forest_ranger",
-                          parallel=FALSE,
-                          skip_evaluation_elements="all")
+# Call familiar to create models. Note that we skip hyperparameter optimisation
+# by manually defining the hyperparameters, and that we skip evaluation steps.
+# This is to save time when creating the vignette.
+familiar::summon_familiar(
+  data = survival_data,
+  project_dir = file.path(tempdir()),
+  experiment_dir = "survival",
+  experimental_design = "fs+mb",
+  cluster_method = "none",
+  fs_method = "none",
+  hyperparameter = list(
+    "random_forest_ranger" =
+      list(
+        "n_tree" = 9,
+        "sample_size" = 0.95,
+        "m_try" = 0.68,
+        "node_size" = 30,
+        "tree_depth" = 2,
+        "alpha" = 0.25)),
+  learner = "random_forest_ranger",
+  parallel = FALSE,
+  skip_evaluation_elements = "all"
+)
 
 # Create path to the directory containing the models.
-model_directory_path <- file.path(tempdir(), "survival", "trained_models", "random_forest_ranger", "none")
-model_path <- file.path(model_directory_path, list.files(model_directory_path, pattern="model")[1])
+model_directory_path <- file.path(
+  tempdir(), "survival", "trained_models", "random_forest_ranger", "none")
+model_path <- file.path(
+  model_directory_path, 
+  list.files(model_directory_path, pattern = "model")[1])
 
 # Load the model.
 survival_model <- readRDS(model_path)
@@ -200,16 +214,19 @@ vignette, and can be set using the `evaluation_metric` argument of the
 example, this results in the following plot for the breast cancer dataset:
 
 
-```r
-plots <- familiar::plot_model_performance(object=binomial_model,
-                                          data=binomial_data,
-                                          metric = c("auc", "brier", "f1_score"),
-                                          x_axis_by="metric")
+``` r
+plots <- familiar::plot_model_performance(
+  object = binomial_model,
+  data = binomial_data,
+  metric = c("auc", "brier", "f1_score"),
+  x_axis_by = "metric")
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/model-performance-plot-1.png" alt="plot of chunk model-performance-plot" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/model-performance-plot-1.png" alt="plot of chunk model-performance-plot"  />
+</div>
 
 The plot shows distributions of the area under the receiver operating
 characteristic curve, the brier score and the f1-score. The plot indicates that
@@ -231,14 +248,17 @@ receiver-operating characteristic curve for the breast cancer dataset is as
 follows:
 
 
-```r
-plots <- familiar::plot_auc_roc_curve(object=binomial_model,
-                                      data=binomial_data)
+``` r
+plots <- familiar::plot_auc_roc_curve(
+  object = binomial_model,
+  data = binomial_data)
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/auc-roc-curve-bci-1.png" alt="plot of chunk auc-roc-curve-bci" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/auc-roc-curve-bci-1.png" alt="plot of chunk auc-roc-curve-bci"  />
+</div>
 
 Under ideal circumstances, the curve would lie in the top-left corner of the
 plot. If a model does not predict better than at random, the curve would lie
@@ -264,15 +284,18 @@ of a single model or the complete ensemble of models is evaluated
 (`detail_level="ensemble"`):
 
 
-```r
-plots <- familiar::plot_auc_roc_curve(object=binomial_model,
-                                      data=binomial_data,
-                                      estimation_type="point")
+``` r
+plots <- familiar::plot_auc_roc_curve(
+  object = binomial_model,
+  data = binomial_data,
+  estimation_type = "point")
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/auc-roc-curve-point-1.png" alt="plot of chunk auc-roc-curve-point" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/auc-roc-curve-point-1.png" alt="plot of chunk auc-roc-curve-point"  />
+</div>
 
 Note that we did not specify the detail level to create the above plot because
 only a single model is evaluated.
@@ -291,14 +314,17 @@ negative class. For the breast cancer dataset, the precision-recall curve is as
 follows:
 
 
-```r
-plots <- familiar::plot_auc_precision_recall_curve(object=binomial_model,
-                                                   data=binomial_data)
+``` r
+plots <- familiar::plot_auc_precision_recall_curve(
+  object = binomial_model,
+  data = binomial_data)
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/auc-pr-curve-bci-1.png" alt="plot of chunk auc-pr-curve-bci" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/auc-pr-curve-bci-1.png" alt="plot of chunk auc-pr-curve-bci"  />
+</div>
 
 Under ideal circumstances, the curve would lie in the top-right part of the
 plot. A random classifier would yield a curve that is mostly horizontal and
@@ -324,15 +350,18 @@ single model or of the complete ensemble of models (`detail_level="ensemble"`).
 In the breast cancer dataset, this produces the following curve:
 
 
-```r
-plots <- familiar::plot_auc_precision_recall_curve(object=binomial_model,
-                                                   data=binomial_data,
-                                                   estimation_type="point")
+``` r
+plots <- familiar::plot_auc_precision_recall_curve(
+  object = binomial_model,
+  data = binomial_data,
+  estimation_type = "point")
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/auc-pr-curve-point-1.png" alt="plot of chunk auc-pr-curve-point" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/auc-pr-curve-point-1.png" alt="plot of chunk auc-pr-curve-point"  />
+</div>
 
 ## Confusion matrix
 
@@ -341,14 +370,17 @@ class instances and their actual (observed) values. This may help identify
 potential weaknesses of classifiers, i.e. false positives or negatives.
 
 
-```r
-plots <- familiar::plot_confusion_matrix(object=binomial_model,
-                                         data=binomial_data)
+``` r
+plots <- familiar::plot_confusion_matrix(
+  object = binomial_model,
+  data = binomial_data)
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/confusion-matrix-1.png" alt="plot of chunk confusion-matrix" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/confusion-matrix-1.png" alt="plot of chunk confusion-matrix"  />
+</div>
 
 Familiar selects the class with the highest predicted class probability as the
 expected class. It is currently not possible in familiar to obtain confusion
@@ -389,15 +421,18 @@ Applying the survival model to the colon cancer dataset yields the following
 Kaplan-Meier plot:
 
 
-```r
-plots <- familiar::plot_kaplan_meier(object=survival_model,
-                                     data=survival_data)
+``` r
+plots <- familiar::plot_kaplan_meier(
+  object = survival_model,
+  data = survival_data)
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/kaplan-meier-plot-1.png" alt="plot of chunk kaplan-meier-plot" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/kaplan-meier-plot-1.png" alt="plot of chunk kaplan-meier-plot"  />
+</div>
 
 In the plot above, familiar divides instances into two groups by the median
 threshold in the development dataset. The risk groups are shown with 95%
@@ -421,15 +456,18 @@ probability is. Model calibration is assessed for this purpose. The model for
 the breast cancer dataset produces the following calibration plot:
 
 
-```r
-plots <- familiar::plot_calibration_data(object=binomial_model,
-                                         data=binomial_data)
+``` r
+plots <- familiar::plot_calibration_data(
+  object = binomial_model,
+  data = binomial_data)
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/calibration-data-bci-1.png" alt="plot of chunk calibration-data-bci" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/calibration-data-bci-1.png" alt="plot of chunk calibration-data-bci"  />
+</div>
 
 The calibration curve shows the expected (predicted) probability of malignant
 cells versus the observed proportion of malignant cells, together with a 95%
@@ -490,16 +528,19 @@ We can observe the points thus created in a calibration plot when
 `estimation_type="point"`:
 
 
-```r
-plots <- familiar::plot_calibration_data(object=binomial_model,
-                                         data=binomial_data,
-                                         estimation_type="point")
+``` r
+plots <- familiar::plot_calibration_data(
+  object = binomial_model,
+  data = binomial_data,
+  estimation_type = "point")
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/calibration-data-point-1.png" alt="plot of chunk calibration-data-point" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/calibration-data-point-1.png" alt="plot of chunk calibration-data-point"  />
+</div>
 
 The plot with point estimates and the earlier calibration plot with bootstrap
 confidence intervals lead to the same assessment. However, you may have observed
@@ -517,12 +558,12 @@ bootstraps) for bias-corrected estimates and more for bootstraps confidence
 intervals.
 
 Linear fit intercept and slope as well as the goodness-of-fit test p-value are
-determined for each single set of groups. Intercept and slopes are then averaged (`point`
-and `bias_correction`) or assessed as a distribution
+determined for each single set of groups. Intercept and slopes are then averaged
+(`point` and `bias_correction`) or assessed as a distribution
 (`bootstrap_confidence_interval`). p-values from goodness-of-fit tests need to
-be combined. These tests are not fully independent because they derive
-from the same dataset. We therefore compute a harmonic mean p-value
-[@Wilson2019-bi] from the individual p-values.
+be combined. These tests are not fully independent because they derive from the
+same dataset. We therefore compute a harmonic mean p-value [@Wilson2019-bi] from
+the individual p-values.
 
 # Decision curve analysis
 
@@ -537,17 +578,20 @@ patients with malignancy predicted by the model. This produces the following
 figure:
 
 
-```r
-plots <- familiar::plot_decision_curve(object=binomial_model,
-                                       data=binomial_data,
-                                       y_range=c(-0.2, 0.5))
+``` r
+plots <- familiar::plot_decision_curve(
+  object = binomial_model,
+  data = binomial_data,
+  y_range = c(-0.2, 0.5))
 
 plots[[1]]
-#> Warning: Removed 1 row containing missing values (`geom_line()`).
-#> Removed 1 row containing missing values (`geom_line()`).
+#> Warning: Removed 1 row containing missing values or values outside the scale range (`geom_line()`).
+#> Removed 1 row containing missing values or values outside the scale range (`geom_line()`).
 ```
 
-<img src="eval_and_explain/decision-curve-bci-1.png" alt="plot of chunk decision-curve-bci" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/decision-curve-bci-1.png" alt="plot of chunk decision-curve-bci"  />
+</div>
 
 The shaded curve is the decision curve produced by the model, with 95% confidence
 intervals. The declining curve represents the intervention for all, which offers
@@ -578,14 +622,17 @@ random forest model for the breast cancer dataset, permutation variable
 importance is determined. This produces the following plot:
 
 
-```r
-plots <- familiar::plot_model_signature_variable_importance(object=binomial_model,
-                                                            data=binomial_data)
+``` r
+plots <- familiar::plot_model_signature_variable_importance(
+  object = binomial_model,
+  data = binomial_data)
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/model-variable-importance-1.png" alt="plot of chunk model-variable-importance" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/model-variable-importance-1.png" alt="plot of chunk model-variable-importance"  />
+</div>
 
 In such plots, we always order features so that the most important features are
 on the left, and the least important features on the right.
@@ -609,15 +656,18 @@ shuffling values of a feature across the instances in a dataset.
 For the breast cancer dataset, this results in the following figure:
 
 
-```r
-plots <- familiar::plot_permutation_variable_importance(object=binomial_model,
-                                                        data=binomial_data,
-                                                        estimation_type="bias_correction")
+``` r
+plots <- familiar::plot_permutation_variable_importance(
+  object = binomial_model,
+  data = binomial_data,
+  estimation_type = "bias_correction")
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/permutation-variable-importance-bc-1.png" alt="plot of chunk permutation-variable-importance-bc" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/permutation-variable-importance-bc-1.png" alt="plot of chunk permutation-variable-importance-bc"  />
+</div>
 
 The figure shows the features along the y-axis, and the loss in AUC-ROC caused
 by permuting the feature values along the x-axis. Accordingly,
@@ -645,17 +695,21 @@ measure similarity using the Spearman`s rank correlation coefficient, we arrive
 at the following:
 
 
-```r
-plots <- familiar::plot_permutation_variable_importance(object=binomial_model,
-                                                        data=binomial_data,
-                                                        estimation_type="bias_correction",
-                                                        feature_similarity_metric="spearman",
-                                                        feature_similarity_threshold=c(0.6, 1.0))
+``` r
+plots <- familiar::plot_permutation_variable_importance(
+  object = binomial_model,
+  data = binomial_data,
+  estimation_type = "bias_correction",
+  feature_similarity_metric = "spearman",
+  feature_similarity_threshold = c(0.6, 1.0))
+#> Error in ..error_value_outside_allowed_range(x = x, var_name = var_name, : feature_similarity_threshold is expected to have a value between -1 and 0. Found: 0.6
 
 plots[[1]]
 ```
 
-<img src="eval_and_explain/permutation-variable-importance-bc-spearman-1.png" alt="plot of chunk permutation-variable-importance-bc-spearman" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/permutation-variable-importance-bc-spearman-1.png" alt="plot of chunk permutation-variable-importance-bc-spearman"  />
+</div>
 
 This figure paints a different picture: the `cell_shape_uniformity`, `bare_nuclei`,
 `normal_nucleoli` and `epithelial_cell_size` features are moderately to strongly
@@ -675,16 +729,19 @@ example, we can create an ICE plot for the `cell_shape_uniformity` feature that
 was found to be important for predicting cell malignancy in the breast cancer.
 
 
-```r
-plots <- familiar::plot_ice(object=binomial_model,
-                            data=binomial_data,
-                            features="cell_shape_uniformity")
+``` r
+plots <- familiar::plot_ice(
+  object = binomial_model,
+  data = binomial_data,
+  features = "cell_shape_uniformity")
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/ice-cell-shap-uniformity-1.png" alt="plot of chunk ice-cell-shap-uniformity" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/ice-cell-shap-uniformity-1.png" alt="plot of chunk ice-cell-shap-uniformity"  />
+</div>
 
 The ICE plot shows multiple curves for individual samples, as well as their
 average, the partial dependence plot as a somewhat thicker curve. The ICE plot
@@ -710,17 +767,20 @@ fixed value. In effect this can reduce some of the offset caused by other
 behaviour:
 
 
-```r
-plots <- familiar::plot_ice(object=binomial_model,
-                            data=binomial_data,
-                            features="cell_shape_uniformity",
-                            anchor_values=list("cell_shape_uniformity"=10.0))
+``` r
+plots <- familiar::plot_ice(
+  object = binomial_model,
+  data = binomial_data,
+  features = "cell_shape_uniformity",
+  anchor_values = list("cell_shape_uniformity" = 10.0))
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/ice-cell-shape-uniformity-anchored-1.png" alt="plot of chunk ice-cell-shape-uniformity-anchored" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/ice-cell-shape-uniformity-anchored-1.png" alt="plot of chunk ice-cell-shape-uniformity-anchored"  />
+</div>
 
 In the plot above, we have anchored the values at `cell_shape_uniformity=10`,
 which is the maximum value that this feature can take. All curves are then drawn
@@ -730,16 +790,19 @@ It is also possible to show the partial dependence of two features at the same
 time:
 
 
-```r
-plots <- familiar::plot_ice(object=binomial_model,
-                            data=binomial_data,
-                            features=c("cell_shape_uniformity", "bare_nuclei"))
+``` r
+plots <- familiar::plot_ice(
+  object = binomial_model,
+  data = binomial_data,
+  features = c("cell_shape_uniformity", "bare_nuclei"))
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/ice-2d-1.png" alt="plot of chunk ice-2d" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/ice-2d-1.png" alt="plot of chunk ice-2d"  />
+</div>
 
 The partial dependence plot above shows the `cell_shape_uniformity` along the
 x-axis and `bare_nuclei` along the y-axis. Higher intensities are associated
@@ -752,19 +815,23 @@ the underlying instances determines the size of each point.
 It also possible to anchor 2D partial dependence plots:
 
 
-```r
-plots <- familiar::plot_ice(object=binomial_model,
-                            data=binomial_data,
-                            features=c("cell_shape_uniformity", "bare_nuclei"),
-                            anchor_values=list("cell_shape_uniformity"=10.0,
-                                               "bare_nuclei"=10.0),
-                            show_novelty=FALSE)
+``` r
+plots <- familiar::plot_ice(
+  object = binomial_model,
+  data = binomial_data,
+  features = c("cell_shape_uniformity", "bare_nuclei"),
+  anchor_values = list(
+    "cell_shape_uniformity" = 10.0,
+    "bare_nuclei" = 10.0),
+  show_novelty = FALSE)
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/ice-2d-anchored-1.png" alt="plot of chunk ice-2d-anchored" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/ice-2d-anchored-1.png" alt="plot of chunk ice-2d-anchored"  />
+</div>
 
 We disabled novelty (`show_novelty=FALSE`) for plotting the 2D anchored plot.
 This changes the appearance of the plot, which now consists of coloured
@@ -779,18 +846,21 @@ sampled, for the `nodes` feature in the colon cancer dataset this is not the
 case:
 
 
-```r
-plots <- familiar::plot_ice(object=survival_model,
-                            data=survival_data,
-                            features=c("nodes", "rx"),
-                            evaluation_times=1000,
-                            show_novelty=FALSE)
+``` r
+plots <- familiar::plot_ice(
+  object = survival_model,
+  data = survival_data,
+  features = c("nodes", "rx"),
+  evaluation_times = 1000,
+  show_novelty = FALSE)
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/ice-2d-survival-1.png" alt="plot of chunk ice-2d-survival" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/ice-2d-survival-1.png" alt="plot of chunk ice-2d-survival"  />
+</div>
 
 Here we see that the number of nodes was not sampled linearly. Survival
 probability at 1000 days drops with an increase in nodes. Moreover, the model
@@ -803,16 +873,20 @@ Highly similar features can carry redundant information for a model. This can be
 visualised using similarity heatmaps:
 
 
-```r
-plots <- familiar::plot_feature_similarity(object=binomial_model,
-                                           data=binomial_data,
-                                           feature_similarity_metric="spearman")
+``` r
+plots <- familiar::plot_feature_similarity(
+  object = binomial_model,
+  data = binomial_data,
+  feature_similarity_metric = "spearman")
+#> Error in ..error_value_outside_allowed_range(x = x, var_name = var_name, : feature_similarity_threshold is expected to have a value between -1 and 0. Found: 0.3
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/feature-similarity-1.png" alt="plot of chunk feature-similarity" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/feature-similarity-1.png" alt="plot of chunk feature-similarity"  />
+</div>
 
 The heatmap displays Spearman's correlation coefficient between the different
 features. The features are also ordered by similarity, so that clusters of
@@ -824,16 +898,20 @@ if samples are readily stratified into clusters, which may or may not correlate
 to the endpoint of interest. For the breast cancer dataset, this yields the
 following heatmap:
 
-```r
-plots <- familiar::plot_sample_clustering(object=binomial_model,
-                                          data=binomial_data,
-                                          feature_similarity_metric="spearman")
+``` r
+plots <- familiar::plot_sample_clustering(
+  object = binomial_model,
+  data = binomial_data,
+  feature_similarity_metric = "spearman")
+#> Error in ..error_value_outside_allowed_range(x = x, var_name = var_name, : feature_similarity_threshold is expected to have a value between -1 and 0. Found: 0.3
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/sample-similarity-1.png" alt="plot of chunk sample-similarity" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/sample-similarity-1.png" alt="plot of chunk sample-similarity"  />
+</div>
 
 As may be observed, samples in the breast cancer dataset form two main clusters
 that correspond closely to cell malignancy. The top dendrogram is the same as
@@ -848,16 +926,20 @@ argument. In the breast cancer dataset all features have the same range, so we
 can also show the data directly:
 
 
-```r
-plots <- familiar::plot_sample_clustering(object=binomial_model,
-                                          data=binomial_data,
-                                          feature_similarity_metric="spearman",
-                                          show_normalised_data="none")
+``` r
+plots <- familiar::plot_sample_clustering(
+  object = binomial_model,
+  data = binomial_data,
+  feature_similarity_metric = "spearman",
+  show_normalised_data = "none")
+#> Error in ..error_value_outside_allowed_range(x = x, var_name = var_name, : feature_similarity_threshold is expected to have a value between -1 and 0. Found: 0.3
 
 grid::grid.newpage()
 grid::grid.draw(plots[[1]])
 ```
 
-<img src="eval_and_explain/sample-similarity-unnormalised-1.png" alt="plot of chunk sample-similarity-unnormalised" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="eval_and_explain/sample-similarity-unnormalised-1.png" alt="plot of chunk sample-similarity-unnormalised"  />
+</div>
 
 # References

@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 1.4.8
+Version: 1.5.0
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -29,16 +29,16 @@ BugReports: https://github.com/alexzwanenburg/familiar/issues
 Depends: R (>= 4.0.0)
 License: EUPL
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 0.3.4), rstream, survival
 Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro,
         dynamicTreeCut, e1071 (>= 1.7.5), Ecdat, fastcluster, fastglm,
         ggplot2 (>= 3.0.0), glmnet, gtable, harmonicmeanp, isotree (>=
         0.3.0), knitr, labeling, laGP, MASS, maxstat, mboost (>=
-        2.9.0), microbenchmark, nnet, partykit, praznik, proxy, qvalue,
-        randomForestSRC, ranger, rmarkdown, scales, testthat (>=
-        3.0.0), xml2, VGAM, xgboost
+        2.9.0), microbenchmark, nnet, partykit, power.transform,
+        praznik, proxy, qvalue, randomForestSRC, ranger, rmarkdown,
+        scales, testthat (>= 3.0.0), xml2, VGAM, xgboost
 Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
         'CheckArguments.R' 'CheckHyperparameters.R' 'CheckPackages.R'
@@ -68,29 +68,29 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'FamiliarDataComputationSampleSimilarity.R'
         'FamiliarDataComputationUnivariateAnalysis.R'
         'FamiliarDataComputationVimp.R' 'FamiliarDataElement.R'
-        'FamiliarEnsemble.R' 'HyperparameterS4Ranger.R'
-        'HyperparameterS4RandomSearch.R'
-        'HyperparameterS4GaussianProcess.R'
-        'HyperparameterS4BayesianAdditiveRegressionTrees.R'
-        'FamiliarHyperparameterLearner.R' 'FamiliarModel.R'
-        'FamiliarNoveltyDetector.R' 'FamiliarObjectConversion.R'
+        'FamiliarEnsemble.R' 'FamiliarHyperparameterLearner.R'
+        'FamiliarModel.R' 'FamiliarNoveltyDetector.R'
+        'FamiliarObjectConversion.R' 'Transformation.R'
         'FamiliarObjectUpdate.R' 'FamiliarSharedS4Methods.R'
         'FamiliarVimpMethod.R' 'FeatureInfo.R'
         'FeatureInfoParameters.R' 'FeatureSelection.R'
         'FunctionWrapperUtilities.R' 'HyperparameterOptimisation.R'
         'HyperparameterOptimisationMetaLearners.R'
-        'HyperparameterOptimisationUtilities.R' 'Imputation.R'
-        'Iterations.R' 'LearnerS4XGBoost.R'
-        'LearnerS4SurvivalRegression.R' 'LearnerS4SVM.R'
-        'LearnerS4RFSRC.R' 'LearnerS4Ranger.R' 'LearnerS4MBoost.R'
-        'LearnerS4NaiveBayes.R' 'LearnerS4KNN.R' 'LearnerS4GLMnet.R'
-        'LearnerS4GLM.R' 'LearnerS4Cox.R' 'LearnerMain.R'
-        'LearnerRecalibration.R' 'LearnerSurvivalGrouping.R'
-        'LearnerSurvivalProbability.R' 'Logger.R'
-        'MetricS4Regression.R' 'MetricS4ConfusionMatrixMetrics.R'
-        'MetricS4Brier.R' 'MetricS4AUC.R' 'MetricS4.R'
-        'MetricS4ConcordanceIndex.R' 'ModelBuilding.R'
-        'NoveltyDetectorS4IsolationTree.R' 'NoveltyDetectorMain.R'
+        'HyperparameterOptimisationUtilities.R'
+        'HyperparameterS4BayesianAdditiveRegressionTrees.R'
+        'HyperparameterS4GaussianProcess.R'
+        'HyperparameterS4RandomSearch.R' 'HyperparameterS4Ranger.R'
+        'Imputation.R' 'Iterations.R' 'LearnerMain.R'
+        'LearnerRecalibration.R' 'LearnerS4Cox.R' 'LearnerS4GLM.R'
+        'LearnerS4GLMnet.R' 'LearnerS4KNN.R' 'LearnerS4MBoost.R'
+        'LearnerS4NaiveBayes.R' 'LearnerS4RFSRC.R' 'LearnerS4Ranger.R'
+        'LearnerS4SVM.R' 'LearnerS4SurvivalRegression.R'
+        'LearnerS4XGBoost.R' 'LearnerSurvivalGrouping.R'
+        'LearnerSurvivalProbability.R' 'Logger.R' 'MetricS4.R'
+        'MetricS4AUC.R' 'MetricS4Brier.R' 'MetricS4ConcordanceIndex.R'
+        'MetricS4ConfusionMatrixMetrics.R' 'MetricS4Regression.R'
+        'ModelBuilding.R' 'NoveltyDetectorS4IsolationTree.R'
+        'NoveltyDetectorMain.R'
         'NoveltyDetectorS4NoneNoveltyDetector.R' 'OutcomeInfo.R'
         'PairwiseSimilarity.R' 'ParallelFunctions.R' 'ParseData.R'
         'ParseSettings.R' 'PlotAUCcurves.R' 'PlotAll.R'
@@ -100,20 +100,20 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'PlotInputArguments.R' 'PlotKaplanMeier.R'
         'PlotModelPerformance.R' 'PlotPermutationVariableImportance.R'
         'PlotSampleClustering.R' 'PlotUnivariateImportance.R'
-        'PlotUtilities.R' 'PredictS4Methods.R' 'ProcessTimeUtilites.R'
+        'PlotUtilities.R' 'PredictS4Methods.R' 'ProcessTimeUtilities.R'
         'Random.R' 'RandomGrouping.R' 'RankBordaAggregation.R'
         'RankMain.R' 'RankSimpleAggregation.R'
         'RankStabilityAggregation.R' 'SocketServer.R'
         'StringUtilities.R' 'TestDataCreators.R' 'TestFunctions.R'
-        'TrainS4Methods.R' 'Transformation.R' 'TrimUtilities.R'
-        'Utilities.R' 'UtilitiesS4.R' 'VimpS4Regression.R'
-        'VimpS4OtherMethods.R' 'VimpS4MutualInformation.R'
-        'VimpS4Correlation.R' 'VimpS4Concordance.R' 'VimpMain.R'
-        'VimpS4CoreLearn.R' 'VimpTable.R' 'aaa.R'
+        'TrainS4Methods.R' 'TrimUtilities.R' 'Utilities.R'
+        'UtilitiesS4.R' 'VimpMain.R' 'VimpS4Concordance.R'
+        'VimpS4CoreLearn.R' 'VimpS4Correlation.R'
+        'VimpS4MutualInformation.R' 'VimpS4OtherMethods.R'
+        'VimpS4Regression.R' 'VimpTable.R' 'aaa.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2024-05-24 11:40:48 UTC; alexz
+Packaged: 2024-09-23 15:26:57 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   Stefan Leger [ctb],
@@ -124,4 +124,4 @@ Author: Alex Zwanenburg [aut, cre] (<https://orcid.org/0000-0002-0342-9545>),
   German Cancer Research Center (DKFZ) [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2024-05-24 21:10:04 UTC
+Date/Publication: 2024-09-23 15:50:02 UTC
