@@ -1,6 +1,6 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: c(
     person("Alex", "Zwanenburg",
            email = "alexander.zwanenburg@nct-dresden.de",
@@ -25,7 +25,6 @@ BugReports: https://github.com/oncoray/familiar/issues
 Depends: R (>= 4.0.0)
 License: EUPL
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 1.0.0), rstream, survival
 Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro,
@@ -113,8 +112,9 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'VimpS4Regression.R' 'VimpTable.R' 'aaa.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-04-23 10:22:15 UTC; alexz
+Packaged: 2026-05-22 18:19:23 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
@@ -122,4 +122,4 @@ Author: Alex Zwanenburg [aut, cre] (ORCID:
   Technische Universität Dresden [cph]
 Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
 Repository: CRAN
-Date/Publication: 2026-04-23 10:50:02 UTC
+Date/Publication: 2026-05-22 18:50:02 UTC
