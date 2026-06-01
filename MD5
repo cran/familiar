@@ -1,6 +1,6 @@
-1b6182d0efedbb4825d7a61c12d3a4c0 *DESCRIPTION
+64ae7c2af7f7051661a516e36ede89a3 *DESCRIPTION
 e2aa78958c5b12a29f28fdb99b9155a0 *NAMESPACE
-1e9b921a439fcca8f381de78fa998178 *NEWS.md
+0008f185282e8822218ceb5f0b747c49 *NEWS.md
 1cef4aa5a7f6cc0404016ddb6bf9e82c *R/BatchNormalisation.R
 1667a816615648f7782c01bf98a7d7ce *R/BootstrapConfidenceInterval.R
 30430a70b28534e404f61de124ea5711 *R/CheckArguments.R
@@ -76,9 +76,9 @@ f09fc9f408bb9a3a88ae21eb6669f63b *R/LearnerRecalibration.R
 c106c1dd340bf4d42f9b594d21aa62e5 *R/LearnerS4MBoost.R
 9887f78c9f954290ab1c9034f2010b08 *R/LearnerS4Naive.R
 7a5506a6aaeb5916e3b40a7da3288e56 *R/LearnerS4NaiveBayes.R
-4c94ad42d7207a6229148826dbe6a648 *R/LearnerS4RFSRC.R
+28c460ac0e165c494fde6b5e4f03783a *R/LearnerS4RFSRC.R
 353098709d1d92049c5f675f20ee18c8 *R/LearnerS4Ranger.R
-ea68cf006620248d763734874a3d94ca *R/LearnerS4SVM.R
+a5609832ea99c3af94bfaeddc4e0cec2 *R/LearnerS4SVM.R
 67d3327ed3cd8a28d03d0cc718716d66 *R/LearnerS4SurvivalRegression.R
 9cd6f9d0d3c0cc3a1694143bdf1ae542 *R/LearnerS4XGBoost.R
 5c9ae632a20924a0c8655b49bf844d60 *R/LearnerSurvivalProbability.R
@@ -92,7 +92,7 @@ de36f329682faff37dca48892f4dccec *R/MetricS4Regression.R
 b7d4c8565c5da6197a0c75cb4d5cf9f5 *R/Normalisation.R
 bace8d1b396d8559994beda00388427a *R/NoveltyDetectorMain.R
 ca3fc1fa64f4a60cda6cbde02f9987a1 *R/NoveltyDetectorS4IsolationTree.R
-7f496745208ff525ee293090e11a3689 *R/NoveltyDetectorS4NoneNoveltyDetector.R
+7b3350f902a0b5f343f7b28a02aec87d *R/NoveltyDetectorS4NoneNoveltyDetector.R
 91adcb26ea215fca1f78864206bcd519 *R/OutcomeInfo.R
 a83424c5cb09885e2e9c5391b7705b23 *R/PairwiseSimilarity.R
 d7296c0733baaa97ae0f37977a2fccb0 *R/ParallelFunctions.R
@@ -132,16 +132,16 @@ b93753239a7232118f5a4e7b572af0b3 *R/RankMain.R
 a6d61fa18b00ecbe40400a0490cdbbd9 *R/StringUtilities.R
 5837dd46090eb7b8cf44b5f651efb2ac *R/TaskEvaluate.R
 acef6462b55788a970a8e0f8d1e1a2ba *R/TaskFeatureInfo.R
-693e100af9503729d7bc84863d80f091 *R/TaskLearn.R
+acf2d39bcdc402d260252f40f4a5c016 *R/TaskLearn.R
 ea53882ae79a906636dde6e6bab0f6aa *R/TaskLearnerHyperparameters.R
 af3a088414bca877199cb19c773ab8dc *R/TaskMain.R
 3c832e04fde3657ad401d100f11193d7 *R/TaskNoveltyDetector.R
 d0afea41706496406780601dd1803b29 *R/TaskNoveltyDetectorHyperparameters.R
 cb392e1227e612a13672dcaf9279efb2 *R/TaskVimp.R
 d46a898d16eb3f91873d1ef94841e901 *R/TaskVimpHyperparameters.R
-6bcc1bae16883438250518b2b5b19919 *R/TestDataCreators.R
+d68b0615a0adb15fa22781f3ee2d6fa4 *R/TestDataCreators.R
 09fb456e6a43c725cb6c4b6b7d397022 *R/TestFeatureInfo.R
-b4803377b93f0160095262a911ecb66e *R/TestFunctions.R
+153de2121b1b38c8ed6d31cb327998b7 *R/TestFunctions.R
 1a670f4183250c3fa4c95c367b74a7f8 *R/TestTrain.R
 b99d9efa8a3c6c8a732e79a80c6a10e0 *R/TestTrainNovelty.R
 410f65d48de6d520fdf5e86eb445dc62 *R/TestVimp.R
@@ -318,7 +318,7 @@ ebbf79eb2567cb7079ed56d130909915 *man/update_object-methods.Rd
 285768113f3acd893ff3a6c83b5202ef *man/vcov-methods.Rd
 c47cea9f11ef2ecdeb3004fe80cee2dc *man/vimpTable-class.Rd
 093ed9db4a08bcc9a285df8834d59c9a *man/waiver.Rd
-53ed3657848d065b90786bc5cd3a4c5b *tests/testthat.R
+d7a01eb419f793eaf80df25c400cfbea *tests/testthat.R
 d62111130071408fcf55ced2929ae250 *tests/testthat/test-0_parallel_backend.R
 558ccf2c019be4c75bb1ec8ae4164978 *tests/testthat/test-0_plot_calibration.R
 060a15f25753e5ef920b85298ba26cb7 *tests/testthat/test-0_preprocessing_clustering.R
@@ -371,7 +371,7 @@ b671e53537137230e89fabde32fbd9a3 *tests/testthat/test-metric_concordance_index_S
 38ee75251067e29c7b948022bb5a9c2e *tests/testthat/test-metric_confusion_matrix_metrics_S4.R
 31c98e81481b9ca465de8975502f0765 *tests/testthat/test-metric_regression_S4.R
 0edc9d61e66cfd239ee8d7ad592a96f6 *tests/testthat/test-multi_learner_vimp.R
-b097d359f2f2c70f71b0ee71dc0a7ae9 *tests/testthat/test-naive_model.R
+88789efef117df41b0cbbeba94e091d2 *tests/testthat/test-naive_model.R
 42f2d5d03e22f202e2ecc8129c56e448 *tests/testthat/test-novelty_isolation_forest_S4.R
 e86019a233adcbfb4068219311d0335b *tests/testthat/test-novelty_none_S4.R
 aa3f017d6a3c14bc86e011d93f86d6a6 *tests/testthat/test-object_conversion.R
