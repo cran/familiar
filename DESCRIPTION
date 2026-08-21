@@ -1,9 +1,9 @@
 Package: familiar
 Title: End-to-End Automated Machine Learning and Model Evaluation
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: c(
     person("Alex", "Zwanenburg",
-           email = "alexander.zwanenburg@nct-dresden.de",
+           email = "alex.zwanenburg@outlook.com",
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0342-9545")),
     person("Steffen", "Löck", role="aut"),
@@ -27,13 +27,13 @@ License: EUPL
 Encoding: UTF-8
 VignetteBuilder: knitr
 Imports: data.table, methods, rlang (>= 1.0.0), rstream, survival
-Suggests: BART, callr (>= 3.4.3), cluster, CORElearn, coro,
-        dynamicTreeCut, e1071 (>= 1.7.5), fastcluster, fastglm, ggplot2
-        (>= 4.0.0), glmnet, gtable, harmonicmeanp, isotree (>= 0.6.0),
-        knitr, labeling, laGP, maxstat, microbenchmark, nnet,
-        paletteer, power.transform, praznik, proxy, randomForestSRC,
-        ranger, rmarkdown, scales, testthat (>= 3.0.0), xml2, xgboost
-        (>= 3.0.0)
+Suggests: BART, callr (>= 3.4.3), cluster, coro, dynamicTreeCut, e1071
+        (>= 1.7.5), fastcluster, fastglm, ggplot2 (>= 4.0.0), glmnet,
+        gtable, harmonicmeanp, isotree (>= 0.6.0), knitr, labeling,
+        laGP, maxstat, microbenchmark, nnet, paletteer,
+        power.transform, praznik, proxy, randomForestSRC, ranger,
+        rmarkdown, scales, testthat (>= 3.0.0), xml2, xgboost (>=
+        3.0.0)
 Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'BatchNormalisation.R' 'BootstrapConfidenceInterval.R'
         'CheckArguments.R' 'CheckHyperparameters.R' 'CheckPackages.R'
@@ -112,14 +112,14 @@ Collate: 'FamiliarS4Classes.R' 'FamiliarS4Generics.R'
         'VimpS4Regression.R' 'VimpTable.R' 'aaa.R'
 Config/testthat/parallel: true
 Config/testthat/edition: 3
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 NeedsCompilation: no
-Packaged: 2026-06-01 15:43:01 UTC; alexz
+Packaged: 2026-08-21 17:00:04 UTC; alexz
 Author: Alex Zwanenburg [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-0342-9545>),
   Steffen Löck [aut],
   German Cancer Research Center (DKFZ) [cph],
   Technische Universität Dresden [cph]
-Maintainer: Alex Zwanenburg <alexander.zwanenburg@nct-dresden.de>
+Maintainer: Alex Zwanenburg <alex.zwanenburg@outlook.com>
 Repository: CRAN
-Date/Publication: 2026-06-01 17:30:02 UTC
+Date/Publication: 2026-08-21 21:00:39 UTC

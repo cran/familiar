@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2026-04-22" />
+<meta name="date" content="2026-08-21" />
 
 <title>Evaluation and explanation</title>
 
@@ -364,7 +364,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Evaluation and explanation</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2026-04-22</h4>
+<h4 class="date">2026-08-21</h4>
 
 
 <div id="TOC">
@@ -902,17 +902,13 @@ table object using <code>as_prediction_table</code>, as shown below:</p>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;classification&quot;</span>,</span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="at">class_levels =</span> <span class="fu">c</span>(<span class="st">&quot;no&quot;</span>, <span class="st">&quot;yes&quot;</span>)</span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>)</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; Error in `familiar::as_prediction_table()`:</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; ! (converted from warning) The positive class cannot be directly inferred from names of the provided prediction data, and is assumed to be yes.</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co"># The prediction table object is then provided as object</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_model_performance</span>(</span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="at">object =</span> predictions,</span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">c</span>(<span class="st">&quot;auc&quot;</span>, <span class="st">&quot;brier&quot;</span>, <span class="st">&quot;f1_score&quot;</span>),</span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="at">x_axis_by =</span> <span class="st">&quot;metric&quot;</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>)</span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; Error in `.local()`:</span></span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; ! data_element expects one of feature_expressions, risk_stratification_data, feature_similarity and sample_similarity as input. Found the following unknown values: model_performance</span></span></code></pre></div>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co"># The prediction table object is then provided as object</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_model_performance</span>(</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="at">object =</span> predictions,</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">c</span>(<span class="st">&quot;auc&quot;</span>, <span class="st">&quot;brier&quot;</span>, <span class="st">&quot;f1_score&quot;</span>),</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="at">x_axis_by =</span> <span class="st">&quot;metric&quot;</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Performance for the ischemic strok model obtained using a 
   prediction table. This results in the same figure as above, obtained
@@ -937,9 +933,9 @@ exported to a table using using
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>results[[<span class="dv">1</span><span class="dt">L</span>]]<span class="sc">@</span>data</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;                       data_set vimp_method                      learner ensemble_model_name   metric     value    ci_low     ci_up</span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;                         &lt;fctr&gt;      &lt;fctr&gt;                       &lt;fctr&gt;              &lt;fctr&gt;   &lt;fctr&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 1: 173529_2wFvaYlrMM6XXSNOt9rE        none random_forest_ranger_default      ensemble.NA.NA      auc 0.7387626 0.5166193 0.9146674</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 2: 173529_2wFvaYlrMM6XXSNOt9rE        none random_forest_ranger_default      ensemble.NA.NA    brier 0.2041370 0.1639073 0.2492457</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 3: 173529_2wFvaYlrMM6XXSNOt9rE        none random_forest_ranger_default      ensemble.NA.NA f1_score 0.7407407 0.5152258 0.8967186</span></span></code></pre></div>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 1: 160500_Iz4qsMafAmSfqv4Mm7ZA        none random_forest_ranger_default      ensemble.NA.NA      auc 0.7387626 0.5166193 0.9146674</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 2: 160500_Iz4qsMafAmSfqv4Mm7ZA        none random_forest_ranger_default      ensemble.NA.NA    brier 0.2041370 0.1639073 0.2492457</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 3: 160500_Iz4qsMafAmSfqv4Mm7ZA        none random_forest_ranger_default      ensemble.NA.NA f1_score 0.7407407 0.5152258 0.8967186</span></span></code></pre></div>
 <p>In the above table, <code>data_set</code> is randomly generated
 because we call this method on a (technically) <em>new</em> dataset.
 <code>ensemble_model_name</code> contains a placeholder for the same
@@ -1327,11 +1323,33 @@ model. This produces the following figure:</p>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">y_range =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">0.8</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>#&gt; Error in `ggplot2::geom_line()`:
-#&gt; ! Problem while converting geom to grob.
-#&gt; ℹ Error occurred in the 1st layer.
-#&gt; Caused by error:
-#&gt; ! (converted from warning) Removed 33 rows containing missing values or values outside the scale range (`geom_line()`).</code></pre>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Decision curve for the ischemic stroke model on hold-out
+ test data. Three lines are shown. The horizontal line intersecting the origin
+ corresponds to no (model-based) intervention, i.e. the status-quo. The
+ downward sloping curve corresponds to performing an intervention for everyone.
+ The final curve corresponds to model-based intervention, where every patient
+ with a predicted probability above the threshold receives the interventional
+ treatment. This curve is a bootstrap estimate, and is drawn with 95% 
+ confidence intervals. " src="data:image/png;base64,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" alt="Decision curve for the ischemic stroke model on hold-out
+ test data. Three lines are shown. The horizontal line intersecting the origin
+ corresponds to no (model-based) intervention, i.e. the status-quo. The
+ downward sloping curve corresponds to performing an intervention for everyone.
+ The final curve corresponds to model-based intervention, where every patient
+ with a predicted probability above the threshold receives the interventional
+ treatment. This curve is a bootstrap estimate, and is drawn with 95% 
+ confidence intervals. " />
+<p class="caption">
+Decision curve for the ischemic stroke model on hold-out test data.
+Three lines are shown. The horizontal line intersecting the origin
+corresponds to no (model-based) intervention, i.e. the status-quo. The
+downward sloping curve corresponds to performing an intervention for
+everyone. The final curve corresponds to model-based intervention, where
+every patient with a predicted probability above the threshold receives
+the interventional treatment. This curve is a bootstrap estimate, and is
+drawn with 95% confidence intervals.
+</p>
+</div>
 <p>The shaded curve is the decision curve produced by the model, with
 95% confidence intervals. The declining curve represents the
 intervention for all strategy, which offers no benefit for a probability
@@ -1362,16 +1380,32 @@ regression models are a measure of variable importance when features are
 normalised. In the case of the random forest model for the ischemic
 stroke dataset, permutation variable importance is determined. This
 produces the following plot:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_model_signature_variable_importance</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>#&gt; Error in `ggplot2::geom_bar()`:
-#&gt; ! Problem while converting geom to grob.
-#&gt; ℹ Error occurred in the 1st layer.
-#&gt; Caused by error:
-#&gt; ! (converted from warning) Removed 13 rows containing missing values or values outside the scale range (`geom_bar()`).</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_model_signature_variable_importance</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Variable importance plot for the ischemic stroke model on hold-out
+ test data. Features are sorted from highest to least importance. Features 
+ with letters indicate features that are highly similar, and could be 
+ clustered together. Note that because of the permutation variable 
+ importance method used within the random forest, such features do not 
+ receive the same score." src="data:image/png;base64,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" alt="Variable importance plot for the ischemic stroke model on hold-out
+ test data. Features are sorted from highest to least importance. Features 
+ with letters indicate features that are highly similar, and could be 
+ clustered together. Note that because of the permutation variable 
+ importance method used within the random forest, such features do not 
+ receive the same score." />
+<p class="caption">
+Variable importance plot for the ischemic stroke model on hold-out test
+data. Features are sorted from highest to least importance. Features
+with letters indicate features that are highly similar, and could be
+clustered together. Note that because of the permutation variable
+importance method used within the random forest, such features do not
+receive the same score.
+</p>
+</div>
 <p>In such plots, we always order features so that the most important
 features are on the left, and the least important features on the right.
 Letters indicate features that are clustered together.</p>
@@ -1396,11 +1430,11 @@ model performance caused by shuffling values of a feature across the
 instances in a dataset.</p>
 <p>For the ischemic stroke dataset, this results in the following
 figure:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_permutation_variable_importance</span>(</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="at">estimation_type =</span> <span class="st">&quot;bias_correction&quot;</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_permutation_variable_importance</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="at">estimation_type =</span> <span class="st">&quot;bias_correction&quot;</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Permutation variable importance plot for the ischemic stroke model on hold-out
  test data. Features are sorted from highest (top) to least importance (bottom).
@@ -1452,10 +1486,10 @@ season is likely positive, whereas the SHAP value for the winter season
 would likely be negative. Important features have larger SHAP values
 than less important features. Thus a SHAP summary plot can be used to
 evaluate feature importance.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP summary plot for the ischemic stroke model on hold-out
  test data. Features are sorted from highest (top) to least importance (bottom),
@@ -1484,11 +1518,11 @@ all feature values are mapped to the [-1.0, 1.0] range.</p>
 therefore possible to change the <code>plot_type</code> or
 <code>value_representation</code>. For example, the above data could be
 presented as violin plots:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="at">plot_type =</span> <span class="st">&quot;violinplot&quot;</span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="at">plot_type =</span> <span class="st">&quot;violinplot&quot;</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP summary plot for the ischemic stroke model on hold-out
  test data. Features are sorted from highest (top) to least importance (bottom),
@@ -1510,11 +1544,11 @@ cost of losing information concerning underlying feature values.</p>
 also be shown as a bar plot (<code>plot_type = &quot;barplot&quot;</code>) showing
 the mean absolute SHAP value by default
 (<code>value_representation = &quot;abs_mean&quot;</code>):</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="at">value_representation =</span> <span class="st">&quot;abs_mean&quot;</span></span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_summary</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">value_representation =</span> <span class="st">&quot;abs_mean&quot;</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP summary plot for the ischemic stroke model on hold-out
  test data. Features are sorted from highest (top) to least importance (bottom),
@@ -1542,11 +1576,11 @@ and individual conditional expectation (ICE) <span class="citation">(Goldstein e
 visualise how features influence the model. As an example, we can create
 an ICE plot for the <code>max_remodeling_ratio</code> feature that was
 found to be important for predicting ischemic stroke.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Individual conditional expectation plot for the max_remodeling_ratio feature
  in the ischemic stroke model using instances from the hold-out test data. 
@@ -1596,12 +1630,12 @@ feature value. This allows for assessing the model response for
 individual instances versus a fixed value. In effect this can reduce
 some of the offset caused by other (fixed) features in each instance,
 and may help to elucidate the observed behaviour:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="at">anchor_values =</span> <span class="fu">list</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span> <span class="ot">=</span> <span class="fl">2.5</span>)</span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="at">anchor_values =</span> <span class="fu">list</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span> <span class="ot">=</span> <span class="fl">2.5</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Individual conditional expectation plot for the max_remodeling_ratio feature
  in the ischemic stroke model using instances from the hold-out test data. 
@@ -1636,11 +1670,11 @@ relative to the predicted probability found for this particular
 value.</p>
 <p>It is also possible to show the partial dependence of two features at
 the same time:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span>, <span class="st">&quot;coronary_artery_disease&quot;</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span>, <span class="st">&quot;coronary_artery_disease&quot;</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Partial depence plot for the max_remodeling_ratio and coronary_artery_disease
  features in the ischemic stroke model using instances from the hold-out test data. 
@@ -1670,16 +1704,16 @@ at the hospital due to this condition, not necessarily cerebral stroke.
 The average novelty score of the underlying instances determines the
 size of each point.</p>
 <p>It also possible to anchor 2D partial dependence plots:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span>, <span class="st">&quot;coronary_artery_disease&quot;</span>),</span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">anchor_values =</span> <span class="fu">list</span>(</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>    <span class="st">&quot;max_remodeling_ratio&quot;</span> <span class="ot">=</span> <span class="fl">2.5</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    <span class="st">&quot;coronary_artery_disease&quot;</span> <span class="ot">=</span> <span class="st">&quot;no&quot;</span></span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>  ),</span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  <span class="at">show_novelty =</span> <span class="cn">FALSE</span></span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_ice</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;max_remodeling_ratio&quot;</span>, <span class="st">&quot;coronary_artery_disease&quot;</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="at">anchor_values =</span> <span class="fu">list</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>    <span class="st">&quot;max_remodeling_ratio&quot;</span> <span class="ot">=</span> <span class="fl">2.5</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>    <span class="st">&quot;coronary_artery_disease&quot;</span> <span class="ot">=</span> <span class="st">&quot;no&quot;</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>  ),</span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="at">show_novelty =</span> <span class="cn">FALSE</span></span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Partial depence plot for the max_remodeling_ratio and coronary_artery_disease
  features in the ischemic stroke model using instances from the hold-out test data.
@@ -1714,11 +1748,11 @@ arguments.</p>
 <p>SHAP dependence plots function similar to dependence plots. The SHAP
 dependence plot below shows how the SHAP values of
 <code>max_remodeling_ratio</code> are related to its feature values.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP dependence plot for the max_remodeling_ratio feature
  in the ischemic stroke model using instances from the hold-out test data." src="data:image/png;base64,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" alt="SHAP dependence plot for the max_remodeling_ratio feature
@@ -1736,12 +1770,12 @@ of the ischemic stroke).</p>
 <p>SHAP dependence plots can also show interaction with other features.
 For example, we can show the interaction with the
 <code>coronary_artery_disease</code> feature.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="at">interaction_feature =</span> <span class="st">&quot;coronary_artery_disease&quot;</span></span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">interaction_feature =</span> <span class="st">&quot;coronary_artery_disease&quot;</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP dependence plot for the max_remodeling_ratio feature
  in the ischemic stroke model using instances from the hold-out test data.
@@ -1759,12 +1793,12 @@ the plot, but now individual values are coloured by the value of the
 <code>coronary_artery_disease</code> feature for the same sample. It
 appears that <code>coronary_artery_disease</code> is not strongly
 interacting with <code>max_remodeling_ratio</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="at">interaction_feature =</span> <span class="st">&quot;max_dilation_by_area&quot;</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_dependence</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="at">shap_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="at">interaction_feature =</span> <span class="st">&quot;max_dilation_by_area&quot;</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP dependence plot for the max_remodeling_ratio feature
  in the ischemic stroke model using instances from the hold-out test data.
@@ -1786,10 +1820,10 @@ strongly correlated, as shown in the SHAP dependence plot above.</p>
 individual samples. Samples are (by default) ordered by increasing
 predicted value, and the positive and negative marginal contributions
 are shown for each sample.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_force</span>(</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_force</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP force plot for the ischemic stroke model using all instances
  from the hold-out test data. The force plot show the stacked positive and 
@@ -1806,11 +1840,11 @@ negative marginal contributions for all features.
 more highlight features. For example, setting
 <code>max_remodeling_ratio</code> as a highlight yields the following
 figure:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_force</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="at">highlight_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_force</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="at">highlight_feature =</span> <span class="st">&quot;max_remodeling_ratio&quot;</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP force plot for the ischemic stroke model using all instances
  from the hold-out test data. The force plot show the stacked positive and 
@@ -1831,10 +1865,10 @@ the max_remodeling_ratio feature are highlighted.
 <h2>SHAP waterfall plots</h2>
 <p>SHAP waterfall plots show how SHAP values for each feature value
 contribute to the predicted value for an individual sample.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_waterfall</span>(</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_shap_waterfall</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="SHAP waterfall plot for the ischemic stroke model for a single sample
  from the hold-out test data. The waterfall plot shows the marginal
@@ -1862,12 +1896,12 @@ corresponding SHAP value.</p>
 <h1>Feature and sample similarity</h1>
 <p>Highly similar features can carry redundant information for a model.
 This can be visualised using similarity heatmaps:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_feature_similarity</span>(</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_feature_similarity</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Feature similarity heatmap for features used in the ischemic
  stroke model. Similarity is computed using Spearman&#39;s rank correlation
@@ -1894,12 +1928,12 @@ coefficient.</p>
 to identify if samples are readily stratified into clusters, which may
 or may not correlate to the endpoint of interest. For the ischemic
 stroke dataset, this yields the following heatmap:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_sample_clustering</span>(</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_sample_clustering</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Sample similarity heatmap of samples in the hold-out test set based on 
  features used in the ischemic stroke model. Similarity between features is
@@ -1933,13 +1967,13 @@ obtained during model development.</p>
 <code>show_normalised_data</code> argument. However, in the ischemic
 stroke dataset features do not have the same value ranges, so without
 normalisation the figure looks less interpretable:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_sample_clustering</span>(</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>  <span class="at">show_normalised_data =</span> <span class="st">&quot;none&quot;</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>plots <span class="ot">&lt;-</span> familiar<span class="sc">::</span><span class="fu">plot_sample_clustering</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>  <span class="at">object =</span> ischemic_stroke_model,</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>  <span class="at">data =</span> ischemic_stroke_data,</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="at">feature_similarity_metric =</span> <span class="st">&quot;spearman&quot;</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="at">show_normalised_data =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>  <span class="at">rotate_x_tick_labels =</span> <span class="cn">TRUE</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img role="img" aria-label="Sample similarity heatmap of samples in the hold-out test set based on 
  features used in the ischemic stroke model. Similarity between features is

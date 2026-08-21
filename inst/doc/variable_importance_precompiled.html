@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Zwanenburg" />
 
-<meta name="date" content="2026-04-22" />
+<meta name="date" content="2026-08-21" />
 
 <title>Variable importance methods</title>
 
@@ -262,7 +262,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Variable importance methods</h1>
 <h4 class="author">Alex Zwanenburg</h4>
-<h4 class="date">2026-04-22</h4>
+<h4 class="date">2026-08-21</h4>
 
 
 <div id="TOC">
@@ -275,8 +275,6 @@ importance methods</a>
 <ul>
 <li><a href="#correlation-methods" id="toc-correlation-methods">Correlation methods</a></li>
 <li><a href="#concordance-methods" id="toc-concordance-methods">Concordance methods</a></li>
-<li><a href="#corelearn-methods" id="toc-corelearn-methods">CORElearn
-methods</a></li>
 <li><a href="#mutual-information-based-methods" id="toc-mutual-information-based-methods">Mutual information-based
 methods</a>
 <ul>
@@ -427,52 +425,6 @@ optimisation.</caption>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>CORElearn</strong></td>
-<td align="left"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="even">
-<td align="left">information gain ratio</td>
-<td align="left"><code>gain_ratio</code></td>
-<td align="center">×</td>
-<td align="center">×</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="odd">
-<td align="left">gini-index</td>
-<td align="left"><code>gini</code></td>
-<td align="center">×</td>
-<td align="center">×</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="even">
-<td align="left">minimum description length</td>
-<td align="left"><code>mdl</code></td>
-<td align="center">×</td>
-<td align="center">×</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="odd">
-<td align="left">ReliefF with exponential weighting of distance
-ranks</td>
-<td align="left"><code>relieff_exp_rank</code></td>
-<td align="center">×</td>
-<td align="center">×</td>
-<td align="center">×</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="even">
 <td align="left"><strong>mutual information</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -481,7 +433,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">mutual information maximisation</td>
 <td align="left"><code>mim</code></td>
 <td align="center">×</td>
@@ -490,7 +442,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">mutual information features selection</td>
 <td align="left"><code>mifs</code></td>
 <td align="center">×</td>
@@ -499,7 +451,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">minimum redundancy maximum relevance</td>
 <td align="left"><code>mrmr</code></td>
 <td align="center">×</td>
@@ -508,7 +460,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>univariate regression</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -517,7 +469,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">univariate regression</td>
 <td align="left"><code>univariate_regression</code></td>
 <td align="center">×</td>
@@ -526,7 +478,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>multivariate regression</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -535,7 +487,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">multivariate regression</td>
 <td align="left"><code>multivariate_regression</code></td>
 <td align="center">×</td>
@@ -544,7 +496,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>lasso regression</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -553,7 +505,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">general<sup>a</sup></td>
 <td align="left"><code>lasso</code></td>
 <td align="center">×</td>
@@ -562,7 +514,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">logistic</td>
 <td align="left"><code>lasso_binomial</code></td>
 <td align="center">×</td>
@@ -571,7 +523,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">multi-logistic</td>
 <td align="left"><code>lasso_multinomial</code></td>
 <td align="center"></td>
@@ -580,7 +532,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">normal (gaussian)</td>
 <td align="left"><code>lasso_gaussian</code></td>
 <td align="center"></td>
@@ -589,7 +541,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">cox</td>
 <td align="left"><code>lasso_cox</code></td>
 <td align="center"></td>
@@ -598,7 +550,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>ridge regression</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -607,7 +559,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">general<sup>a</sup></td>
 <td align="left"><code>ridge</code></td>
 <td align="center">×</td>
@@ -616,7 +568,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">logistic</td>
 <td align="left"><code>ridge_binomial</code></td>
 <td align="center">×</td>
@@ -625,7 +577,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">multi-logistic</td>
 <td align="left"><code>ridge_multinomial</code></td>
 <td align="center"></td>
@@ -634,7 +586,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">normal (gaussian)</td>
 <td align="left"><code>ridge_gaussian</code></td>
 <td align="center"></td>
@@ -643,7 +595,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">cox</td>
 <td align="left"><code>ridge_cox</code></td>
 <td align="center"></td>
@@ -652,7 +604,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>elastic net regression</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -661,7 +613,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">general<sup>a,b</sup></td>
 <td align="left"><code>elastic_net</code></td>
 <td align="center">×</td>
@@ -670,7 +622,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">logistic<sup>b</sup></td>
 <td align="left"><code>elastic_net_binomial</code></td>
 <td align="center">×</td>
@@ -679,7 +631,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">multi-logistic<sup>b</sup></td>
 <td align="left"><code>elastic_net_multinomial</code></td>
 <td align="center"></td>
@@ -688,7 +640,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">normal (gaussian)<sup>b</sup></td>
 <td align="left"><code>elastic_net_gaussian</code></td>
 <td align="center"></td>
@@ -697,7 +649,7 @@ ranks</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">cox<sup>b</sup></td>
 <td align="left"><code>elastic_net_cox</code></td>
 <td align="center"></td>
@@ -706,7 +658,7 @@ ranks</td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>random forest (RFSRC) variable
 importance</strong></td>
 <td align="left"></td>
@@ -716,7 +668,7 @@ importance</strong></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">permutation<sup>b</sup></td>
 <td align="left"><code>random_forest_permutation</code></td>
 <td align="center">×</td>
@@ -725,7 +677,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">permutation (unoptimised)</td>
 <td align="left"><code>random_forest_permutation_default</code></td>
 <td align="center">×</td>
@@ -734,7 +686,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">hold-out <sup>b</sup></td>
 <td align="left"><code>random_forest_holdout</code></td>
 <td align="center">×</td>
@@ -743,7 +695,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">hold-out (unoptimised)</td>
 <td align="left"><code>random_forest_holdout_default</code></td>
 <td align="center">×</td>
@@ -752,7 +704,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><strong>random forest (ranger) variable
 importance</strong></td>
 <td align="left"></td>
@@ -762,7 +714,7 @@ importance</strong></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">permutation<sup>b</sup></td>
 <td align="left"><code>random_forest_ranger_permutation</code></td>
 <td align="center">×</td>
@@ -771,7 +723,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">permutation (unoptimised)</td>
 <td align="left"><code>random_forest_ranger_permutation_default</code></td>
 <td align="center">×</td>
@@ -780,7 +732,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">hold-out permutation<sup>b</sup></td>
 <td align="left"><code>random_forest_ranger_holdout_permutation</code></td>
 <td align="center">×</td>
@@ -789,7 +741,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">hold-out perm. (unoptimised)</td>
 <td align="left"><code>random_forest_ranger_holdout_permutation_default</code></td>
 <td align="center">×</td>
@@ -798,7 +750,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">impurity<sup>b</sup></td>
 <td align="left"><code>random_forest_ranger_impurity</code></td>
 <td align="center">×</td>
@@ -807,7 +759,7 @@ importance</strong></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">impurity (unoptimised)</td>
 <td align="left"><code>random_forest_ranger_impurity_default</code></td>
 <td align="center">×</td>
@@ -816,7 +768,7 @@ importance</strong></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>special methods</strong></td>
 <td align="left"></td>
 <td align="center"></td>
@@ -825,7 +777,7 @@ importance</strong></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">no selection</td>
 <td align="left"><code>none</code></td>
 <td align="center">×</td>
@@ -834,7 +786,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">random selection</td>
 <td align="left"><code>random</code></td>
 <td align="center">×</td>
@@ -843,7 +795,7 @@ importance</strong></td>
 <td align="center">×</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">signature only</td>
 <td align="left"><code>signature_only</code></td>
 <td align="center">×</td>
@@ -967,16 +919,6 @@ categorical outcomes, i.e. <code>binomial</code> and
 <code>multinomial</code>, concordance is assessed using the area under
 the receiver operating characteristic curve. For survival outcomes,
 concordance is measured using the <code>concordance_index</code>.</p>
-</div>
-<div id="corelearn-methods" class="section level2">
-<h2>CORElearn methods</h2>
-<p>Familiar provides an interface to several variable importance methods
-implemented in the <code>CORElearn</code> package. These methods are the
-<em>Information Gain Ratio</em> (<code>gain_ratio</code>), the
-<em>Gini-index</em> (<code>gini</code>), <em>Minimum Description
-Length</em> (<code>mdl</code>) and <em>ReliefF</em> and
-<em>rReliefF</em> with exponential distance rank weighting
-(<code>relieff_exp_rank</code>).</p>
 </div>
 <div id="mutual-information-based-methods" class="section level2">
 <h2>Mutual information-based methods</h2>
